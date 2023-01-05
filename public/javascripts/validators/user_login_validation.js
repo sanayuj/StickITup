@@ -19,11 +19,32 @@ if(!email){
     if(emailErr){
         emailErr.innerText="* Email address required"
     }
+    return
 }
-if(!password){
-    if(passworderr){
-        
-    }
+if (/\s/.test(email)) {
+    emailErr.innerText="* No white spaces"
+return
+}
+if(!emailRegex.test(email)){
+    emailErr.innerText="* Enter the vailed Email address "
+    return
 }
 
+//password Vaildation
+
+if(!password){
+    if(passworderr){
+        passworderr.innerText="* Password is required"
+    }
+    return
+}
+if(/\s/.test(password)){
+    passworderr.innerText="* No space"
+    return
+}
+if(password.length<6){
+    passworderr.innerText="* Enter minimum 6 to maximum 16 characters"
+    return
+}
+loginForm.submit()
 }
