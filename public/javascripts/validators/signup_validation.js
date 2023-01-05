@@ -1,10 +1,10 @@
 
 
 const signupvalidate=document.getElementById('signupvalidate');
-// if(signupvalidate){
+  if(signupvalidate){
     signupvalidate.addEventListener('submit',validateSignup);
     console.log("sdssdsdsd")
-//}
+ }
 function validateSignup(e){
     e.preventDefault();
     const name=document.getElementById("signupName").value;
@@ -16,10 +16,11 @@ function validateSignup(e){
     const passwordErr=document.getElementById("signuppasswordErr")
     const confirmpasswordErr=document.getElementById("signupconfirmPassworderr")
 
-    nameErr.innerHTML=""
-    emailErr.innerHTML=""
-    passwordErr.innerHTML=""
-    confirmpasswordErr.innerHTML=""
+    console.log(nameErr);
+    nameErr.innerText=""
+    emailErr.innerText=""
+    passwordErr.innerText=""
+    confirmpasswordErr.innerText=""
 
 
 //namevalidation
