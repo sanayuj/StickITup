@@ -1,9 +1,10 @@
 
 
-const signupvalidate=document.getElementById('signupvalidate')
-if(signupvalidate){
-    signupvalidate.addEventListener('submit',validateSignup)
-}
+const signupvalidate=document.getElementById('signupvalidate');
+// if(signupvalidate){
+    signupvalidate.addEventListener('submit',validateSignup);
+    console.log("sdssdsdsd")
+//}
 function validateSignup(e){
     e.preventDefault();
     const name=document.getElementById("signupName").value;

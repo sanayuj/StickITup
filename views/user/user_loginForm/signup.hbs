@@ -10,18 +10,18 @@
         <h5 style="color: white;margin-left:6rem">Register new account</h5>
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5" style="height: 30rem;">
             
-          <form style="width: 35rem;margin-top: 15rem;" id="signupvalidate" method="post" action="/user_signup">
+          <form style="width: 35rem;margin-top: 15rem;" id="signupvalidate">
 
             
 
             <div class="form-outline mb-3">
-              <input type="text" id="signupName" placeholder="Username" name="name" class="form-control form-control-lg" />
+              <input type="text" id="signupName" placeholder="Username" name="name" class="form-control form-control-lg" required />
               <label class="form-label" for="form2Example18"></label>
               <small class="text-danger px-2" id="signupnameErr"></small>
             </div>
 
             <div class="form-outline mb-3">
-              <input type="email" id="signupEmail" placeholder="Email" name="email" class="form-control form-control-lg" />
+              <input type="email" id="signupEmail" placeholder="Email" name="email" class="form-control form-control-lg" required />
               <label class="form-label" for="form2Example28"></label>
               <small class="text-danger px-2" id="signupemailErr"></small>
             </div>
@@ -29,11 +29,11 @@
             <div class="form-outline mb-3">
               <input type="password" id="signupPassword" placeholder="New password" name="password" class="form-control form-control-lg" />
               <label class="form-label" for="form2Example28"></label>
-              <small class="text-danger px-2" id="signuppasswordErr"></small>
+              <p class="text-danger px-2" id="signuppasswordErr"></p>
             </div>
 
             <div class="form-outline mb-3">
-              <input type="password" id="signupConfirmPassword" placeholder="Confirm password" name="confirmPass" class="form-control form-control-lg" />
+              <input type="password" id="signupConfirmPassword" placeholder="Confirm password" name="confirmPass" class="form-control form-control-lg" required />
               <label class="form-label" for="form2Example28"></label>
               <small class="text-danger px-2" id="signupconfirmPassworderr"></small>
             </div>
@@ -63,3 +63,4 @@
     </div>
   </div>
 </section>
+

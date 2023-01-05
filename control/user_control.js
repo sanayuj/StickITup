@@ -31,7 +31,7 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             try {
                 let user=await userslist.findOne({email:userdata.email})
-                console.log(userdata.email)
+                // console.log(userdata.email)
                 if(user){
                     bcrypt.compare(userdata.password,user.password,(err,result)=>{
                         if(err)throw err;
