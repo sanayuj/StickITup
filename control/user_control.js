@@ -3,7 +3,7 @@ const userslist = require('../model/usermodel');
 const bcrypt=require('bcrypt')
 module.exports={
     doSignup:(userdata)=>{
-        // console.log(userdata,"HIIIIIIII")
+         console.log(userdata,"HIIIIIIII")
         return new Promise(async(resolve,reject)=>{
             try{
                 const newUser=userslist({
@@ -42,7 +42,7 @@ module.exports={
                         }
                     })
                 }else{
-                    console.log("ahahhah")
+                    //console.log("ahahhah")
                     resolve({emailidNotExist:true})
                 }
             } catch (error) {

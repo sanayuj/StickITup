@@ -5,7 +5,7 @@ var router = express.Router();
 
 
 /* GET users listing. */
-router.get('/admin_login', function(req, res, next) {
+router.get('/', function(req, res, next) {
   res.render('adminPage/login');
 });
 
@@ -13,15 +13,16 @@ router.get('/admin_homepage',function(req,res,next){
   res.render('adminPage/admin_dashboard')
 })
 
-router.post('/admin_homepage',function(req,res,next){
+router.post('/admin_login',function(req,res,next){
+  //console.log(req.body)
 adminController.doadminloggin(req.body).then((response)=>{
   if(response.status){
-    req.session.loggedin=true
+    req.session.adminloggedin=true
     req.session.user=response.adminDetails
  
-     res.redirect('/homepage')
+     res.redirect('adminPage/admin_dashboard')
    }else{
-     res.redirect('/user_login')
+     res.redirect('adminPage/login')
    }
 })
 })

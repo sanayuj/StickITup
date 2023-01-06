@@ -13,7 +13,6 @@ router.get('/user_login', function(req, res, next) {
   }
   
 });
-
 router.get('/user_otp',function(req,res,next){
   res.render('user/user_otpForm/otp1')
 });
