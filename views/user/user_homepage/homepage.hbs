@@ -17,16 +17,19 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           {{#if user}}
-    {{user.name}}
-    {{else}}
-    Account
-    {{/if}}
+           Account
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            {{#if user}}
+    
+    
+    
+    
+            <li><a class="dropdown-item" href="">{{user.name}}</a></li>
             <li><a class="dropdown-item" href="/logout">LogOut</a></li>
+            {{else}}
             <li><a class="dropdown-item" href="/user_login">Login</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            {{/if}}
           </ul>
         </li>
       </ul>

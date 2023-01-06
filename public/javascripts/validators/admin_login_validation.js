@@ -1,8 +1,11 @@
-const adminloginForm=document.getElementById('adminlogin');
+const adminloginForm=document.getElementById('AdmindetailsEntered');
 if(adminloginForm){
+    console.log("isdata");
     adminloginForm.addEventListener("submit",adminloginValidate)
+    
 }
 function adminloginValidate(e){
+    // alert("fun entered")
     e.preventDefault()
     const email=document.getElementById('adminEmail').value
     const password=document.getElementById('adminPassword').value

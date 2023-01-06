@@ -9,7 +9,7 @@ router.get('/user_login', function(req, res, next) {
   if(req.session.loggedin){
     res.redirect('/')
   }else{
-    res.render('user/user_loginForm/login',{usernotExist:req.session.usernotExist});
+    res.render('user/user_loginForm/login',{usernotExist:req.session.usernotExist,pass:req.session.passwordErr});
   }
   
 });
@@ -39,6 +39,8 @@ router.get('/',function(req,res,next){
   let user=req.session.user
   console.log(user)
   res.render('user/user_homepage/homepage',{user})
+  req.session.passwordErr=false
+  req.session.usernotExist=false
 });
 
 router.post('/user_login',(req,res,next)=>{
@@ -56,6 +58,7 @@ controller.doLogin(req.body).then((response)=>{
 
     res.redirect('/')
   }else{
+    req.session.passwordErr=true
     res.redirect('/user_login')
   }
 }
