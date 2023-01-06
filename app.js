@@ -21,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -28,6 +29,11 @@ app.use(session({
   cookie: { maxAge: 60 * 60 * 24 * 1 * 1000 },
 }));
 
+// prevent cache last page
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store");
+  next();
+})
 
 
 app.use('/admin', adminRouter);
@@ -41,11 +47,6 @@ app.use(function(req, res, next) {
 
 
 
-// prevent cache last page
-app.use((req, res, next) => {
-  res.set("Cache-Control", "no-store");
-  next();
-})
 
 // error handler
 app.use(function(err, req, res, next) {

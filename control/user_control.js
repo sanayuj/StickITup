@@ -41,6 +41,9 @@ module.exports={
                             resolve({status:false })
                         }
                     })
+                }else{
+                    console.log("ahahhah")
+                    resolve({emailidNotExist:true})
                 }
             } catch (error) {
                 throw error

@@ -17,6 +17,9 @@
             <div class="form-outline mb-4">
               <input type="email" id="useremail" name="email" placeholder="Email" class="form-control form-control-lg" />
               <label class="form-label" for="form2Example18"></label>
+              {{#if usernotExist}}
+                <small class="text-danger px-2">User not exist in this emailID</small>
+              {{/if}}
                <small class="text-danger px-2" id="useremailError"></small>
             </div>
 

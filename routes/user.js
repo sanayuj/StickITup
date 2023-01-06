@@ -6,7 +6,12 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/user_login', function(req, res, next) {
-  res.render('user/user_loginForm/login');
+  if(req.session.loggedin){
+    res.redirect('/homepage')
+  }else{
+    res.render('user/user_loginForm/login',{usernotExist:req.session.usernotExist});
+  }
+  
 });
 
 router.get('/user_otp',function(req,res,next){
@@ -39,7 +44,13 @@ router.get('/homepage',function(req,res,next){
 
 router.post('/user_login',(req,res,next)=>{
 controller.doLogin(req.body).then((response)=>{
-  // console.log(response.user)
+  if(response.emailidNotExist){
+    req.session.usernotExist=true
+    console.log(req.session.usernotExist)
+    res.redirect('/user_login')
+  
+  }else{
+   console.log(response.user)
   if(response.status){
    req.session.loggedin=true
    req.session.user=response.user
@@ -48,6 +59,7 @@ controller.doLogin(req.body).then((response)=>{
   }else{
     res.redirect('/user_login')
   }
+}
 })
 
 })
