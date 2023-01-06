@@ -7,7 +7,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/user_login', function(req, res, next) {
   if(req.session.loggedin){
-    res.redirect('/homepage')
+    res.redirect('/')
   }else{
     res.render('user/user_loginForm/login',{usernotExist:req.session.usernotExist});
   }
@@ -35,7 +35,7 @@ controller.doSignup(req.body)
 res.redirect('/user_login')
 })
 
-router.get('/homepage',function(req,res,next){
+router.get('/',function(req,res,next){
   let user=req.session.user
   console.log(user)
   res.render('user/user_homepage/homepage',{user})
@@ -54,12 +54,17 @@ controller.doLogin(req.body).then((response)=>{
    req.session.loggedin=true
    req.session.user=response.user
 
-    res.redirect('/homepage')
+    res.redirect('/')
   }else{
     res.redirect('/user_login')
   }
 }
 })
 
+});
+
+router.get('/logout',(req,res)=>{
+  req.session.destroy()
+  res.redirect('/')
 })
 module.exports = router;

@@ -7,8 +7,8 @@ function adminloginValidate(e){
     const email=document.getElementById('adminEmail').value
     const password=document.getElementById('adminPassword').value
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const emailErr=document.getElementById('adminemailError')
-    const passwordErr=document.getElementById('adminpasswordError')
+    const adminemailError=document.getElementById('adminemailError')
+    const adminpasswordError=document.getElementById('adminpasswordError')
 
 adminemailError.innerText=""
 adminpasswordError.innerText=""

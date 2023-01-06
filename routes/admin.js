@@ -16,14 +16,22 @@ router.get('/admin_homepage',function(req,res,next){
 router.post('/admin_login',function(req,res,next){
   //console.log(req.body)
 adminController.doadminloggin(req.body).then((response)=>{
-  if(response.status){
-    req.session.adminloggedin=true
-    req.session.user=response.adminDetails
- 
-     res.redirect('adminPage/admin_dashboard')
-   }else{
-     res.redirect('adminPage/login')
-   }
+  if(response.adminNotExist){
+    req.session.adminIDnotExist=true
+    console.log(req.session.adminIDnotExist)
+    res.redirect('/admin/')
+  }else{
+    if(response.status){
+      req.session.adminloggedin=true
+      req.session.user=response.adminDetails
+   
+       res.redirect('/admin/admin_homepage')
+     }else{
+       res.redirect('/admin/')
+     }
+    
+  }
+  
 })
 })
 
