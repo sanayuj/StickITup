@@ -27,6 +27,7 @@ adminController.doadminloggin(req.body).then((response)=>{
    
        res.redirect('/admin/admin_homepage')
      }else{
+      // req.session.adminpasswordErr=true
        res.redirect('/admin/')
      }
     

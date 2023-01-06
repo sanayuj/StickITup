@@ -16,6 +16,9 @@
             <div class="form-outline ">
               <input type="password" id="adminPassword" name="password" placeholder="Password" class="form-control form-control-lg" />
              <small class="text-danger px-2" id="adminpasswordError"></small>
+             {{#if adminpass}}
+             <small class="text-danger px-2" >* Password not match</small>
+             {{/if}}
             </div>
             <p class="small mb-3 pb-lg-2 d-flex flex-row-reverse"><a class="text-muted"  href="#!">Forgot password?</a></p>
 
