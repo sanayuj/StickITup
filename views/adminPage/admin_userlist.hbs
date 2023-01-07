@@ -1,0 +1,31 @@
+{{>adminNavbar}}
+<section style="margin-left: 14rem;">
+    <div>
+        {{>adminsidebar}}
+    </div>
+    <div>
+        <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each userdetails}} 
+    <tr>
+      <th scope="row">{{this._id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.email}}</td>
+      <td>@mdo</td>
+    </tr>
+    
+    {{/each}}
+  </tbody>
+</table>
+
+
+    </div>
+</section>

@@ -1,5 +1,6 @@
 const admin=require('../model/adminmodel')
 const bcrypt = require('bcrypt')
+const userlist=require('../model/usermodel')
 
 module.exports={
     doadminloggin:(admindata)=>{
@@ -33,7 +34,20 @@ module.exports={
                 throw error
             }
         })
-    }
+    },
+getuserData:()=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+            await userlist.find({}).lean().then((userdata) => {
+                resolve({ status: true, userdata })
+                resolve({ status: true })
+            }).catch((error) => {
+                throw error
+            })
+        } catch (error) {
+            throw error
 
- 
+        }
+    })
+}
 }

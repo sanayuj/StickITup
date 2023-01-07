@@ -10,7 +10,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/admin_homepage',function(req,res,next){
-  res.render('adminPage/admin_dashboard')
+  res.render('adminPage/admin_dash.hbs')
+})
+
+router.get('/admin_userlist',function(req,res){
+  adminController.getuserData().then((response)=>{
+    //console.log(response)
+    if(response.status){
+      res.render('adminPage/admin_userlist',{userdetails:response.userdata})
+    }else{
+      res.send(error)
+    }
+  })
+  
 })
 
 router.post('/admin_login',function(req,res,next){
@@ -33,6 +45,11 @@ adminController.doadminloggin(req.body).then((response)=>{
     
   }
   
+}),
+router.get('/admin_logout',(req,res)=>{
+ 
+  res.redirect('/admin/')
+  req.session.destroy()
 })
 })
 
