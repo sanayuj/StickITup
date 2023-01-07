@@ -49,5 +49,20 @@ getuserData:()=>{
 
         }
     })
+},
+blockUser:(userId)=>{
+    return new Promise(async(resolve,reject)=>{
+        try{
+            await userlist.updateOne({_id:userId},{$set:{blocked:true}})
+            .then((userId)=>{
+                resolve({status:true,userId})
+            }).catch((error)=>{
+                throw error
+            })
+
+        }catch(error){
+            throw error
+        }
+    })
 }
 }

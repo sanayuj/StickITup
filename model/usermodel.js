@@ -13,6 +13,10 @@ const bcrypt=require('bcrypt')
         password:{
             type:String,
             required:true
+        },
+        blocked:{
+            type:Boolean,
+            default:false
         }
     })
 userSchema.pre('save', async function(next){

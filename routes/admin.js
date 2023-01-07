@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/admin_homepage',function(req,res,next){
-  res.render('adminPage/admin_dash.hbs')
+  res.render('adminPage/admin_dash')
 })
 
 router.get('/admin_userlist',function(req,res){
@@ -47,10 +47,19 @@ adminController.doadminloggin(req.body).then((response)=>{
   
 }),
 router.get('/admin_logout',(req,res)=>{
- 
   res.redirect('/admin/')
-  req.session.destroy()
+  // req.session.destroy()
 })
+
+
+router.get('/block_user',(req,res)=>{
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+  adminController.blockUser(req.params.id).then((response)=>{
+    console.log(response.userId)
+    res.redirect('/admin/admin_userlist')
+  })
+})
+
 })
 
 module.exports = router;
