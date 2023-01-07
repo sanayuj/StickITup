@@ -1,0 +1,49 @@
+
+.admin_header{
+    background-color: #282828;
+    color: #BEC0D7;
+    padding: 1px;
+}
+
+
+.admin-search{
+    border-radius: 50px;
+    border: 1px solid #193d56;
+    width: 180px;
+    background-color: #ededed;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding-left: 10px;
+    position: relative;
+  }
+
+
+.searchicon{
+    position: absolute;
+    right: 30px;
+    top: 120px;
+}
+aside {
+    width: 14rem;
+    padding-top: 1rem;
+    background-color: rgb(242 242 242);
+    top: 4rem;
+    left: 0;
+    bottom: 0 !important;
+  }
+#side-Bar a {
+    text-decoration: none !important;
+  
+    transition: all 300ms ease !important;
+  }
+  aside .side-bar a:hover {
+    position: relative;
+    transition: 0.1s;
+    left: 1rem;
+  }
+  .profile_photo {
+    width: 3.8rem;
+    height: 3.8rem;
+    overflow: hidden;
+    border-radius: 50%;
+  }

@@ -7,6 +7,7 @@ const dbConnect = require('./config/connection')
 var usersRouter = require('./routes/user');
 var  adminRouter= require('./routes/admin');
 const session = require('express-session')
+const hbs=require('express-handlebars')
 
 
 dbConnect.dbConnect()
@@ -15,6 +16,10 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+//partials
+app.engine('hbs', hbs.engine({ extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts/', partialsDir: __dirname + '/views/partials/' }))
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
