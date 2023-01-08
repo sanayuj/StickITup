@@ -1,103 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#"><img style="width: 7rem;" src="images/logo.png" alt=""></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link " aria-current="page" href="#">Shop by category</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="#">Contact</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-           Account
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            {{#if user}}
-    
-    
-    
-    
-            <li><a class="dropdown-item" href="">{{user.name}}</a></li>
-            <li><a class="dropdown-item" href="/logout">LogOut</a></li>
-            {{else}}
-            <li><a class="dropdown-item" href="/user_login">Login</a></li>
-            {{/if}}
-          </ul>
-        </li>
+        
+      
       </ul>
+      
+      <div class="dropdown ">
+  <a class="btn  dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color: white;" aria-expanded="false">
+    Account
+  </a>
+
+  <ul class="dropdown-menu">
+    {{#if user}}
+    <li><a class="dropdown-item" href="#">{{user.name}}</a></li>
+    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+    {{else}}
+    <li><a class="dropdown-item" href="/user_login">Login</a></li>
+    {{/if}}
+  </ul>
+</div>
     </div>
-  </div>
+   
 </nav>
 
 
-
-
-
-
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>My Online Store</title>
-  </head>
-  <body>
-    <header>
-      <h1>Welcome to My Online Store</h1>
-      <nav>
-        <ul>
-          <li><a href="#featured">Featured Products</a></li>
-          <li><a href="#categories">Product Categories</a></li>
-          <li><a href="#about">About Us</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>
-      <section id="featured">
-        <h2>Featured Products</h2>
-        <div class="product-grid">
-          <div class="product">
-            <img src="product1.jpg" alt="Product 1">
-            <h3>Product 1</h3>
-            <p>$50.00</p>
-            <button>Add to Cart</button>
-          </div>
-          <div class="product">
-            <img src="product2.jpg" alt="Product 2">
-            <h3>Product 2</h3>
-            <p>$75.00</p>
-            <button>Add to Cart</button>
-          </div>
-          <div class="product">
-            <img src="product3.jpg" alt="Product 3">
-            <h3>Product 3</h3>
-            <p>$100.00</p>
-            <button>Add to Cart</button>
-          </div>
-        </div>
-      </section>
-      <section id="categories">
-        <h2>Product Categories</h2>
-        <ul>
-          <li><a href="#">Category 1</a></li>
-          <li><a href="#">Category 2</a></li>
-          <li><a href="#">Category 3</a></li>
-        </ul>
-      </section>
-      <section id="about">
-        <h2>About Us</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam bibendum, libero a tempus pretium, dolor dui bibendum justo, at ultricies elit magna non odio. Ut auctor, tellus et varius tempor, lacus ligula volutpat velit, vel vehicula orci diam non sem.</p>
-      </section>
-    </main>
-    <footer>
-      <p>Copyright 2021 My Online Store</p>
-    </footer>
-  </body>
-</html>
