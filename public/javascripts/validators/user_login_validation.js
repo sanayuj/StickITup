@@ -1,54 +1,53 @@
-const loginForm=document.getElementById("loginForm");
-if(loginForm){
-    
-    loginForm.addEventListener("submit",userloginValidation)
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+  loginForm.addEventListener("submit", userloginValidation);
 }
-function userloginValidation(e){
-    e.preventDefault()
-    //alert("entered")
-    
-    const email=document.getElementById("useremail").value
-    const password=document.getElementById("userpassword").value
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const emailErr=document.getElementById("useremailError")
-    const passworderr=document.getElementById("userpasswordError")
+function userloginValidation(e) {
+  e.preventDefault();
+  //alert("entered")
 
-    useremailError.innerText=""
-    userpasswordError.innerText=""
+  const email = document.getElementById("useremail").value;
+  const password = document.getElementById("userpassword").value;
+  const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const emailErr = document.getElementById("useremailError");
+  const passworderr = document.getElementById("userpasswordError");
 
-    //Email vaildation
-if(!email){
-    if(emailErr){
-        emailErr.innerText="* Email address required"
-        // console.log(emailErr.innerText)
+  useremailError.innerText = "";
+  userpasswordError.innerText = "";
+
+  //Email vaildation
+  if (!email) {
+    if (emailErr) {
+      emailErr.innerText = "* Email address required";
+      // console.log(emailErr.innerText)
     }
-    return
-}
-if (/\s/.test(email)) {
-    emailErr.innerText="* No white spaces"
+    return;
+  }
+  if (/\s/.test(email)) {
+    emailErr.innerText = "* No white spaces";
     // console.log(emailErr.innerText)
-return
-}
-if(!emailRegex.test(email)){
-    emailErr.innerText="* Enter the vailed Email address "
-    return
-}
+    return;
+  }
+  if (!emailRegex.test(email)) {
+    emailErr.innerText = "* Enter the vailed Email address ";
+    return;
+  }
 
-//password Vaildation
+  //password Vaildation
 
-if(!password){
-    if(passworderr){
-        passworderr.innerText="* Password is required"
+  if (!password) {
+    if (passworderr) {
+      passworderr.innerText = "* Password is required";
     }
-    return
-}
-if(/\s/.test(password)){
-    passworderr.innerText="* No space"
-    return
-}
-// if(password.length<6){
-//     passworderr.innerText="* Enter minimum 6 to maximum 16 characters"
-//     return
-//}
-loginForm.submit()
+    return;
+  }
+  if (/\s/.test(password)) {
+    passworderr.innerText = "* No space";
+    return;
+  }
+  // if(password.length<6){
+  //     passworderr.innerText="* Enter minimum 6 to maximum 16 characters"
+  //     return
+  //}
+  loginForm.submit();
 }

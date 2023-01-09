@@ -1,4 +1,4 @@
-{{!-- <nav class="navbar navbar-expand-lg admin_header">
+{{! <nav class="navbar navbar-expand-lg admin_header">
   <div class="container-fluid ">
     <div>
       <img src="/images/download.png" alt="" width="80" height="80">
@@ -15,42 +15,66 @@
   <i class="fa fa-search searchicon"></i>
   </div>
 
-</div> --}}
+</div> }}
 
+<aside
+  id="side-Bar"
+  class="position-fixed box-shadow zindex p-3 ps-3 d-flex flex-column justify-content-between"
+>
 
-<aside id="side-Bar" class="position-fixed box-shadow zindex  p-3 ps-3 d-flex flex-column  justify-content-between">
+  <div class="side-bar" id="sideBar">
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="/admin/admin_homepage"
+    >
+      <span class="material-icons-sharp p-2">grid_view</span>
 
-    <div class="side-bar" id="sideBar">
-        <a class="side-a  d-flex align-items-center text-secondary p-2  gap-1 " href="/admin/admin_homepage">
-          <span class="material-icons-sharp p-2">grid_view</span>
-          
-            <h6 class="mb-0">Dashboard</h6>
-        </a>
-        <a class="side-a d-flex align-items-center text-secondary p-2 gap-1" href="#">
-            <span class="material-icons-sharp p-2">insights</span>
-            <h6 class="mb-0">Analytics</h6>
-        </a>
-        <a class="side-a d-flex align-items-center text-secondary p-2 gap-1" href="/admin/admin_userlist">
-            <span class="material-icons-sharp p-2">people_alt</span>
-            <h6 class="mb-0">Customers</h6>
-        </a>
-        <a class="side-a d-flex align-items-center text-secondary p-2 gap-1" href="#">
-            <span class="material-icons-sharp p-2">receipt_long</span>
-            <h6 class="mb-0">Orders</h6>
-        </a>
-        <a class="side-a d-flex align-items-center text-secondary p-2 gap-1 " href="#">
-            <span class="material-icons-sharp p-2">inventory</span>
-            <h6 class="mb-0">Products</h6>
-        </a>
-
-        <a class="side-a d-flex align-items-center text-secondary p-2 gap-1 " href="#">
-            <span class="material-icons-sharp p-2">add</span>
-            <h6 class="mb-0">Add products</h6>
-        </a>
-
-    </div>
-    <a class="d-flex align-items-center text-danger p-2 gap-1 mb-4" id="admin-logout-btn" href="/admin/admin_logout">
-        <span class="material-icons-sharp p-2">logout</span>
-        <h5 class="mb-0">Logout</h5>
+      <h6 class="mb-0">Dashboard</h6>
     </a>
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="#"
+    >
+      <span class="material-icons-sharp p-2">insights</span>
+      <h6 class="mb-0">Analytics</h6>
+    </a>
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="/admin/admin_userlist"
+    >
+      <span class="material-icons-sharp p-2">people_alt</span>
+      <h6 class="mb-0">Customers</h6>
+    </a>
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="#"
+    >
+      <span class="material-icons-sharp p-2">receipt_long</span>
+      <h6 class="mb-0">Orders</h6>
+    </a>
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="#"
+    >
+      <span class="material-icons-sharp p-2">inventory</span>
+      <h6 class="mb-0">Products</h6>
+    </a>
+
+    <a
+      class="side-a d-flex align-items-center text-secondary p-2 gap-1"
+      href="#"
+    >
+      <span class="material-icons-sharp p-2">add</span>
+      <h6 class="mb-0">Add products</h6>
+    </a>
+
+  </div>
+  <a
+    class="d-flex align-items-center text-danger p-2 gap-1 mb-4"
+    id="admin-logout-btn"
+    href="/admin/admin_logout"
+  >
+    <span class="material-icons-sharp p-2">logout</span>
+    <h5 class="mb-0">Logout</h5>
+  </a>
 </aside>

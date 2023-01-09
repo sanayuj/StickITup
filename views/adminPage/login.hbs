@@ -5,31 +5,53 @@
         <div class="card shadow-2-strong" style="border-radius: 1rem;">
           <div class="card-body p-5 text-center">
 
-            <h3 class="mb-5"><span style="font-size: small;">STICK<span style="color: rgb(197, 206, 69);">it</span>UP </span>Admin Login</h3>
-          <form action="/admin/admin_login" id="AdmindetailsEntered" method="post">
-            <div class="form-outline mb-4">
-              <input type="email" id="adminEmail" name="email" placeholder="Email" class="form-control form-control-lg" />
-              <small class="text-danger px-2" id="adminemailError"></small>
-             
-            </div>
+            <h3 class="mb-5"><span style="font-size: small;">STICK<span
+                  style="color: rgb(197, 206, 69);"
+                >it</span>UP
+              </span>Admin Login</h3>
+            <form
+              action="/admin/admin_login"
+              id="AdmindetailsEntered"
+              method="post"
+            >
+              <div class="form-outline mb-4">
+                <input
+                  type="email"
+                  id="adminEmail"
+                  name="email"
+                  placeholder="Email"
+                  class="form-control form-control-lg"
+                />
+                <small class="text-danger px-2" id="adminemailError"></small>
 
-            <div class="form-outline ">
-              <input type="password" id="adminPassword" name="password" placeholder="Password" class="form-control form-control-lg" />
-             <small class="text-danger px-2" id="adminpasswordError"></small>
-             {{#if adminpass}}
-             <small class="text-danger px-2" >* Password not match</small>
-             {{/if}}
-            </div>
-            <p class="small mb-3 pb-lg-2 d-flex flex-row-reverse"><a class="text-muted"  href="#!">Forgot password?</a></p>
+              </div>
 
+              <div class="form-outline">
+                <input
+                  type="password"
+                  id="adminPassword"
+                  name="password"
+                  placeholder="Password"
+                  class="form-control form-control-lg"
+                />
+                <small class="text-danger px-2" id="adminpasswordError"></small>
+                {{#if adminpass}}
+                  <small class="text-danger px-2">* Password not match</small>
+                {{/if}}
+              </div>
+              <p class="small mb-3 pb-lg-2 d-flex flex-row-reverse"><a
+                  class="text-muted"
+                  href="#!"
+                >Forgot password?</a></p>
 
-            
-
-            <button class="btn btn-primary btn-lg btn-block " style="width: 10rem;"  type="submit">Login</button>
+              <button
+                class="btn btn-primary btn-lg btn-block"
+                style="width: 10rem;"
+                type="submit"
+              >Login</button>
 
             </form>
 
-            
           </div>
         </div>
       </div>
