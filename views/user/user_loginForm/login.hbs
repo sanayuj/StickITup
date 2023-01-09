@@ -18,7 +18,7 @@
               <input type="email" id="useremail" name="email" placeholder="Email" class="form-control form-control-lg" />
               <label class="form-label" for="form2Example18"></label>
               {{#if usernotExist}}
-                <small class="text-danger px-2">User not exist in this emailID</small>
+                <small class="text-danger px-2">* No account is found with this email</small>
               {{/if}}
                <small class="text-danger px-2" id="useremailError"></small>
             </div>
@@ -30,7 +30,7 @@
               {{#if pass}}
               <small class="text-danger px-2">* Password not match</small>
               {{/if}}
-              {{#if blockeduser}}
+              {{#if blockpass}}
                <small class="text-danger px-2">*  OOPS !, Your account has been temporarly blocked</small>
               {{/if}}
             </div>

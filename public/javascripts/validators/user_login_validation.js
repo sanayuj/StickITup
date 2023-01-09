@@ -46,9 +46,9 @@ if(/\s/.test(password)){
     passworderr.innerText="* No space"
     return
 }
-if(password.length<6){
-    passworderr.innerText="* Enter minimum 6 to maximum 16 characters"
-    return
-}
+// if(password.length<6){
+//     passworderr.innerText="* Enter minimum 6 to maximum 16 characters"
+//     return
+//}
 loginForm.submit()
 }

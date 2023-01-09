@@ -1,6 +1,7 @@
 const dbConnect = require('../config/connection')
 const userslist = require('../model/usermodel');
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcrypt');
+const { response } = require('../app');
 module.exports={
     doSignup:(userdata)=>{
          console.log(userdata,"HIIIIIIII")
@@ -33,18 +34,26 @@ module.exports={
                 let user=await userslist.findOne({email:userdata.email})
                 // console.log(userdata.email)
                 if(user){
+
                     bcrypt.compare(userdata.password,user.password,(err,result)=>{
-                        if(err)throw err;
-                        if(result){
-                            resolve({status:true,user})
+                        if(user.blocked){
+                            resolve({blockedUser:true})
+                            
                         }else{
-                            resolve({status:false })
+                            if(result){
+                                resolve({status:true,user})
+                            }else{
+                                resolve({status:false })
+                            }
                         }
+                       
+                       
                     })
                 }else{
                     //console.log("ahahhah")
                     resolve({emailidNotExist:true})
                 }
+            
             } catch (error) {
                 throw error
             }
