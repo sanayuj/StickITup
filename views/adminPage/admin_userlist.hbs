@@ -18,8 +18,12 @@
     <tr>
       <th scope="row">{{this._id}}</th>
       <td>{{this.name}}</td>
-      <td>{{this.email}}</td>
-      <td><a href="/admin/block_user/{{this._id}}" class="btn btn-danger">Block</a> </td>
+      <td>{{this.email}}</td> 
+      {{#if this.blocked}}
+      <td><a href="/admin/unblock_user/{{this._id}}" class="btn btn-success">Unblock</a></td>
+      {{else}}
+      <td><a href="/admin/block_user/{{this._id}}" class="btn btn-danger" style="padding-left: 2rem;">Block</a> </td>
+      {{/if}}
     </tr>
     
     {{/each}}

@@ -64,5 +64,21 @@ blockUser:(userId)=>{
             throw error
         }
     })
+},
+unblocUserk:(userId)=>{
+    return new Promise(async(resolve,reject)=>{
+        try{
+            await userlist.updateOne({_id:userId},{$set:{blocked:false}})
+            .then((userId)=>{
+                resolve({status:true,userId})
+            }).catch((error)=>{
+                throw error
+            })
+        }catch(error){
+            throw error
+        }
+    })
 }
+
+
 }

@@ -51,6 +51,10 @@ controller.doLogin(req.body).then((response)=>{
     res.redirect('/user_login')
   
   }else{
+    if(response.blocked){
+      req.session.blockeduser=true
+      req.redirect('/user_login')
+    }
    console.log(response.user)
   if(response.status){
    req.session.loggedin=true

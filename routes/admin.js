@@ -62,6 +62,14 @@ router.get('/block_user/:id', (req, res) => {
     res.redirect('/admin/admin_userlist')
   })
 })
+router.get('/unblock_user/:id',(req,res)=>{
+  console.log("Unblocked user")
+  adminController.unblocUserk(req.params.id).then((response)=>{
+    res.redirect('/admin/admin_userlist')
+  })
+})
+
+
 
 
 module.exports = router;
