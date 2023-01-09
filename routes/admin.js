@@ -25,6 +25,27 @@ router.get("/admin_userlist", function (req, res) {
   });
 });
 
+router.get("/admin_logout", (req, res) => {
+  res.redirect("/admin/");
+  // req.session.destroy()
+});
+
+router.get("/block_user/:id", (req, res) => {
+  adminController.blockUser(req.params.id).then((response) => {
+    console.log(response.userId);
+    console.log(req.params.id);
+    res.redirect("/admin/admin_userlist");
+  });
+});
+router.get("/unblock_user/:id", (req, res) => {
+  console.log("Unblocked user");
+  adminController.unblocUserk(req.params.id).then((response) => {
+    res.redirect("/admin/admin_userlist");
+  });
+});
+
+// admin post method section
+
 router.post("/admin_login", function (req, res, next) {
   //console.log(req.body)
   adminController.doadminloggin(req.body).then((response) => {
@@ -45,24 +66,4 @@ router.post("/admin_login", function (req, res, next) {
     }
   });
 }),
-  router.get("/admin_logout", (req, res) => {
-    res.redirect("/admin/");
-    // req.session.destroy()
-  });
-
-router.get("/block_user/:id", (req, res) => {
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-  adminController.blockUser(req.params.id).then((response) => {
-    console.log(response.userId);
-    console.log(req.params.id);
-    res.redirect("/admin/admin_userlist");
-  });
-});
-router.get("/unblock_user/:id", (req, res) => {
-  console.log("Unblocked user");
-  adminController.unblocUserk(req.params.id).then((response) => {
-    res.redirect("/admin/admin_userlist");
-  });
-});
-
-module.exports = router;
+  (module.exports = router);

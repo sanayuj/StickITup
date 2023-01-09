@@ -3,6 +3,7 @@ const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const { response } = require("../app");
 module.exports = {
+  //user signup section
   doSignup: (userdata) => {
     console.log(userdata, "HIIIIIIII");
     return new Promise(async (resolve, reject) => {
@@ -25,11 +26,12 @@ module.exports = {
       }
     });
   },
+  //user loggin section
   doLogin: (userdata) => {
     return new Promise(async (resolve, reject) => {
       try {
         let user = await userslist.findOne({ email: userdata.email });
-        // console.log(userdata.email)
+
         if (user) {
           bcrypt.compare(userdata.password, user.password, (err, result) => {
             if (user.blocked) {
@@ -43,7 +45,6 @@ module.exports = {
             }
           });
         } else {
-          //console.log("ahahhah")
           resolve({ emailidNotExist: true });
         }
       } catch (error) {

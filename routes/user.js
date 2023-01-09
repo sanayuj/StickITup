@@ -4,7 +4,6 @@ const dbConnect = require("../config/connection");
 const controller = require("../control/user_control");
 var router = express.Router();
 
-/* GET home page. */
 router.get("/user_login", function (req, res, next) {
   if (req.session.loggedin) {
     res.redirect("/");
@@ -35,18 +34,25 @@ router.get("/user_signup", function (req, res, next) {
   res.render("user/user_loginForm/signup");
 });
 
-router.post("/user_signup", function (req, res, next) {
-  console.log(req.body, "user data gotted");
-  controller.doSignup(req.body);
-  res.redirect("/user_login");
-});
-
 router.get("/", function (req, res, next) {
   let user = req.session.user;
   console.log(user);
   res.render("user/user_homepage/homepage", { user });
   req.session.passwordErr = false;
   req.session.usernotExist = false;
+});
+
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/");
+});
+
+// user post section
+
+router.post("/user_signup", function (req, res, next) {
+  console.log(req.body, "user data gotted");
+  controller.doSignup(req.body);
+  res.redirect("/user_login");
 });
 
 router.post("/user_login", (req, res, next) => {
@@ -76,8 +82,4 @@ router.post("/user_login", (req, res, next) => {
   });
 });
 
-router.get("/logout", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
-});
 module.exports = router;

@@ -1,19 +1,16 @@
 const admin = require("../model/adminmodel");
 const bcrypt = require("bcrypt");
 const userlist = require("../model/usermodel");
-
+//admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
-    // let {email, password} = admindata
-    // console.log(email,"kkkkkk");
-    console.log(admindata, "admincontroll varify");
+    console.log(admindata);
     console.log(admindata.email);
     return new Promise(async (resolve, reject) => {
       try {
-        // console.log(email)
         const adminDetails = await admin.findOne({ email: admindata.email });
-        //console.log(admindata.email,"suuuuuiii")
-        console.log(adminDetails, "jjjjjj");
+
+        console.log(adminDetails);
         if (adminDetails) {
           bcrypt.compare(
             admindata.password,
@@ -22,10 +19,8 @@ module.exports = {
               if (err) throw err;
               if (result) {
                 resolve({ status: true, adminDetails });
-                console.log("sucess");
               } else {
                 resolve({ status: false });
-                console.log("failed");
               }
             }
           );
@@ -37,6 +32,7 @@ module.exports = {
       }
     });
   },
+  //to get user data
   getuserData: () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -55,6 +51,7 @@ module.exports = {
       }
     });
   },
+  //block user section
   blockUser: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -71,6 +68,7 @@ module.exports = {
       }
     });
   },
+  //user unblock section
   unblocUserk: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
