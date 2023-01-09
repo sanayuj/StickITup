@@ -43,7 +43,9 @@ router.get("/unblock_user/:id", (req, res) => {
     res.redirect("/admin/admin_userlist");
   });
 });
-
+router.get("/admin_productadd", function (req, res) {
+  res.render("adminPage/productAdd");
+});
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
