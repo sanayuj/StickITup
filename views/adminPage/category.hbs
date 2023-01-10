@@ -1,0 +1,56 @@
+{{>adminNavbar}}
+<section style="margin-left: 14rem;">
+    <div>
+        {{>adminsidebar}}
+    </div>
+   <section style="margin-left: 220px;  margin-top: 50px;">
+  <div class="row container p-5">  
+    <div class="col-md-8 col-12">
+    <table class="table table-bordered table-hover">
+  <thead>
+    <tr class="bg-dark text-white">
+      <th scope="col">category Id</th>
+      <th scope="col">category Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Manage</th>
+    </tr>
+  </thead>
+  <tbody class="bg-light">
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>
+        <a href="#" class="btn"><i class="fa fa-edit"></i></a>
+        <a href="#" class="btn"><i class="fa fa-trash"></i></a>
+      </td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+   
+  </tbody>
+</table>
+    </div>
+    <div class="col-md-4 col-12 p-5" style="background-color: #ddddddc9;" >
+       <form>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Category Name</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Add image</label>
+    <input class="form-control" type="file" id="formFile">
+  </div>
+<div class="d-flex justify-content-center">
+  <button type="submit" class="btn fontcolor login-btn">Submit</button>
+  </div>
+</form>
+    </div>
+</div>
+
+   </section>
