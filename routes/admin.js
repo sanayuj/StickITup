@@ -1,4 +1,4 @@
-const adminController = require("../control/admin_control");
+const adminController = require("../controller/admin_control");
 var express = require("express");
 const { response } = require("../app");
 var router = express.Router();
@@ -62,7 +62,7 @@ router.post("/admin_login", function (req, res, next) {
 
         res.redirect("/admin/admin_homepage");
       } else {
-        // req.session.adminpasswordErr=true
+        
         res.redirect("/admin/");
       }
     }

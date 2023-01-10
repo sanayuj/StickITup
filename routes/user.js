@@ -1,7 +1,7 @@
 var express = require("express");
 const { response } = require("../app");
 const dbConnect = require("../config/connection");
-const controller = require("../control/user_control");
+const controller = require("../controller/user_control");
 var router = express.Router();
 
 router.get("/user_login", function (req, res, next) {
@@ -50,14 +50,16 @@ router.get("/logout", (req, res) => {
 // user post section
 
 router.post("/user_signup", function (req, res, next) {
-  console.log(req.body, "user data gotted");
-  controller.doSignup(req.body);
-  res.redirect("/user_login");
+  if (response.exist) {
+    res.redirect("/user_signup");
+  } else {
+    controller.doSignup(req.body);
+    res.redirect("/user_login");
+  }
 });
 
 router.post("/user_login", (req, res, next) => {
   controller.doLogin(req.body).then((response) => {
-    //console.log(response.blocked,"<><><>><><>");
     if (response.emailidNotExist) {
       req.session.usernotExist = true;
       console.log(req.session.usernotExist);
@@ -65,11 +67,9 @@ router.post("/user_login", (req, res, next) => {
     } else {
       if (response.blockedUser) {
         req.session.userBlocked = true;
-        //console.log("user Blocked twice");
+
         res.redirect("/user_login");
-      }
-      //console.log(response.user)
-      else if (response.status) {
+      } else if (response.status) {
         req.session.loggedin = true;
         req.session.user = response.user;
 
