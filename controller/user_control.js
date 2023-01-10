@@ -5,12 +5,11 @@ const { response } = require("../app");
 module.exports = {
   //user signup section
   doSignup: (userdata) => {
-    
     return new Promise(async (resolve, reject) => {
       try {
-        let alreadySignup=await userslist.findOne({email:userdata.email})
-        if(alreadySignup){
-         resolve({exist:true})
+        let alreadySignup = await userslist.findOne({ email: userdata.email });
+        if (alreadySignup) {
+          resolve({ exist: true });
         }
         const newUser = userslist({
           name: userdata.name,
