@@ -2,6 +2,7 @@ const adminController = require("../controller/admin_control");
 var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
+var categoryimgupload = require("../utilities/imgUpload");
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
@@ -47,9 +48,9 @@ router.get("/admin_productadd", function (req, res) {
   res.render("adminPage/productAdd");
 });
 
-router.get('/addCategory',function(req,res){
-  res.render("adminPage/category")
-})
+router.get("/addCategory", function (req, res) {
+  res.render("adminPage/category");
+});
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
@@ -66,10 +67,18 @@ router.post("/admin_login", function (req, res, next) {
 
         res.redirect("/admin/admin_homepage");
       } else {
-        
         res.redirect("/admin/");
       }
     }
   });
 }),
-  (module.exports = router);
+  router.post("/addcategory",categoryimgupload.single("image"), (req, res) => {
+    console.log("Router entered");
+    //console.log(req.body);
+    console.log(req.file);
+    adminController.addCategory(req.body, req.file).then((data) => {
+      res.redirect('/admin/addCategory')
+    });
+  })
+  
+module.exports = router

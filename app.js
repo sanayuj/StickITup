@@ -8,6 +8,8 @@ var usersRouter = require("./routes/user");
 var adminRouter = require("./routes/admin");
 const session = require("express-session");
 const hbs = require("express-handlebars");
+const multer = require('multer')
+
 
 dbConnect.dbConnect();
 var app = express();

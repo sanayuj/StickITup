@@ -36,7 +36,7 @@
 </table>
     </div>
     <div class="col-md-4 col-12 p-5" style="background-color: #ddddddc9;" >
-       <form>
+       <form action="/admin/addcategory" method="post" enctype="multipart/form-data">
   <div class="mb-3">
     <h2><u>Add Category</u></h2>
     <label for="exampleInputEmail1" class="form-label">Category Name</label>
@@ -45,7 +45,7 @@
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Add image</label>
-    <input class="form-control" type="file" id="formFile">
+    <input class="form-control" type="file" name="image" id="formFile">
   </div>
 <div class="d-flex justify-content-center">
   <button type="submit" class="btn fontcolor login-btn">Submit</button>

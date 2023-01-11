@@ -1,6 +1,7 @@
 const admin = require("../model/adminmodel");
 const bcrypt = require("bcrypt");
 const userlist = require("../model/usermodel");
+const categorycollection=require("../model/categorymodel")
 //admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
@@ -85,4 +86,20 @@ module.exports = {
       }
     });
   },
+
+  
+  addCategory:(categoryDetails,img)=>{
+    return new Promise(async(resolve,reject)=>{
+      try{
+        const newCategory=new categorycollection({
+          categoryname:categoryDetails.categoryname,
+          imageUrl:img.path
+        })
+        return await newCategory.save().then((data)=>{resolve(data)}).catch((err)=>{throw err})
+
+      }catch(err){
+        throw err
+      }
+    })
+  }
 };
