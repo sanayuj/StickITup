@@ -89,11 +89,12 @@ module.exports = {
 
   
   addCategory:(categoryDetails,img)=>{
+     console.log('category checked ::::::');
     return new Promise(async(resolve,reject)=>{
       try{
         const newCategory=new categorycollection({
-          categoryname:categoryDetails.categoryname,
-          imageUrl:img.path
+          title:categoryDetails.categoryName,
+          image:img.filename
         })
         return await newCategory.save().then((data)=>{resolve(data)}).catch((err)=>{throw err})
 
@@ -101,5 +102,22 @@ module.exports = {
         throw err
       }
     })
+  },
+  listCategory:()=>{
+    return new Promise(async(resolve,reject)=>{
+      try{
+        await categorycollection.find({}).lean().then((category)=>{
+         
+          resolve(category)
+        }).catch((error)=>{
+          throw error
+        })
+
+      }catch(error){
+        throw error
+      }
+    })
   }
+
+
 };

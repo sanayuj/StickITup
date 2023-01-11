@@ -48,9 +48,17 @@ router.get("/admin_productadd", function (req, res) {
   res.render("adminPage/productAdd");
 });
 
-router.get("/addCategory", function (req, res) {
-  res.render("adminPage/category");
-});
+// router.get("/addCategory", function (req, res) {
+//   res.render("adminPage/category");
+// });
+
+router.get('/addCategory',(req,res)=>{
+  adminController.listCategory().then((category)=>{
+   
+    res.render('adminPage/category',{category})
+  })
+
+})
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
@@ -73,10 +81,12 @@ router.post("/admin_login", function (req, res, next) {
   });
 }),
   router.post("/addcategory",categoryimgupload.single("image"), (req, res) => {
-    console.log("Router entered");
-    //console.log(req.body);
-    console.log(req.file);
+    // console.log("Router entered{{{{{{{{{{{{{{");
+    // console.log(req.body);
+    // console.log(req.file);
     adminController.addCategory(req.body, req.file).then((data) => {
+      // console.log(req.body,"poooooooo");
+      // console.log(req.file);
       res.redirect('/admin/addCategory')
     });
   })

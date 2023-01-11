@@ -16,21 +16,18 @@
     </tr>
   </thead>
   <tbody class="bg-light">
+    {{#each category}} 
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
+      <th scope="row">{{this._id}}</th>
+      <td>{{this.title}}</td>
+      <td><img src="/images/categoryimage/{{this.image}}" style="height: 5rem;width:5rem" alt=""></td>
       <td>
         <a href="#" class="btn"><i class="fa fa-edit"></i></a>
         <a href="#" class="btn"><i class="fa fa-trash"></i></a>
       </td>
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
+    {{/each}}
+    
    
   </tbody>
 </table>
