@@ -45,20 +45,18 @@ router.get("/unblock_user/:id", (req, res) => {
   });
 });
 router.get("/admin_productadd", function (req, res) {
-  res.render("adminPage/productAdd");
+  adminController.listCategory().then((category)=>{
+    res.render("adminPage/productAdd",{category});
+  })
+  
 });
 
-// router.get("/addCategory", function (req, res) {
-//   res.render("adminPage/category");
-// });
 
-router.get('/addCategory',(req,res)=>{
-  adminController.listCategory().then((category)=>{
-   
-    res.render('adminPage/category',{category})
-  })
-
-})
+router.get("/addCategory", (req, res) => {
+  adminController.listCategory().then((category) => {
+    res.render("adminPage/category", { category });
+  });
+});
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
@@ -80,15 +78,20 @@ router.post("/admin_login", function (req, res, next) {
     }
   });
 }),
-  router.post("/addcategory",categoryimgupload.single("image"), (req, res) => {
-    // console.log("Router entered{{{{{{{{{{{{{{");
-    // console.log(req.body);
-    // console.log(req.file);
+  router.post("/addcategory", categoryimgupload.single("image"), (req, res) => {
     adminController.addCategory(req.body, req.file).then((data) => {
-      // console.log(req.body,"poooooooo");
-      // console.log(req.file);
-      res.redirect('/admin/addCategory')
+      res.redirect("/admin/addCategory");
     });
-  })
+  });
+
+router.post("/addProduct",categoryimgupload.array('productImage',4),(req, res) => {
+  console.log("jiiiiii");
+  adminController.addProduct(req.body,req.files).then((data) => {
+    console.log(req.body);
+    console.log(data)
+    res.redirect("/admin/admin_productadd");
+  });
+})
   
-module.exports = router
+
+module.exports = router;

@@ -1,7 +1,8 @@
 const admin = require("../model/adminmodel");
 const bcrypt = require("bcrypt");
 const userlist = require("../model/usermodel");
-const categorycollection=require("../model/categorymodel")
+const categorycollection = require("../model/categorymodel");
+const productcollection = require("../model/productmodel");
 //admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
@@ -87,37 +88,69 @@ module.exports = {
     });
   },
 
-  
-  addCategory:(categoryDetails,img)=>{
-     console.log('category checked ::::::');
-    return new Promise(async(resolve,reject)=>{
-      try{
-        const newCategory=new categorycollection({
-          title:categoryDetails.categoryName,
-          image:img.filename
-        })
-        return await newCategory.save().then((data)=>{resolve(data)}).catch((err)=>{throw err})
-
-      }catch(err){
-        throw err
+  addCategory: (categoryDetails, img) => {
+    console.log("category checked ::::::");
+    return new Promise(async (resolve, reject) => {
+      try {
+        const newCategory = new categorycollection({
+          title: categoryDetails.categoryName,
+          image: img.filename,
+        });
+        return await newCategory
+          .save()
+          .then((data) => {
+            resolve(data);
+          })
+          .catch((err) => {
+            throw err;
+          });
+      } catch (err) {
+        throw err;
       }
-    })
+    });
   },
-  listCategory:()=>{
-    return new Promise(async(resolve,reject)=>{
-      try{
-        await categorycollection.find({}).lean().then((category)=>{
-         
-          resolve(category)
-        }).catch((error)=>{
-          throw error
-        })
-
-      }catch(error){
-        throw error
+  listCategory: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await categorycollection
+          .find({})
+          .lean()
+          .then((category) => {
+            resolve(category);
+          })
+          .catch((error) => {
+            throw error;
+          });
+      } catch (error) {
+        throw error;
       }
-    })
-  }
+    });
+  },
 
-
+  addProduct: (productDetails,imgFile) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const newProduct = new productcollection({
+          name: productDetails.productName,
+          category: productDetails.productCategory,
+          price1: productDetails.productmrpPrice,
+          price2:productDetails.productsrpPrice,
+          product_description: productDetails.productDescription,
+          size: productDetails.productSize,
+          imageurl: imgFile,
+          stock: productDetails.productStock,
+        });
+        return await newProduct
+          .save()
+          .then((data) => {
+            resolve(data);
+          })
+          .catch((error) => {
+            throw error;
+          });
+      } catch (error) {
+        throw error;
+      }
+    });
+  },
 };

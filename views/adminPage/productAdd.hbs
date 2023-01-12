@@ -10,11 +10,11 @@
                 <div>
                     <div class="card card-registration " style="border: none;" >
                         <div class=" d-flex justify-content-center g-0">
-
                             <div class="col-xl-6">
                                 <div class="card-body p-md-5 text-black">
                                     <h3 class="mb-4 text-uppercase"><u> Add Product </u></h3>
 
+                                <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
@@ -35,30 +35,38 @@
 
                                         <div class="row">
                                             <div class="col-md-12">
-
-                                                <select name="" class="select p-2" style="width: 100%;">
-                                                    <option value="1">select category </option>
-                                                    <option value="2">Option 1</option>
-                                                    <option value="3">Option 2</option>
-                                                    <option value="4">Option 3</option>
+                                                 {{# each category}}
+                                                <select name="productCategory" class="select p-2" style="width: 100%;">
+                                                    <option value="1">{{this.name}}</option>
                                                 </select>
-
+                                                 {{/each}}
                                             </div>
                                         </div>
                                     </div>
-
-
-                                    <div class="row">
+    
+                                        <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
-                                                <label class="form-label" for="form3Example1m">Product Price</label>
-                                                <input type="number" id="form3Example1m" name="productPrice"
+                                                <label class="form-label" for="form3Example1m">Product MRP Price</label>
+                                                <input type="text" id="addproductForm" name="productmrpPrice"
+                                                    class="form-control form-control-lg" />
+
+                                            </div>
+                                        </div> 
+                                         </div>
+                                         <div class="row">
+                                        <div class="col-md-12 mb-4">
+                                            <div class="form-outline">
+                                                <label class="form-label" for="form3Example1m">Product SRP Price</label>
+                                                <input type="text" id="addproductForm" name="productsrpPrice"
                                                     class="form-control form-control-lg" />
 
                                             </div>
                                         </div>
+                                         </div>
+                                    
 
-                                    </div>
+                                      
                                         <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
@@ -87,7 +95,7 @@
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Image of product</label>
 
-                                                <input class="form-control" type="file" id="formFile" name="productImage">
+                                                <input class="form-control" type="file" id="formFile" name="productImage" multiple>
                                             </div>
                                         </div>
 
@@ -99,7 +107,7 @@
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product
                                                     Description</label>
-                                                <input type="text" id="form3Example1m" name="productDescription" style="height: 110px;"name=""
+                                                <input type="text" id="form3Example1m" name="productDescription" style="height: 110px;"name="productDescription"
                                                     class="form-control form-control-lg" />
 
                                             </div>
@@ -113,10 +121,10 @@
 
                                     <div class="d-flex justify-content-center pt-3">
 
-                                        <button type="button" class="btn btn-primary btn-lg ms-2 fontcolor rounded-pill login-btn"
+                                        <button class="btn btn-primary btn-lg ms-2 fontcolor rounded-pill login-btn"
                                            type="submit" style="">Submit</button>
                                     </div>
-
+                                    </form>
                                 </div>
                             </div>
                         </div>
