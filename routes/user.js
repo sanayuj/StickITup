@@ -2,6 +2,8 @@ var express = require("express");
 const { response } = require("../app");
 const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
+const adminController=require("../controller/admin_control")
+
 var router = express.Router();
 
 router.get("/user_login", function (req, res, next) {
@@ -34,12 +36,25 @@ router.get("/user_signup", function (req, res, next) {
   res.render("user/user_loginForm/signup");
 });
 
-router.get("/", function (req, res, next) {
+router.get("/", async function (req, res, next) {
+  await adminController.listProduct().then((data)=>{
+  const product=data
+  const productdata=product.map((product)=>{
+    return{
+      _id:product._id,
+      name:product.name,
+      price:product.price2,
+      price1:product.price1,
+      image:product.imageurl[0].filename
+    }
+  })
   let user = req.session.user;
   console.log(user);
-  res.render("user/user_homepage/homepage", { user });
+  res.render("user/user_homepage/homepage", { user ,productdata});
   req.session.passwordErr = false;
   req.session.usernotExist = false;
+  })
+  
 });
 
 router.get("/logout", (req, res) => {

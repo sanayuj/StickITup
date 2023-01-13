@@ -128,7 +128,9 @@ module.exports = {
   },
 
   addProduct: (productDetails, imgFile) => {
+   
     return new Promise(async (resolve, reject) => {
+      console.log("Doooo");
       try {
         const newProduct = new productcollection({
           name: productDetails.productName,
@@ -140,6 +142,11 @@ module.exports = {
           imageurl: imgFile,
           stock: productDetails.productStock,
         });
+        return await newProduct
+          .save()
+          .then((data) => {
+            resolve( data );
+          })
       }catch(error){
         throw error
       }
