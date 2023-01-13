@@ -1,0 +1,50 @@
+{{>adminNavbar}}
+<section style="margin-left: 14rem;">
+    <div>
+        {{>adminsidebar}}
+    </div>
+        <div>
+        <table class="table"  style="margin-top: 4rem;" >
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product id</th>
+      <th scope="col">Product name</th>
+      <th scope="col">category id</th>
+      <th scope="col">MRP</th>
+      <th scope="col">SRP</th>
+      <th scope="col">Stock</th>
+      <th scope="col">Image</th>
+      <th scope="col">Description</th>
+      <th scope="col">Manage</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}} 
+    <tr>
+      <th scope="row">{{this._id}}</th>
+      <td>{{this.name}}</td>
+      <td>{{this.category}}</td> 
+      <td>{{this.price1}}</td> 
+      <td>{{this.price2}}</td> 
+      <td>{{this.stock}}</td> 
+      <td>{{#each imageurl}}
+        <img src="/images/categoryimage/{{filename}}" style="height: 3rem;width: 100%;"  class="m-1" alt="">
+        {{/each}}
+      </td> 
+      <td>{{this.product_description}}</td> 
+       <td>
+        <div> <a href="#" class="btn"><i class="fa fa-edit text-primary"></i></a></div>
+              <div><a href="#" class="btn"><i class="fa fa-trash text-danger"></i></a></div>
+      </td>
+      
+    </tr>
+    
+    {{/each}}
+  </tbody>
+</table>
+
+
+    </div>
+</section>
+
+

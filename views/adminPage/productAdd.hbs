@@ -35,11 +35,14 @@
 
                                         <div class="row">
                                             <div class="col-md-12">
-                                                 {{# each category}}
+                                                 
                                                 <select name="productCategory" class="select p-2" style="width: 100%;">
-                                                    <option value="1">{{this.name}}</option>
+                                                     <option value="#">select category</option>
+                                                    {{#each category}}
+                                                    <option value="{{this._id}}">{{this.title}}</option>
+                                                     {{/each}}
                                                 </select>
-                                                 {{/each}}
+                                                
                                             </div>
                                         </div>
                                     </div>

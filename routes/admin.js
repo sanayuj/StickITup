@@ -45,18 +45,24 @@ router.get("/unblock_user/:id", (req, res) => {
   });
 });
 router.get("/admin_productadd", function (req, res) {
-  adminController.listCategory().then((category)=>{
-    res.render("adminPage/productAdd",{category});
-  })
-  
+  adminController.listCategory().then((category) => {
+    res.render("adminPage/productAdd", { category });
+  });
 });
-
 
 router.get("/addCategory", (req, res) => {
   adminController.listCategory().then((category) => {
     res.render("adminPage/category", { category });
   });
 });
+
+router.get("/listproduct", (req, res) => {
+  adminController.listProduct().then((products) => {
+    console.log(products);
+    res.render("adminPage/productList", { products });
+  });
+});
+
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
@@ -84,14 +90,17 @@ router.post("/admin_login", function (req, res, next) {
     });
   });
 
-router.post("/addProduct",categoryimgupload.array('productImage',4),(req, res) => {
-  console.log("jiiiiii");
-  adminController.addProduct(req.body,req.files).then((data) => {
-    console.log(req.body);
-    console.log(data)
-    res.redirect("/admin/admin_productadd");
-  });
-})
-  
+router.post(
+  "/addProduct",
+  categoryimgupload.array("productImage", 4),
+  (req, res) => {
+    console.log("jiiiiii");
+    adminController.addProduct(req.body, req.files).then((data) => {
+      console.log(req.body);
+      console.log(data);
+      res.redirect("/admin/admin_productadd");
+    });
+  }
+);
 
 module.exports = router;
