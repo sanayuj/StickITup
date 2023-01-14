@@ -2,7 +2,7 @@ var express = require("express");
 const { response } = require("../app");
 const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
-const adminController=require("../controller/admin_control")
+const adminController = require("../controller/admin_control");
 
 var router = express.Router();
 
@@ -37,32 +37,41 @@ router.get("/user_signup", function (req, res, next) {
 });
 
 router.get("/", async function (req, res, next) {
-  await adminController.listProduct().then((data)=>{
-  const product=data
-  const productdata=product.map((product)=>{
-    return{
-      _id:product._id,
-      name:product.name,
-      price:product.price2,
-      price1:product.price1,
-      image:product.imageurl[0].filename
-    }
-  })
-  let user = req.session.user;
-  console.log(user);
-  res.render("user/user_homepage/homepage", { user ,productdata});
-  req.session.passwordErr = false;
-  req.session.usernotExist = false;
-  })
-  
+  await adminController.listProduct().then((data) => {
+    const product = data;
+    const productdata = product.map((product) => {
+      return {
+        _id: product._id,
+        name: product.name,
+        price: product.price2,
+        price1: product.price1,
+        image: product.imageurl[0].filename,
+      };
+    });
+    let user = req.session.user;
+    console.log(user);
+    res.render("user/user_homepage/homepage", { user, productdata });
+    req.session.passwordErr = false;
+    req.session.usernotExist = false;
+  });
 });
 
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
+//cart
 
 // user post section
+
+//cart post
+
+router.post("/add-to-cart/:productID", async (res, req) => {
+  await controller
+    .addToCart(req.session.user._id, req.params.productID)
+    .then((response) => {})
+    .catch(console.error(error));
+});
 
 router.post("/user_signup", function (req, res, next) {
   if (response.exist) {
