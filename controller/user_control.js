@@ -58,56 +58,53 @@ module.exports = {
     });
   },
   //cart
-  addToCart: (userID, productID) => {
-    // const userID = new mongoose.Types.ObjectId(userID);
-    // const productID = new mongoose.Types.ObjectId(productID);
+  addtoCart: (productId, userId) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const userCart = await cart.findOne({ userId: userID }); //checking user already exists
-        if (!userCart) {
-          const newCart = new cart({
-            userId: userID,
+        let usercart = await cart.findOne({ userId: userId });
+
+        if (usercart) {
+          const alredyincart = await cart.findOne({
+            $and: [{ userId }, { products: { $elemMatch: { productId } } }],
+          });
+
+          if (alredyincart) {
+            await cart.findOneAndUpdate(
+              { $and: [{ userId }, { "products.productId": productId }] },
+              { $inc: { "products.$.quantity": 1 } }
+            );
+          } else {
+            const newProduct = {
+              productId: productId,
+              quantity: 1,
+            };
+            await cart.findOneAndUpdate(
+              { userId: userId },
+              { $inc: { totalQty: 1 }, $push: { products: newProduct } }
+            );
+          }
+        } else {
+          const newcart = new cart({
+            userId: userId,
             products: [
               {
-                productId: productID,
+                productId: productId,
                 quantity: 1,
               },
             ],
             totalQty: 1,
           });
-          await newCart.save().then((data) => {
-            resolve({ status: true, data });
-          });
-        } else {
-          const productItem = userCart.products;
-          //if product is in cart
-          const productIndex = productItem.findIndex((item) =>
-            item.productId.toString()
-          );
-          if (productIndex >= 0) {
-            //increasing quantity of product
-            userCart.products[productIndex].quantity = +quantity;
-            await userCart
-              .save()
-              .then((data) => resolve({ status: true, data }));
-          } else {
-            const newProduct = {
-              productId: productID,
-              quantity: 1,
-            };
-            await cart
-              .findOneAndUpdate(
-                { userId: userID },
-                { $inc: { totalQty: 1 }, $push: { products: newProduct } },
-                { new: true }
-              )
-              .then((data) => {
-                resolve({ status: true, data });
-              });
-          }
+          await newcart
+            .save()
+            .then((data) => {
+              resolve();
+            })
+            .catch((error) => {
+              throw error;
+            });
         }
-      } catch (err) {
-        throw err;
+      } catch (error) {
+        throw error;
       }
     });
   },
