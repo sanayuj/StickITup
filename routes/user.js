@@ -55,12 +55,13 @@ router.get("/", async function (req, res, next) {
     req.session.usernotExist = false;
   });
 });
-
 //cart
-router.get("/addtocart/:productID", (req,res) => {
-  // console.log("router cart entered");
-  // console.log(req.session.user._id, "poooooggggo  koi");
-  // console.log(req.params.productID,"ppppoooyyyii");
+router.get("/cart",(req,res)=>{
+  console.log("cart page ");
+  res.render("user/user_homepage/cartpage")
+})
+//add to cart
+router.get("/addtocart/:productID", (req, res) => {
   controller
     .addtoCart(req.session.user._id, req.params.productID)
     .then((data) => {});
@@ -72,6 +73,8 @@ router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
 });
+
+//
 // user post section
 
 router.post("/user_signup", function (req, res, next) {
