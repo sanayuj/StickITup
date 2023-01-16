@@ -127,47 +127,48 @@ module.exports = {
     });
   },
 
-  addProduct: (productDetails, imgFile) => {
-   
-    return new Promise(async (resolve, reject) => {
-      console.log("Doooo");
-      try {
-        const newProduct = new productcollection({
-          name: productDetails.productName,
-          category: productDetails.productCategory,
-          price1: productDetails.productmrpPrice,
-          price2: productDetails.productsrpPrice,
-          product_description: productDetails.productDescription,
-          size: productDetails.productSize,
-          imageurl: imgFile,
-          stock: productDetails.productStock,
-        });
-        return await newProduct
-          .save()
-          .then((data) => {
-            resolve( data );
-          })
-      }catch(error){
-        throw error
-      }
-    }).catch((error)=>{
-      throw error
-    })
-},
-      listProduct: () => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            await productcollection
-              .find({})
-              .lean()
-              .then((products) => {
-                resolve(products);
-              })
-            }catch(error){
-              throw error
-            }
-    }).catch((error)=>{
-      throw error
-    })
-  }
-}
+  addProduct: async (productDetails, imgFile) => {
+    try {
+      return await new Promise(async (resolve, reject) => {
+        console.log("Doooo");
+        try {
+          const newProduct = new productcollection({
+            name: productDetails.productName,
+            category: productDetails.productCategory,
+            price1: productDetails.productmrpPrice,
+            price2: productDetails.productsrpPrice,
+            product_description: productDetails.productDescription,
+            size: productDetails.productSize,
+            imageurl: imgFile,
+            stock: productDetails.productStock,
+          });
+          return await newProduct.save().then((data) => {
+            resolve(data);
+          });
+        } catch (error) {
+          throw error;
+        }
+      });
+    } catch (error_1) {
+      throw error_1;
+    }
+  },
+  listProduct: async () => {
+    try {
+      return await new Promise(async (resolve, reject) => {
+        try {
+          await productcollection
+            .find({})
+            .lean()
+            .then((products) => {
+              resolve(products);
+            });
+        } catch (error) {
+          throw error;
+        }
+      });
+    } catch (error_1) {
+      throw error_1;
+    }
+  },
+};

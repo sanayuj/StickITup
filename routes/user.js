@@ -5,14 +5,13 @@ const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
 var router = express.Router();
 
-const verifyLogin=(req,res,next)=>{
-if(req.session.loggedin){
-next()
-}else{
-  res.redirect("/user_login")
-}
-}
-
+const verifyLogin = (req, res, next) => {
+  if (req.session.loggedin) {
+    next();
+  } else {
+    res.redirect("/user_login");
+  }
+};
 
 router.get("/user_login", function (req, res, next) {
   if (req.session.loggedin) {
@@ -57,20 +56,24 @@ router.get("/", async function (req, res, next) {
       };
     });
     let user = req.session.user;
-    // console.log(user);
+
     res.render("user/user_homepage/homepage", { user, productdata });
-    //console.log(user)
+
     req.session.passwordErr = false;
     req.session.usernotExist = false;
   });
 });
-//cart
-router.get("/cart",verifyLogin,(req,res)=>{
-  console.log("cart page ");
-  res.render("user/user_homepage/cartpage")
-})
+//cart,product listing
+router.get("/cart", verifyLogin, (req, res) => {
+  controller.getcartItem(req.session.user._id).then((response) => {
+    console.log(response, "hello response gotted");
+    const userproduct = response;
+    res.render("user/user_homepage/cartpage", { userproduct });
+  });
+});
+
 //add to cart
-router.get("/addtocart/:productID",verifyLogin, (req, res) => {
+router.get("/addtocart/:productID", verifyLogin, (req, res) => {
   controller
     .addtoCart(req.session.user._id, req.params.productID)
     .then((data) => {});
@@ -108,6 +111,7 @@ router.post("/user_login", (req, res, next) => {
         res.redirect("/user_login");
       } else if (response.status) {
         req.session.loggedin = true;
+
         req.session.user = response.user;
 
         res.redirect("/");

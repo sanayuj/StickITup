@@ -58,7 +58,7 @@ module.exports = {
     });
   },
   //cart
-  addtoCart: (productId, userId) => {
+  addtoCart: (userId, productId) => {
     return new Promise(async (resolve, reject) => {
       try {
         let usercart = await cart.findOne({ userId: userId });
@@ -105,6 +105,22 @@ module.exports = {
         }
       } catch (error) {
         throw error;
+      }
+    });
+  },
+  getcartItem: (userid) => {
+    return new Promise(async (resolve, reject) => {
+      const usercart = await cart.findOne({ userId: userid });
+
+      if (usercart) {
+        const productdetails = await cart
+          .findOne({ userId: userid })
+          .populate("products.productId")
+          .lean();
+
+        resolve(productdetails, { status: true });
+      } else {
+        resolve({ status: true });
       }
     });
   },
