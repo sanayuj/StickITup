@@ -65,12 +65,10 @@ router.get("/", async function (req, res, next) {
 });
 //cart,product listing
 router.get("/cart", verifyLogin, (req, res) => {
+  const user=req.session.user
   controller.getcartItem(req.session.user._id).then((response) => {
-    console.log(response, "hello response gotted");
     const userproduct = response;
-    res.render("user/user_homepage/cartpage", { userproduct });
-    console.log(userproduct.products,"pipii");
-
+    res.render("user/user_homepage/cartpage", { userproduct,user });
   });
 });
 
@@ -104,7 +102,7 @@ router.post("/user_login", (req, res, next) => {
   controller.doLogin(req.body).then((response) => {
     if (response.emailidNotExist) {
       req.session.usernotExist = true;
-      console.log(req.session.usernotExist);
+
       res.redirect("/user_login");
     } else {
       if (response.blockedUser) {

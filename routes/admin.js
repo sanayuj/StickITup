@@ -23,7 +23,6 @@ router.get("/admin_homepage", verifyadminLogin, (req, res, next) => {
 
 router.get("/admin_userlist", verifyadminLogin, (req, res) => {
   adminController.getuserData().then((response) => {
-    //console.log(response)
     if (response.status) {
       res.render("adminPage/admin_userlist", {
         userdetails: response.userdata,
@@ -41,13 +40,10 @@ router.get("/admin_logout", (req, res) => {
 
 router.get("/block_user/:id", verifyadminLogin, (req, res) => {
   adminController.blockUser(req.params.id).then((response) => {
-    console.log(response.userId);
-    console.log(req.params.id);
     res.redirect("/admin/admin_userlist");
   });
 });
 router.get("/unblock_user/:id", verifyadminLogin, (req, res) => {
-  console.log("Unblocked user");
   adminController.unblocUserk(req.params.id).then((response) => {
     res.redirect("/admin/admin_userlist");
   });
@@ -66,7 +62,6 @@ router.get("/addCategory", verifyadminLogin, (req, res) => {
 
 router.get("/listproduct", verifyadminLogin, (req, res) => {
   adminController.listProduct().then((products) => {
-    console.log(products);
     res.render("adminPage/productList", { products });
   });
 });
@@ -74,11 +69,10 @@ router.get("/listproduct", verifyadminLogin, (req, res) => {
 // admin post method section
 
 router.post("/admin_login", function (req, res, next) {
- 
   adminController.doadminloggin(req.body).then((response) => {
     if (response.adminNotExist) {
       req.session.adminIDnotExist = true;
-      console.log(req.session.adminIDnotExist);
+
       res.redirect("/admin/");
     } else {
       if (response.status) {
@@ -108,10 +102,7 @@ router.post(
   verifyadminLogin,
   categoryimgupload.array("productImage", 4),
   (req, res) => {
-   
     adminController.addProduct(req.body, req.files).then((data) => {
-      console.log(req.body);
-      console.log(data);
       res.redirect("/admin/admin_productadd");
     });
   }
