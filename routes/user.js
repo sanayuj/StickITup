@@ -3,8 +3,16 @@ const { response } = require("../app");
 const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
-
 var router = express.Router();
+
+const verifyLogin=(req,res,next)=>{
+if(req.session.loggedin){
+next()
+}else{
+  res.redirect("/user_login")
+}
+}
+
 
 router.get("/user_login", function (req, res, next) {
   if (req.session.loggedin) {
@@ -51,17 +59,18 @@ router.get("/", async function (req, res, next) {
     let user = req.session.user;
     // console.log(user);
     res.render("user/user_homepage/homepage", { user, productdata });
+    //console.log(user)
     req.session.passwordErr = false;
     req.session.usernotExist = false;
   });
 });
 //cart
-router.get("/cart",(req,res)=>{
+router.get("/cart",verifyLogin,(req,res)=>{
   console.log("cart page ");
   res.render("user/user_homepage/cartpage")
 })
 //add to cart
-router.get("/addtocart/:productID", (req, res) => {
+router.get("/addtocart/:productID",verifyLogin, (req, res) => {
   controller
     .addtoCart(req.session.user._id, req.params.productID)
     .then((data) => {});

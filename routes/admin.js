@@ -4,16 +4,25 @@ const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
 
+const verifyLogin=(req,res,next)=>{
+  if(req.session.loggedin){
+    console.log(req.session.loggedin);
+  next()
+  }else{
+    res.redirect("/admin/")
+  }
+  }
+
 /* GET users listing. */
 router.get("/", function (req, res, next) {
   res.render("adminPage/login");
 });
 
-router.get("/admin_homepage", function (req, res, next) {
+router.get("/admin_homepage", (req, res, next)=> {
   res.render("adminPage/admin_dash");
 });
 
-router.get("/admin_userlist", function (req, res) {
+router.get("/admin_userlist",(req, res)=> {
   adminController.getuserData().then((response) => {
     //console.log(response)
     if (response.status) {
@@ -44,7 +53,7 @@ router.get("/unblock_user/:id", (req, res) => {
     res.redirect("/admin/admin_userlist");
   });
 });
-router.get("/admin_productadd", function (req, res) {
+router.get("/admin_productadd", (req, res)=> {
   adminController.listCategory().then((category) => {
     res.render("adminPage/productAdd", { category });
   });
