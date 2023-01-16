@@ -4,8 +4,8 @@ const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
 
-const verifyLogin=(req,res,next)=>{
-  if(req.session.loggedin){
+const verifyadminLogin=(req,res,next)=>{
+  if(req.session.adminloggedin){
     console.log(req.session.loggedin);
   next()
   }else{
@@ -18,11 +18,11 @@ router.get("/", function (req, res, next) {
   res.render("adminPage/login");
 });
 
-router.get("/admin_homepage", (req, res, next)=> {
+router.get("/admin_homepage",verifyadminLogin, (req, res, next)=> {
   res.render("adminPage/admin_dash");
 });
 
-router.get("/admin_userlist",(req, res)=> {
+router.get("/admin_userlist",verifyadminLogin,(req, res)=> {
   adminController.getuserData().then((response) => {
     //console.log(response)
     if (response.status) {
@@ -40,14 +40,14 @@ router.get("/admin_logout", (req, res) => {
   // req.session.destroy()
 });
 
-router.get("/block_user/:id", (req, res) => {
+router.get("/block_user/:id",verifyadminLogin, (req, res) => {
   adminController.blockUser(req.params.id).then((response) => {
     console.log(response.userId);
     console.log(req.params.id);
     res.redirect("/admin/admin_userlist");
   });
 });
-router.get("/unblock_user/:id", (req, res) => {
+router.get("/unblock_user/:id",verifyadminLogin, (req, res) => {
   console.log("Unblocked user");
   adminController.unblocUserk(req.params.id).then((response) => {
     res.redirect("/admin/admin_userlist");
@@ -59,13 +59,13 @@ router.get("/admin_productadd", (req, res)=> {
   });
 });
 
-router.get("/addCategory", (req, res) => {
+router.get("/addCategory",verifyadminLogin, (req, res) => {
   adminController.listCategory().then((category) => {
     res.render("adminPage/category", { category });
   });
 });
 
-router.get("/listproduct", (req, res) => {
+router.get("/listproduct",verifyadminLogin, (req, res) => {
   adminController.listProduct().then((products) => {
     console.log(products);
     res.render("adminPage/productList", { products });
@@ -93,14 +93,14 @@ router.post("/admin_login", function (req, res, next) {
     }
   });
 }),
-  router.post("/addcategory", categoryimgupload.single("image"), (req, res) => {
+  router.post("/addcategory",verifyadminLogin, categoryimgupload.single("image"), (req, res) => {
     adminController.addCategory(req.body, req.file).then((data) => {
       res.redirect("/admin/addCategory");
     });
   });
 
 router.post(
-  "/addProduct",
+  "/addProduct",verifyadminLogin,
   categoryimgupload.array("productImage", 4),
   (req, res) => {
     console.log("jiiiiii");
