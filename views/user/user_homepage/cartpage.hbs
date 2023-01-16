@@ -1,0 +1,38 @@
+{{>userNavbar}}
+<div class="container">
+  <h2 style="font-weight:300"><b>Cart</b></h2>
+<div class="cart-table">
+{{#each userproduct.products}}
+   <div class="row cart-row">
+   <div class="col-xs-12 col-md-2">
+    
+    <img src="/images/categoryimage/{{this.productId.imageurl.[0].filename}}" width="100%">
+  </div>
+  <div class="col-md-6">
+    <div class="product-articlenr mb-3" >#{{this.productId._id}}</div>
+    <div class="product-name">{{this.productId.name}}</div>
+    <div class="product-options"><span>Size:</span>{{this.productId.size}}</div>
+    <div class="product-price">
+        <input type="text" name="quantity[4]"  value="{{this.quantity}}" size="1" class="form-control">
+        {{!-- <button type="submit" data-toggle="tooltip" title="Uppdatera" class="update"><i class="fas fa-sync"></i></button> --}}
+        {{!-- <div class="product-price"><small>x</small> 49 SEK</div> --}}
+    </div>
+   </div>
+  <div class="col-md-3 cart-actions">
+    <div class="product-price-total">${{this.productId.price1}}</div>
+    <div class="product-delete">
+      <button type="button" data-toggle="tooltip" title="Ta bort" class="delete mb-2" onclick="">Remove</button>
+      <button type="button" data-toggle="tooltip" title="Ta bort" class="delete" onclick="">Save for later</button>
+      </div>
+  </div>
+  {{/each}}
+</div>
+
+  
+ 
+ 
+  
+ 
+
+  
+</div>

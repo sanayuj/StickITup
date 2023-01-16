@@ -69,6 +69,8 @@ router.get("/cart", verifyLogin, (req, res) => {
     console.log(response, "hello response gotted");
     const userproduct = response;
     res.render("user/user_homepage/cartpage", { userproduct });
+    console.log(userproduct.products,"pipii");
+
   });
 });
 
