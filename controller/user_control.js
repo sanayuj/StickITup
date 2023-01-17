@@ -1,4 +1,3 @@
-const dbConnect = require("../config/connection");
 const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const { response } = require("../app");
@@ -82,6 +81,7 @@ module.exports = {
               { userId: userId },
               { $inc: { totalQty: 1 }, $push: { products: newProduct } }
             );
+            resolve();
           }
         } else {
           const newcart = new cart({
@@ -117,11 +117,21 @@ module.exports = {
           .findOne({ userId: userid })
           .populate("products.productId")
           .lean();
-
         resolve(productdetails, { status: true });
       } else {
         resolve({ status: true });
       }
+    });
+  },
+  //cart count
+  getcartCount: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      let countValue = 0;
+      let cartItems = await cart.findOne({ userId: userId });
+      if (cartItems) {
+        countValue = cartItems.products.length;
+      }
+      resolve(countValue);
     });
   },
 };

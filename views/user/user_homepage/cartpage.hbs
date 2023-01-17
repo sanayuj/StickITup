@@ -1,7 +1,9 @@
 {{>userNavbar}}
-<div class="container">
+<div class="d-flex">
+
+<div class="container d-flex">
   <h2 style="font-weight:300"><b>Cart</b></h2>
-<div class="cart-table">
+<div class="cart-table  ">
 {{#each userproduct.products}}
    <div class="row cart-row">
    <div class="col-xs-12 col-md-2">
@@ -13,9 +15,12 @@
     <div class="product-name">{{this.productId.name}}</div>
     <div class="product-options"><span>Size:</span>{{this.productId.size}}</div>
     <div class="product-price">
-        <input type="text" name="quantity[4]"  value="{{this.quantity}}" size="1" class="form-control">
-        {{!-- <button type="submit" data-toggle="tooltip" title="Uppdatera" class="update"><i class="fas fa-sync"></i></button> --}}
-        {{!-- <div class="product-price"><small>x</small> 49 SEK</div> --}}
+        
+  <div class="quantity buttons_added">
+	<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="{{this.quantity}}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+</div>
+
+        
     </div>
    </div>
   <div class="col-md-3 cart-actions">
@@ -27,12 +32,40 @@
   </div>
   {{/each}}
 </div>
-
-  
- 
- 
-  
- 
-
-  
 </div>
+<div class="d-flex justify-content-end ">
+    <div><div class="row m-0">
+          <div class="col-sm-8 p-0">
+            <h6>Subtotal</h6>
+          </div>
+          <div class="col-sm-4 p-0">
+            <p id="subtotal">$132.00</p>
+          </div>
+        </div>
+        <div class="row m-0">
+          <div class="col-sm-8 p-0 ">
+            <h6>Tax</h6>
+          </div>
+          <div class="col-sm-4 p-0">
+            <p id="tax">$6.40</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row mx-0 mb-2">
+          <div class="col-sm-8 p-0 d-inline">
+            <h5>Total</h5>
+          </div>
+          <div class="col-sm-4 p-0">
+            <p id="total">$138.40</p>
+          </div>
+        </div>
+        <a href="#"><button id="btn-checkout" class="shopnow"><span>Checkout</span></button></a>
+      </div>
+    </div>
+  </div>
+  </div>
+</main>
+<footer class="container">
+   
+</footer></div>
+</div></div>

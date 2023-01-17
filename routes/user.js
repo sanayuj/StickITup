@@ -44,8 +44,17 @@ router.get("/user_signup", function (req, res, next) {
 });
 
 router.get("/", async function (req, res, next) {
+  const user = req.session.user;
+  let cartcount = null;
+  if (req.session.user) {
+    cartcount = await controller.getcartCount(user._id);
+  }
+
   await adminController.listProduct().then((data) => {
     const product = data;
+
+    //const cartcount=userproduct.totalQty;
+    // console.log(product,"koikoikoi");
     const productdata = product.map((product) => {
       return {
         _id: product._id,
@@ -55,29 +64,29 @@ router.get("/", async function (req, res, next) {
         image: product.imageurl[0].filename,
       };
     });
-    let user = req.session.user;
-
-    res.render("user/user_homepage/homepage", { user, productdata });
-
+    res.render("user/user_homepage/homepage", { user, productdata, cartcount });
     req.session.passwordErr = false;
     req.session.usernotExist = false;
   });
 });
 //cart,product listing
 router.get("/cart", verifyLogin, (req, res) => {
-  const user=req.session.user
+  const user = req.session.user;
   controller.getcartItem(req.session.user._id).then((response) => {
     const userproduct = response;
-    res.render("user/user_homepage/cartpage", { userproduct,user });
+
+    res.render("user/user_homepage/cartpage", { userproduct, user });
   });
 });
 
 //add to cart
-router.get("/addtocart/:productID", verifyLogin, (req, res) => {
+router.get("/addToCart/:productID", (req, res) => {
+  console.log("onclick entered");
   controller
     .addtoCart(req.session.user._id, req.params.productID)
-    .then((data) => {});
-  res.redirect("/");
+    .then((data) => {
+      res.json({status:true})
+    });
 });
 
 //logout router
