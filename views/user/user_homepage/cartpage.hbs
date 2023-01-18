@@ -5,7 +5,7 @@
   <h2 style="font-weight:300"><b>Cart</b></h2>
 <div class="cart-table  ">
 {{#each userproduct.products}}
-   <div class="row cart-row">
+   <div class="row cart-row mt-5">
    <div class="col-xs-12 col-md-2">
     
     <img src="/images/categoryimage/{{this.productId.imageurl.[0].filename}}" width="100%">
@@ -17,7 +17,7 @@
     <div class="product-price">
         
   <div class="quantity buttons_added">
-	<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="{{this.quantity}}" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+	<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="{{this.quantity}}" title="Qty" class="input-text qty text " disabled size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
 </div>
 
         
@@ -30,11 +30,12 @@
       <button type="button" data-toggle="tooltip" title="Ta bort" class="delete" onclick="">Save for later</button>
       </div>
   </div>
-  {{/each}}
+  
 </div>
+{{/each}}
 </div>
-<div class="d-flex justify-content-end ">
-    <div><div class="row m-0">
+<div class="d-flex mt-5 ml-2 ">
+    <div><div class="row m-0" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0">
             <h6>Subtotal</h6>
           </div>
@@ -42,7 +43,7 @@
             <p id="subtotal">$132.00</p>
           </div>
         </div>
-        <div class="row m-0">
+        <div class="row m-0" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0 ">
             <h6>Tax</h6>
           </div>
@@ -51,7 +52,7 @@
           </div>
         </div>
         <hr>
-        <div class="row mx-0 mb-2">
+        <div class="row mx-0 mb-2" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0 d-inline">
             <h5>Total</h5>
           </div>
