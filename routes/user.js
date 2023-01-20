@@ -13,6 +13,9 @@ const verifyLogin = (req, res, next) => {
   }
 };
 
+
+
+
 router.get("/user_login", function (req, res, next) {
   if (req.session.loggedin) {
     res.redirect("/");
@@ -28,7 +31,10 @@ router.get("/user_login", function (req, res, next) {
   }
 });
 router.get("/user_otp", function (req, res, next) {
+  const useremail=req.body;
+  // console.log(useremail,"vvvvvvvvvxxxxvvvvvvvv");
   res.render("user/user_otpForm/otp1");
+  
 });
 
 router.get("/user_1otp", function (req, res, next) {
@@ -74,18 +80,17 @@ router.get("/cart", verifyLogin, (req, res) => {
   const user = req.session.user;
   controller.getcartItem(req.session.user._id).then((response) => {
     const userproduct = response;
-
+console.log(userproduct._id,"popopopo");
     res.render("user/user_homepage/cartpage", { userproduct, user });
   });
 });
 
 //add to cart
 router.get("/addToCart/:productID", (req, res) => {
-  console.log("onclick entered");
   controller
     .addtoCart(req.session.user._id, req.params.productID)
     .then((data) => {
-      res.json({status:true})
+      res.json({ status: true });
     });
 });
 
@@ -95,10 +100,13 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-//
-// user post section
+router.post("/delete-cart-item/:productID", verifyLogin, controller.deleteCartProduct);
 
-router.post("/user_signup", function (req, res, next) {
+    
+
+
+
+router.post("/user_signup", function (req, res) {
   if (response.exist) {
     res.redirect("/user_signup");
   } else {
@@ -131,5 +139,15 @@ router.post("/user_login", (req, res, next) => {
     }
   });
 });
+
+//wishlist
+
+// router.post("/wishlist/:productId",verifyLogin,(req, res) => {
+//   controller
+//     .addToWish(req.session.user._id, req.params.productId)
+    
+
+//     })
+
 
 module.exports = router;

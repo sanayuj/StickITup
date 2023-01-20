@@ -1,8 +1,10 @@
 const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const { response } = require("../app");
-const { default: mongoose } = require("mongoose");
+const  mongoose  = require("mongoose");
 const cart = require("../model/cartmodel");
+const WishlistModel=require("../model/wishlistmodel")
+const nodemailer=require("../config/nodemailer")
 module.exports = {
   //user signup section
   doSignup: (userdata) => {
@@ -56,6 +58,7 @@ module.exports = {
       }
     });
   },
+
   //cart
   addtoCart: (userId, productId) => {
     return new Promise(async (resolve, reject) => {
@@ -134,4 +137,62 @@ module.exports = {
       resolve(countValue);
     });
   },
+   deleteCartProduct:async (req, res) => {
+    let count = -1;
+    let userID = req.session.user._id
+    let productID = req.params.productID
+    try {
+        await cart.updateOne({ userId: userID }, {
+            $pull: { products: { productId: productID } },
+            $inc: { totalQty: count }
+        }
+        ).then(() => {
+            res.json({ status: true });
+        })
+    } catch (error) {
+        throw error
+    }
+
+}
+//add to user wishlist
+//    addToWish:
+//    async(req,res,next)=>{
+// try{
+// const userId=req.session.user._id;
+// const productId=req.params._id
+// const Wishlist=await WishlistModel.findOne({userId:userId});
+// if(Wishlist){
+//   const isProduct=await WishlistModel.findOne({
+//     $and:[{userId:userId},{
+//       products:{$elemMatch:{productId:productId}}
+//     }]
+//   })
+//   if(isProduct){
+//     res.json({status:false})
+//   }else{
+//     await WishlistModel.updateOne({userId},{
+//       $push:{products:{productId:productId}}
+//     }).then(()=>{res.json({status:true})
+//   }).catch((error)=>{
+//     throw error
+//   })
+//   }
+// }else{
+//   const wishlist=new WishlistModel({
+//     userId,
+//     products:{productId:productId}
+//   })
+//   await wishlist.save().then(()=>{res.json({status:true})
+// }).catch((error)=>{
+//   throw error
+// })
+// }
+// }catch(error){
+//   throw error
+// }
+
+
+//   }
+
+  
 };
