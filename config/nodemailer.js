@@ -1,10 +1,10 @@
 const nodemailer=require('nodemailer');
 module.exports={
-    otpGeneratoe:(userEmail)=>{
+    otpGenerator:(userEmail)=>{
         return new promises((req,res)=>{
             let otp=parseInt(Math.random()*9000)
             let mailOptions = {
-                from: "sanayrinku@gmail.com",
+                from: "stickitup@gmail.com",
                 to: userEmail,
                 subject: "OTP for user verification",
                 text: `hello, ${otp} is your stickitup verification code`

@@ -1,7 +1,8 @@
 {{>userNavbar}}
+{{#if userproduct}}
 <div class="d-flex">
 
-<div class="container d-flex">
+<div class="container d-flex ">
   <h2 style="font-weight:300"><b>Cart</b></h2>
 <div class="cart-table  ">
 {{#each userproduct.products}}
@@ -17,7 +18,9 @@
     <div class="product-price">
         
   <div class="quantity buttons_added">
-	<input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="{{this.quantity}}" title="Qty" class="input-text qty text " disabled size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+	<input type="button" value="-" class="minus" style="border: 0;" onclick="changeQuantity('{{../userproduct._id}}','{{this.productId._id}}',-1)">
+  <input type="number"  name="quantity" id="{{this.productId._id}}" value="{{this.quantity}}" title="Qty" class="input-text qty text " disabled size="4" >
+  <input type="button" value="+" class="plus" style="border: 0;" onclick="changeQuantity('{{../userproduct._id}}','{{this.productId._id}}',1)">
 </div>
 
         
@@ -26,15 +29,15 @@
   <div class="col-md-3 cart-actions">
     <div class="product-price-total">${{this.productId.price1}}</div>
     <div class="product-delete">
-      <button type="button" data-toggle="tooltip" title="Ta bort"  class="delete mb-2" onclick="deleteCartProduct('{{this.productId._id}}')">Remove</button>
-      
+      <button type="button" data-toggle="tooltip" title="Delect"  class="delete mb-2" onclick="removeitem('{{../userproduct._id}}','{{this.productId._id}}')">Remove</button>
+      {{!-- onclick="deleteCartProduct('{{this.productId._id}}') --}}
       </div>
   </div>
   
 </div>
 {{/each}}
 </div>
-<div class="d-flex mt-5 ml-2 ">
+<div class="d-flex mt-5 ml-2  ">
     <div><div class="row m-0" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0">
             <h6>Subtotal</h6>
@@ -65,8 +68,32 @@
     </div>
   </div>
   </div>
-</main>
-<footer class="container">
-   
-</footer></div>
-</div></div>
+  {{else}}
+  
+<div class="d-flex container-fluid vh-100 align-items-center  justify-content-center ">
+				 <div class="row">
+				 
+					<div class="col-md-12">
+					
+							<div class="card bg-white "  >
+						
+						<div class="card-body cart">
+								<div class="col-sm-12 empty-cart-cls text-center">
+									<img src="https://i.imgur.com/dCdflKN.png" width="130" height="130" class="img-fluid mb-4 mr-3">
+									<h3><strong>Your Cart is Empty</strong></h3>
+									
+									<a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+									
+								
+								</div>
+						</div>
+				</div>
+						
+					
+					</div>
+				 
+				 </div>
+				
+				</div>
+
+{{/if}}

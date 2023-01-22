@@ -13,9 +13,6 @@ const verifyLogin = (req, res, next) => {
   }
 };
 
-
-
-
 router.get("/user_login", function (req, res, next) {
   if (req.session.loggedin) {
     res.redirect("/");
@@ -31,10 +28,9 @@ router.get("/user_login", function (req, res, next) {
   }
 });
 router.get("/user_otp", function (req, res, next) {
-  const useremail=req.body;
+  const useremail = req.body;
   // console.log(useremail,"vvvvvvvvvxxxxvvvvvvvv");
   res.render("user/user_otpForm/otp1");
-  
 });
 
 router.get("/user_1otp", function (req, res, next) {
@@ -79,8 +75,8 @@ router.get("/", async function (req, res, next) {
 router.get("/cart", verifyLogin, (req, res) => {
   const user = req.session.user;
   controller.getcartItem(req.session.user._id).then((response) => {
-    const userproduct = response;
-console.log(userproduct._id,"popopopo");
+    const userproduct = response.productdetails;
+    // console.log("uuuuuuuuullllooo0000000", userproduct);
     res.render("user/user_homepage/cartpage", { userproduct, user });
   });
 });
@@ -100,11 +96,22 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.post("/delete-cart-item/:productID", verifyLogin, controller.deleteCartProduct);
+//delect cart
 
-    
+router.post("/removecartitem",(req,res)=>{
+  console.log("done999")
+  controller.removeCartitem(req.body).then((response)=>{
+   res.json(response)
+  })
+})
 
+//my delect cart
 
+// router.post(
+//   "/delete-cart-item/:productID",
+//   verifyLogin,
+//   controller.deleteCartProduct
+// );
 
 router.post("/user_signup", function (req, res) {
   if (response.exist) {
@@ -113,6 +120,13 @@ router.post("/user_signup", function (req, res) {
     controller.doSignup(req.body);
     res.redirect("/user_login");
   }
+});
+//cart quaninty increment and decrement
+
+router.post("/change-product-quantity", (req, res) => {
+  controller.changeproductquantity(req.body).then((response) => {
+    res.json(response);
+  });
 });
 
 router.post("/user_login", (req, res, next) => {
@@ -142,12 +156,8 @@ router.post("/user_login", (req, res, next) => {
 
 //wishlist
 
-// router.post("/wishlist/:productId",verifyLogin,(req, res) => {
-//   controller
-//     .addToWish(req.session.user._id, req.params.productId)
-    
-
-//     })
-
+router.post("/wishlist/:productId", verifyLogin, (req, res) => {
+  controller.addToWish(req.session.user._id, req.params.productId);
+});
 
 module.exports = router;

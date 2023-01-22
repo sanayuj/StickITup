@@ -1,10 +1,10 @@
 const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const { response } = require("../app");
-const  mongoose  = require("mongoose");
+const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
-const WishlistModel=require("../model/wishlistmodel")
-const nodemailer=require("../config/nodemailer")
+const WishlistModel = require("../model/wishlistmodel");
+const nodemailer = require("../config/nodemailer");
 module.exports = {
   //user signup section
   doSignup: (userdata) => {
@@ -120,9 +120,15 @@ module.exports = {
           .findOne({ userId: userid })
           .populate("products.productId")
           .lean();
-        resolve(productdetails, { status: true });
+          //console.log(productdetails,"?????")
+        const productTotalQuantity = parseInt(productdetails.totalQty);
+        if (productTotalQuantity >= 1) {
+          resolve({ productdetails,cartExist: true });
+        } else {
+          resolve({ cartExist: false });
+        }
       } else {
-        resolve({ status: true });
+        resolve({ cartExist: false });
       }
     });
   },
@@ -137,62 +143,107 @@ module.exports = {
       resolve(countValue);
     });
   },
-   deleteCartProduct:async (req, res) => {
-    let count = -1;
-    let userID = req.session.user._id
-    let productID = req.params.productID
-    try {
-        await cart.updateOne({ userId: userID }, {
-            $pull: { products: { productId: productID } },
-            $inc: { totalQty: count }
-        }
-        ).then(() => {
-            res.json({ status: true });
+
+//product delect in cart
+
+  // deleteCartProduct: async (req, res) => {
+  //   let count = -1;
+  //   let userID = req.session.user._id;
+  //   let productID = req.params.productID;
+  //   try {
+  //     await cart
+  //       .updateOne(
+  //         { userId: userID },
+  //         {
+  //           $pull: { products: { productId: productID } },
+  //           $inc: { totalQty: count },
+  //         }
+  //       )
+  //       .then(() => {
+  //         res.json({ status: true });
+  //       });
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // },
+
+
+  removeCartitem:(details)=>{
+    const cartid = details.cart
+    const productId = details.product
+    return new Promise((resolve,reject)=>{
+        cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, {
+            $pull: { products: { productId: productId } },
+            $inc: { totalquantity: -1 }
+        }).then((data)=>{
+           resolve({removeProduct:true})
         })
-    } catch (error) {
-        throw error
-    }
+    })
+},
 
-}
-//add to user wishlist
-//    addToWish:
-//    async(req,res,next)=>{
-// try{
-// const userId=req.session.user._id;
-// const productId=req.params._id
-// const Wishlist=await WishlistModel.findOne({userId:userId});
-// if(Wishlist){
-//   const isProduct=await WishlistModel.findOne({
-//     $and:[{userId:userId},{
-//       products:{$elemMatch:{productId:productId}}
-//     }]
-//   })
-//   if(isProduct){
-//     res.json({status:false})
-//   }else{
-//     await WishlistModel.updateOne({userId},{
-//       $push:{products:{productId:productId}}
-//     }).then(()=>{res.json({status:true})
-//   }).catch((error)=>{
-//     throw error
-//   })
-//   }
-// }else{
-//   const wishlist=new WishlistModel({
-//     userId,
-//     products:{productId:productId}
-//   })
-//   await wishlist.save().then(()=>{res.json({status:true})
-// }).catch((error)=>{
-//   throw error
-// })
-// }
-// }catch(error){
-//   throw error
-// }
-
-
-//   }
+ 
 
   
-};
+  //add to user wishlist
+  //   const addToWish=
+  //    async(req,res,next)=>{
+  // try{
+  // const userId=req.session.user._id;
+  // const productId=req.params._id
+  // const Wishlist=await WishlistModel.findOne({userId:userId});
+  // if(Wishlist){
+  //   const isProduct=await WishlistModel.findOne({
+  //     $and:[{userId:userId},{
+  //       products:{$elemMatch:{productId:productId}}
+  //     }]
+  //   })
+  //   if(isProduct){
+  //     res.json({status:false})
+  //   }else{
+  //     await WishlistModel.updateOne({userId},{
+  //       $push:{products:{productId:productId}}
+  //     }).then(()=>{res.json({status:true})
+  //   }).catch((error)=>{
+  //     throw error
+  //   })
+  //   }
+  // }else{
+  //   const wishlist=new WishlistModel({
+  //     userId,
+  //     products:{productId:productId}
+  //   })
+  //   await wishlist.save().then(()=>{res.json({status:true})
+  // }).catch((error)=>{
+  //   throw error
+  // })
+  // }
+  // }catch(error){
+  //   throw error
+  // }
+
+  //   }
+
+  changeproductquantity: async (details) => {
+    const quantity = details.quantity;
+    const cartid = details.cart
+    const productId = details.product
+    const count = parseInt(details.count)
+    return new Promise(async (resolve, reject) => {
+        if (quantity == 1 && count == 1) {
+            await cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, {
+                $pull: { products: { productId: productId } },
+                $inc: { totalquantity: count }
+            }, {}).then((response) => {
+                resolve({ removeProduct: true });
+            })
+
+        } else {
+
+            await cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, { $inc: { "products.$.quantity": count } }).then((response) => {
+                resolve(response)
+            })
+        }
+    })
+}
+
+}; 
