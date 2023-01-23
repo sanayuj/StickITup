@@ -5,56 +5,60 @@
 <div class="container d-flex ">
   <h2 style="font-weight:300"><b>Cart</b></h2>
 <div class="cart-table  ">
-{{#each userproduct.products}}
+{{#each userproduct}}
    <div class="row cart-row mt-5">
    <div class="col-xs-12 col-md-2">
     
-    <img src="/images/categoryimage/{{this.productId.imageurl.[0].filename}}" width="100%">
+    <img src="/images/categoryimage/{{this.cartProducts.imageurl.[0].filename}}" width="100%">
   </div>
   <div class="col-md-6">
-    <div class="product-articlenr mb-3" >#{{this.productId._id}}</div>
-    <div class="product-name">{{this.productId.name}}</div>
-    <div class="product-options"><span>Size:</span>{{this.productId.size}}</div>
+    <div class="product-articlenr mb-3" >#{{this.cartProducts._id}}</div>
+    <div class="product-name">{{this.cartProducts.name}}</div>
+    <div class="product-name">₹{{this.cartProducts.price1}}</div>
+    <div class="product-options"><span>Size:</span>{{this.cartProducts.size}}</div>
     <div class="product-price">
         
   <div class="quantity buttons_added">
-	<input type="button" value="-" class="minus" style="border: 0;" onclick="changeQuantity('{{../userproduct._id}}','{{this.productId._id}}',-1)">
-  <input type="number"  name="quantity" id="{{this.productId._id}}" value="{{this.quantity}}" title="Qty" class="input-text qty text " disabled size="4" >
-  <input type="button" value="+" class="plus" style="border: 0;" onclick="changeQuantity('{{../userproduct._id}}','{{this.productId._id}}',1)">
+	<input type="button" value="-" class="minus" style="border: 0;" onclick="changeQuantity('{{this._id}}','{{this.cartProducts._id}}',-1)">
+  <input type="number"   id='{{this.cartProducts._id}}' value="{{this.quantity}}" title="Qty" class="input-text qty text" disabled size="4" >
+  <input type="button" value="+" class="plus" style="border: 0;" onclick="changeQuantity('{{this._id}}','{{this.cartProducts._id}}',1)">
 </div>
 
         
     </div>
    </div>
   <div class="col-md-3 cart-actions">
-    <div class="product-price-total">${{this.productId.price1}}</div>
+    <div class="product-price-total">₹{{this.totalAmount}}</div>
     <div class="product-delete">
-      <button type="button" data-toggle="tooltip" title="Delect"  class="delete mb-2" onclick="removeitem('{{../userproduct._id}}','{{this.productId._id}}')">Remove</button>
-      {{!-- onclick="deleteCartProduct('{{this.productId._id}}') --}}
+      <button type="button" data-toggle="tooltip" title="Delect"  class="delete mb-2" onclick="removeitem('{{this._id}}','{{this.cartProducts._id}}')">Remove</button>
+      
       </div>
   </div>
   
 </div>
+
 {{/each}}
+
 </div>
 <div class="d-flex mt-5 ml-2  ">
-    <div><div class="row m-0" style="background-color: aliceblue;">
+    <div>
+      {{!-- <div class="row m-0" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0">
             <h6>Subtotal</h6>
           </div>
           <div class="col-sm-4 p-0">
             <p id="subtotal">$132.00</p>
           </div>
-        </div>
-        <div class="row m-0" style="background-color: aliceblue;">
+        </div> --}}
+        {{!-- <div class="row m-0" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0 ">
             <h6>Tax</h6>
           </div>
           <div class="col-sm-4 p-0">
             <p id="tax">$6.40</p>
           </div>
-        </div>
-        <hr>
+        </div> --}}
+        {{!-- <hr> --}}
         <div class="row mx-0 mb-2" style="background-color: aliceblue;">
           <div class="col-sm-8 p-0 d-inline">
             <h5>Total</h5>
@@ -68,6 +72,7 @@
     </div>
   </div>
   </div>
+  
   {{else}}
   
 <div class="d-flex container-fluid vh-100 align-items-center  justify-content-center ">

@@ -2,7 +2,7 @@ const nodemailer=require('nodemailer');
 module.exports={
     otpGenerator:(userEmail)=>{
         return new promises((req,res)=>{
-            let otp=parseInt(Math.random()*9000)
+            let otp=parseInt(Math.random()*1000000)
             let mailOptions = {
                 from: "stickitup@gmail.com",
                 to: userEmail,

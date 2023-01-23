@@ -14,14 +14,15 @@
                                 <div class="card-body p-md-5 text-black">
                                     <h3 class="mb-4 text-uppercase"><u> Add Product </u></h3>
 
-                                <form action="/admin/addProduct" method="post" enctype="multipart/form-data">
+                                <form action="/admin/addProduct" method="post" id="productaddForm"  enctype="multipart/form-data">
 
                                     <div class="row">
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product name</label>
-                                                <input type="text"  id="addproductForm" name="productName"
+                                                <input type="text"  id="productName" name="productName"
                                                     class="form-control form-control-lg" />
+                                                    <small class="text-danger px-2" id="NameErr"></small>
 
                                             </div>
                                         </div>
@@ -36,12 +37,13 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                  
-                                                <select name="productCategory" class="select p-2" style="width: 100%;">
+                                                <select name="productCategory" id="category" class="select p-2" style="width: 100%;">
                                                      <option value="#">select category</option>
                                                     {{#each category}}
                                                     <option value="{{this._id}}">{{this.title}}</option>
                                                      {{/each}}
                                                 </select>
+                                                 <small class="text-danger px-2" id="categoryErr"></small>
                                                 
                                             </div>
                                         </div>
@@ -51,8 +53,9 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product MRP Price</label>
-                                                <input type="text" id="addproductForm" name="productmrpPrice"
+                                                <input type="Number" id="mrprice" name="productmrpPrice"
                                                     class="form-control form-control-lg" />
+                                                     <small class="text-danger px-2" id="mrpErr"></small>
 
                                             </div>
                                         </div> 
@@ -61,8 +64,10 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product SRP Price</label>
-                                                <input type="text" id="addproductForm" name="productsrpPrice"
+                                                <input type="Number" id="srprice" name="productsrpPrice"
                                                     class="form-control form-control-lg" />
+                                                     <small class="text-danger px-2" id="srpErr"></small>
+
 
                                             </div>
                                         </div>
@@ -74,8 +79,10 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product Size</label>
-                                                <input type="text" id="addproductForm" name="productSize"
+                                                <input type="text" id="productSize" name="productSize"
                                                     class="form-control form-control-lg" />
+                                                     <small class="text-danger px-2" id="sizeErr"></small>
+
 
                                             </div>
                                         </div>
@@ -85,8 +92,9 @@
                                         <div class="col-md-12 mb-4">
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product Stock</label>
-                                                <input type="text" id="addproductForm" name="productStock"
+                                                <input type="Number" id="productStock" name="productStock"
                                                     class="form-control form-control-lg" />
+                                                     <small class="text-danger px-2" id="StockErr"></small>
 
                                             </div>
                                         </div>
@@ -98,7 +106,9 @@
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Image of product</label>
 
-                                                <input class="form-control" type="file" id="formFile" name="productImage" multiple>
+                                                <input class="form-control" type="file" id="image" name="productImage" multiple>
+                                                     <small class="text-danger px-2" id="imageErr"></small>
+
                                             </div>
                                         </div>
 
@@ -110,8 +120,9 @@
                                             <div class="form-outline">
                                                 <label class="form-label" for="form3Example1m">Product
                                                     Description</label>
-                                                <input type="text" id="form3Example1m" name="productDescription" style="height: 110px;"name="productDescription"
+                                                <input type="text" id="description" name="productDescription" style="height: 110px;"
                                                     class="form-control form-control-lg" />
+                                                    <small class="text-danger px-2" id="descriptionErr"></small>
 
                                             </div>
                                         </div>
@@ -124,7 +135,7 @@
 
                                     <div class="d-flex justify-content-center pt-3">
 
-                                        <button class="btn btn-primary btn-lg ms-2 fontcolor rounded-pill login-btn"
+                                        <button class="btn btn-primary btn-lg ms-2 fontcolor rounded-pill login-btn" 
                                            type="submit" style="">Submit</button>
                                     </div>
                                     </form>
@@ -137,3 +148,7 @@
         </div>
     </section>
 </section>
+
+<script src="../javascrits/validators/admin-product.js">
+   
+</script>

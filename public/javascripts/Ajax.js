@@ -40,8 +40,8 @@ function addToCart(proId) {
 // }
 
 function removeitem(cartId, proId) {
-  console.log(cartId,"ooooooooopppo");
-  console.log(proId,"pppppppppp");
+  // console.log(cartId,"ooooooooopppo");
+  // console.log(proId,"pppppppppp");
   swal({
     title: "Are you sure?",
     text: "The Product will be deleted from the cart!",
@@ -77,7 +77,8 @@ function changeQuantity(cartId,proId,count){
   console.log(cartId,"newone");
   console.log(proId,"ffffffffnewone");
 
-  const quantity=parseInt(document.getElementById(proId).innerHTML)
+  const quantity=parseInt(document.getElementById(proId).value)
+  console.log(quantity,"popopopopopopopjhjhjhjjhj");
   // alert("popopop")
   $.ajax({
 
@@ -95,7 +96,7 @@ function changeQuantity(cartId,proId,count){
           location.reload()
         })
       }else{
-        document.getElementById(proId).innerHTML = quantity + count
+        document.getElementById(proId).value = quantity + parseInt(count)
       }
 
     }

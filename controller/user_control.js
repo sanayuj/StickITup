@@ -111,28 +111,60 @@ module.exports = {
       }
     });
   },
-  getcartItem: (userid) => {
+  getcartItem: (userId) => {
+    const userid = new mongoose.Types.ObjectId(userId);
+    //console.log(userid,"eeeeeeee");
     return new Promise(async (resolve, reject) => {
       const usercart = await cart.findOne({ userId: userid });
-
       if (usercart) {
-        const productdetails = await cart
-          .findOne({ userId: userid })
-          .populate("products.productId")
-          .lean();
-          //console.log(productdetails,"?????")
-        const productTotalQuantity = parseInt(productdetails.totalQty);
-        if (productTotalQuantity >= 1) {
-          resolve({ productdetails,cartExist: true });
-        } else {
-          resolve({ cartExist: false });
-        }
+        const productdetails = await cart.aggregate([
+          { $match: { userId: userid } },
+          { $unwind: "$products" },
+          {
+            $project: {
+              totalQty: "$totalQty",
+              productId: "$products.productId",
+              quantity: "$products.quantity",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productId",
+              foreignField: "_id",
+              as: "cartProducts",
+            },
+          },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: { $arrayElemAt: ["$cartProducts", 0] },
+            },
+          },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: 1,
+              totalAmount: {
+                $multiply: ["$quantity", "$cartProducts.price1"],
+              },
+            },
+          },
+        ]);
+        resolve({productdetails,cartExist:true});
+        console.log(productdetails, "joooooiiiiiiipoppoop");
       } else {
         resolve({ cartExist: false });
       }
     });
   },
+
   //cart count
+
   getcartCount: (userId) => {
     return new Promise(async (resolve, reject) => {
       let countValue = 0;
@@ -144,46 +176,24 @@ module.exports = {
     });
   },
 
-//product delect in cart
-
-  // deleteCartProduct: async (req, res) => {
-  //   let count = -1;
-  //   let userID = req.session.user._id;
-  //   let productID = req.params.productID;
-  //   try {
-  //     await cart
-  //       .updateOne(
-  //         { userId: userID },
-  //         {
-  //           $pull: { products: { productId: productID } },
-  //           $inc: { totalQty: count },
-  //         }
-  //       )
-  //       .then(() => {
-  //         res.json({ status: true });
-  //       });
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // },
-
-
-  removeCartitem:(details)=>{
-    const cartid = details.cart
-    const productId = details.product
-    return new Promise((resolve,reject)=>{
-        cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, {
+  removeCartitem: (details) => {
+    const cartid = details.cart;
+    const productId = details.product;
+    return new Promise((resolve, reject) => {
+      cart
+        .findOneAndUpdate(
+          { _id: cartid, products: { $elemMatch: { productId: productId } } },
+          {
             $pull: { products: { productId: productId } },
-            $inc: { totalquantity: -1 }
-        }).then((data)=>{
-           resolve({removeProduct:true})
-        })
-    })
-},
+            $inc: { totalQty: -1 },
+          }
+        )
+        .then((data) => {
+          resolve({ removeProduct: true });
+        });
+    });
+  },
 
- 
-
-  
   //add to user wishlist
   //   const addToWish=
   //    async(req,res,next)=>{
@@ -225,25 +235,33 @@ module.exports = {
 
   changeproductquantity: async (details) => {
     const quantity = details.quantity;
-    const cartid = details.cart
-    const productId = details.product
-    const count = parseInt(details.count)
+    const cartid = details.cart;
+    const productId = details.product;
+    const count = parseInt(details.count);
     return new Promise(async (resolve, reject) => {
-        if (quantity == 1 && count == 1) {
-            await cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, {
-                $pull: { products: { productId: productId } },
-                $inc: { totalquantity: count }
-            }, {}).then((response) => {
-                resolve({ removeProduct: true });
-            })
-
-        } else {
-
-            await cart.findOneAndUpdate({ _id: cartid, products: { $elemMatch: { productId: productId } } }, { $inc: { "products.$.quantity": count } }).then((response) => {
-                resolve(response)
-            })
-        }
-    })
-}
-
-}; 
+      if (quantity == 1 && count == -1) {
+        await cart
+          .findOneAndUpdate(
+            { _id: cartid, products: { $elemMatch: { productId: productId } } },
+            {
+              $pull: { products: { productId: productId } },
+              $inc: { totalquantity: count },
+            },
+            {}
+          )
+          .then((response) => {
+            resolve({ removeProduct: true });
+          });
+      } else {
+        await cart
+          .findOneAndUpdate(
+            { _id: cartid, products: { $elemMatch: { productId: productId } } },
+            { $inc: { "products.$.quantity": count } }
+          )
+          .then((response) => {
+            resolve(response);
+          });
+      }
+    });
+  },
+};
