@@ -61,9 +61,11 @@ router.get("/", async function (req, res, next) {
 
 router.get("/cart",verifyLogin, (req, res) => {
   const user = req.session.user;
-  controller.getcartItem(req.session.user._id).then((response) => {
+  controller.getcartItem(req.session.user._id).then(async(response) => {
     const userproduct = response.productdetails;
-    res.render("user/user_homepage/cartpage", { userproduct, user });
+    const totalAmount=await controller.totalAmount(req.session.user._id)
+   
+    res.render("user/user_homepage/cartpage", { userproduct, user ,totalAmount});
   });
 });
 
@@ -76,6 +78,8 @@ router.get("/addToCart/:productID", (req, res) => {
       res.json({ status: true });
     });
 });
+
+
 
 //logout router
                      
@@ -149,20 +153,25 @@ router.post("/user_login", (req, res, next) => {
   })
 })
 
-  router.post('/otp-check',(req,res)=>{
-    otp=req.body.otp
-    user=req.session.user
-    if(otp==req.session.otp){
-      controller.doSignup(userdata).then((response)=>{
-        res.redirect('/user_login')
-      })
-    }else{
-      req.session.otpError=true
-      res.render("user/otp",{otpErr:req.session.otp})
-      req.session.otpError=false
-    }
+  // router.post('/otp-check',(req,res)=>{
+  //   otp=req.body.otp
+  //   user=req.session.user
+  //   if(otp==req.session.otp){
+  //     controller.doSignup(userdata).then((response)=>{
+  //       res.redirect('/user_login')
+  //     })
+  //   }else{
+  //     req.session.otpError=true
+  //     res.render("user/otp",{otpErr:req.session.otp})
+  //     req.session.otpError=false
+  //   }
 
-  })
+  // })
 
+  // //checkout
+
+  // router.get("/checkout",verifyLogin,async(req,res)=>{
+  //   const userproduct=await controller.getcartItem(req.session.user._id)
+  // })
 
 module.exports = router;

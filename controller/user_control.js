@@ -179,7 +179,7 @@ module.exports = {
       const usercart = cart.findOne({ userId: userid });
       if (usercart) {
         const totalAmount = await cart.aggregate([
-          { $match: (userId = userid) },
+          { $match: {userId:userid} },
           { $unwind: "$products" },
           {
             $project: {
@@ -201,8 +201,8 @@ module.exports = {
               totalQty: 1,
               productId: 1,
               quantity: 1,
-              cartProducts: { $arrayElemAt: ["$cartProduct", 0] },
-            },
+              cartProducts: { $arrayElemAt: ["$cartProducts", 0] },
+            }
           },
           {
             $project: {
@@ -212,8 +212,8 @@ module.exports = {
               cartProducts: 1,
               totalAmount: {
                 $multiply: ["$quantity", "$cartProducts.price1"],
-              },
-            },
+              }
+            }
           },
           {
             $project: {
@@ -237,9 +237,11 @@ module.exports = {
             },
           },
         ])
+       
         let total;
-        if(totalAmount.length<=0){
+        if(totalAmount.length>=0){
           total=totalAmount[0].total
+          
         }
         resolve(total)
       }

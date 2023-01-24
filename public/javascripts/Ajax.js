@@ -99,8 +99,9 @@ function changeQuantity(cartId,proId,count){
         document.getElementById(proId).value = quantity + parseInt(count)
         const amount=parseInt(document.getElementById(proId+'total').innerHTML)
         console.log(amount,"ooooooooppo");
-        console.log(amount*(quantity+count),"amount")
-          document.getElementById(proId+"count").innerHTML=amount*(quantity+count)
+        console.log(amount*(quantity+count),"amount kakakiku")
+          document.getElementById(proId+'count').innerHTML=amount*(quantity+count)
+          document.getElementById("subtotal").innerHTML=parseInt(document.getElementById("subtotal").innerHTML)+(amount*count)
       }
 
     }
