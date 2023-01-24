@@ -154,11 +154,94 @@ module.exports = {
               },
             },
           },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: 1,
+              totalAmount: 1,
+            },
+          },
         ]);
-        resolve({productdetails,cartExist:true});
-        //console.log(productdetails, "joooooiiiiiiipoppoop");
+        resolve({ productdetails, cartExist: true });
       } else {
         resolve({ cartExist: false });
+      }
+    });
+  },
+
+  //cart total price
+
+  totalAmount: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      const userid = new mongoose.Types.ObjectId(userId);
+      const usercart = cart.findOne({ userId: userid });
+      if (usercart) {
+        const totalAmount = await cart.aggregate([
+          { $match: (userId = userid) },
+          { $unwind: "$products" },
+          {
+            $project: {
+              totalQty: "$totalQty",
+              productId: "$products.productId",
+              quantity: "$products.quantity",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productId",
+              foreignField: "_id",
+              as: "cartProducts",
+            },
+          },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: { $arrayElemAt: ["$cartProduct", 0] },
+            },
+          },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: 1,
+              totalAmount: {
+                $multiply: ["$quantity", "$cartProducts.price1"],
+              },
+            },
+          },
+          {
+            $project: {
+              totalQty: 1,
+              productId: 1,
+              quantity: 1,
+              cartProducts: 1,
+              totalAmount: 1,
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              total: { $sum: "$totalAmount" },
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              total: 1,
+            },
+          },
+        ])
+        let total;
+        if(totalAmount.length<=0){
+          total=totalAmount[0].total
+        }
+        resolve(total)
       }
     });
   },
