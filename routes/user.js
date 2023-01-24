@@ -63,7 +63,6 @@ router.get("/cart",verifyLogin, (req, res) => {
   const user = req.session.user;
   controller.getcartItem(req.session.user._id).then((response) => {
     const userproduct = response.productdetails;
-    console.log(userproduct,"ppppppppooooooo");
     res.render("user/user_homepage/cartpage", { userproduct, user });
   });
 });
@@ -79,7 +78,7 @@ router.get("/addToCart/:productID", (req, res) => {
 });
 
 //logout router
-
+                     
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");

@@ -156,7 +156,7 @@ module.exports = {
           },
         ]);
         resolve({productdetails,cartExist:true});
-        console.log(productdetails, "joooooiiiiiiipoppoop");
+        //console.log(productdetails, "joooooiiiiiiipoppoop");
       } else {
         resolve({ cartExist: false });
       }

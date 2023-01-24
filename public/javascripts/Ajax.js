@@ -74,11 +74,11 @@ function removeitem(cartId, proId) {
 //quantitychange
 
 function changeQuantity(cartId,proId,count){
-  console.log(cartId,"newone");
-  console.log(proId,"ffffffffnewone");
+  //console.log(cartId,"newone");
+ // console.log(proId,"ffffffffnewone");
 
   const quantity=parseInt(document.getElementById(proId).value)
-  console.log(quantity,"popopopopopopopjhjhjhjjhj");
+  //console.log(quantity,"popopopopopopopjhjhjhjjhj");
   // alert("popopop")
   $.ajax({
 
@@ -97,6 +97,9 @@ function changeQuantity(cartId,proId,count){
         })
       }else{
         document.getElementById(proId).value = quantity + parseInt(count)
+        const amount=parseInt(document.getElementById(proId+"total").innerHTML)
+        console.log(amount*(quantity+count),"amount")
+          document.getElementById(proId+"count").innerHTML=amount*(quantity+count)
       }
 
     }
