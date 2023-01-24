@@ -14,7 +14,7 @@
   <div class="col-md-6">
     <div class="product-articlenr mb-3" >#{{this.cartProducts._id}}</div>
     <div class="product-name">{{this.cartProducts.name}}</div>
-    <div class="product-name">₹<span id='{{this.cartproduct._id}}total'>{{this.cartProducts.price1}}</span></div>
+    <div class="product-name">₹<span id='{{this.cartProducts._id}}total'>{{this.cartProducts.price1}}</span></div>
     <div class="product-options"><span>Size:</span>{{this.cartProducts.size}}</div>
     <div class="product-price">
         
@@ -28,7 +28,7 @@
     </div>
    </div>
   <div class="col-md-3 cart-actions">
-    <div class="product-price-total">₹{{this.totalAmount}}</div>
+    <div class="product-price-total">₹<span id='{{this.cartProducts._id}}count'>{{this.totalAmount}}</span></div>
     <div class="product-delete">
       <button type="button" data-toggle="tooltip" title="Delect"  class="delete mb-2" onclick="removeitem('{{this._id}}','{{this.cartProducts._id}}')">Remove</button>
       
@@ -64,7 +64,7 @@
             <h5>Total</h5>
           </div>
           <div class="col-sm-4 p-0">
-            <p id="total">$138.40</p>
+            <p id='{{this.cartproduct._id}}count'>{{this.subtotal}}</p>
           </div>
         </div>
         <a href="#"><button id="btn-checkout" class="shopnow"><span>Checkout</span></button></a>
