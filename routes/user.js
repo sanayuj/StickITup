@@ -4,7 +4,7 @@ const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
 var router = express.Router();
-const verify=require("../config/nodemailer")
+const verify = require("../config/nodemailer");
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -30,7 +30,7 @@ router.get("/user_login", function (req, res, next) {
 });
 
 router.get("/user_signup", function (req, res, next) {
-  res.render("user/user_loginForm/signup");
+  res.render("user/user_loginForm/signup", { existed: req.session.existed });
 });
 
 router.get("/", async function (req, res, next) {
@@ -59,13 +59,17 @@ router.get("/", async function (req, res, next) {
 
 //cart,product listing
 
-router.get("/cart",verifyLogin, (req, res) => {
+router.get("/cart", verifyLogin, (req, res) => {
   const user = req.session.user;
-  controller.getcartItem(req.session.user._id).then(async(response) => {
+  controller.getcartItem(req.session.user._id).then(async (response) => {
     const userproduct = response.productdetails;
-    const totalAmount=await controller.totalAmount(req.session.user._id)
-   
-    res.render("user/user_homepage/cartpage", { userproduct, user ,totalAmount});
+    const totalAmount = await controller.totalAmount(req.session.user._id);
+
+    res.render("user/user_homepage/cartpage", {
+      userproduct,
+      user,
+      totalAmount,
+    });
   });
 });
 
@@ -79,10 +83,8 @@ router.get("/addToCart/:productID", (req, res) => {
     });
 });
 
-
-
 //logout router
-                     
+
 router.get("/logout", (req, res) => {
   req.session.destroy();
   res.redirect("/");
@@ -90,11 +92,11 @@ router.get("/logout", (req, res) => {
 
 //delect cart
 
-router.post("/removecartitem",(req,res)=>{
-  controller.removeCartitem(req.body).then((response)=>{
-   res.json(response)
-  })
-})
+router.post("/removecartitem", (req, res) => {
+  controller.removeCartitem(req.body).then((response) => {
+    res.json(response);
+  });
+});
 
 //cart quaninty increment and decrement
 
@@ -107,19 +109,22 @@ router.post("/change-product-quantity", (req, res) => {
 //user signup
 
 router.post("/user_signup", function (req, res) {
-  if (response.exist) {
-    res.redirect("/user_signup");
-  } else if(response.exist==false){
-    controller.doSignup(req.body);
-    res.redirect("/user_login");
-  }else{
-    verify.otpGenerator(response.email).then((response)=>{
-      req.session.otp=response.otp
-      res.render('user/otp')
-    })
-  }
-});
+  controller.doSignup(req.body).then((response) => {
+    if (response.exist) {
+      req.session.existed = true;
+      res.redirect("/user_signup");
+    } else {
+      res.redirect("/user_login");
+    }
 
+    // else {
+    //   verify.otpGenerator(response.email).then((response) => {
+    //     req.session.otp = response.otp;
+    //     res.render("user/otp");
+    //   });
+    // }
+  });
+});
 //wishlist
 
 router.post("/wishlist/:productId", verifyLogin, (req, res) => {
@@ -150,28 +155,28 @@ router.post("/user_login", (req, res, next) => {
         res.redirect("/user_login");
       }
     }
-  })
-})
+  });
+});
 
-  // router.post('/otp-check',(req,res)=>{
-  //   otp=req.body.otp
-  //   user=req.session.user
-  //   if(otp==req.session.otp){
-  //     controller.doSignup(userdata).then((response)=>{
-  //       res.redirect('/user_login')
-  //     })
-  //   }else{
-  //     req.session.otpError=true
-  //     res.render("user/otp",{otpErr:req.session.otp})
-  //     req.session.otpError=false
-  //   }
+// router.post('/otp-check',(req,res)=>{
+//   otp=req.body.otp
+//   user=req.session.user
+//   if(otp==req.session.otp){
+//     controller.doSignup(userdata).then((response)=>{
+//       res.redirect('/user_login')
+//     })
+//   }else{
+//     req.session.otpError=true
+//     res.render("user/otp",{otpErr:req.session.otp})
+//     req.session.otpError=false
+//   }
 
-  // })
+// })
 
-  // //checkout
+// //checkout
 
-  // router.get("/checkout",verifyLogin,async(req,res)=>{
-  //   const userproduct=await controller.getcartItem(req.session.user._id)
-  // })
+// router.get("/checkout",verifyLogin,async(req,res)=>{
+//   res.render("user/user_homepage/checkout")
+// })
 
 module.exports = router;

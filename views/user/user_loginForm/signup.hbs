@@ -11,9 +11,10 @@
         <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5" style="height: 30rem;">
             
           <form style="width: 35rem;margin-top: 15rem;" id="signupvalidate" method="post" action="/user_signup">
-
-            
-
+{{#if existed}}
+          <small class="text-danger px-2" id="signupUserErr">User already exist</small>
+{{/if }}
+          
             <div class="form-outline mb-3">
               <input type="text" id="signupName" placeholder="Username" name="name" class="form-control form-control-lg"  />
               <label class="form-label" for="form2Example18"></label>

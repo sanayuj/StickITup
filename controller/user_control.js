@@ -237,11 +237,10 @@ module.exports = {
             },
           },
         ])
-       
+       console.log(totalAmount.length,"909090009009090");
         let total;
-        if(totalAmount.length>=0){
+        if(totalAmount.length>0){
           total=totalAmount[0].total
-          
         }
         resolve(total)
       }
