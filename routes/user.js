@@ -73,6 +73,22 @@ router.get("/cart", verifyLogin, (req, res) => {
   });
 });
 
+//product single page
+
+router.get("/product-singlepage/:id",(req,res)=>{
+  const id=req.params.id
+  controller.productView(req.params.id).then((response)=>{
+    const productdetails=response
+    const user=req.session.user
+    res.render("user/user_homepage/singleproduct",{user,productdetails})
+  })
+  
+})
+
+//single product view
+
+
+
 //add to cart
 
 router.get("/addToCart/:productID", (req, res) => {
@@ -175,8 +191,8 @@ router.post("/user_login", (req, res, next) => {
 
 // //checkout
 
-// router.get("/checkout",verifyLogin,async(req,res)=>{
-//   res.render("user/user_homepage/checkout")
-// })
+router.get("/checkout",verifyLogin,async(req,res)=>{
+  res.render("user/user_homepage/checkout")
+})
 
 module.exports = router;

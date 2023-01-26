@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const { response } = require("../app");
 const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
+const products=require("../model/productmodel")
 const WishlistModel = require("../model/wishlistmodel");
 const nodemailer = require("../config/nodemailer");
 module.exports = {
@@ -348,4 +349,14 @@ module.exports = {
       }
     });
   },
+
+productView:(proId)=>{
+  return new Promise (async(resolve,reject)=>{
+    const productdetails=await products.findOne({_id:proId}).lean()
+    console.log(productdetails,"llplplppplplplplplp");
+    resolve(productdetails)
+  })
+}
+
+
 };
