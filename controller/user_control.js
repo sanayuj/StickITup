@@ -356,6 +356,26 @@ productView:(proId)=>{
     console.log(productdetails,"llplplppplplplplplp");
     resolve(productdetails)
   })
+},
+
+addAddress:(userId,userdata)=>{
+  return new Promise(async(resolve,reject)=>{
+    const updateAddress={
+      name:userdata.name,
+      phone:userdata.phone,
+      houseaddress:userdata.houseaddress,
+      state:userdata.state,
+      town:userdata.town,
+      pin:userdata.pin
+    }
+
+    const userdetails=await userslist.findOne({_id:userId})
+    if('address' in userdetails){
+      await userslist.findOneAndUpdate({_id:userId},{$push:{address:updateAddress}})
+    }else{
+      await userslist.findOneAndUpdate({_id:userId},{$set:{address:updateAddress}})
+    }
+  })
 }
 
 

@@ -1,0 +1,69 @@
+<link rel="stylesheet" href="/stylesheets/addressCheckout.css">
+<section class="contents py-2 px-5">
+
+  <div class="container py-5">
+    <div class="row ">
+      <div class="col-md-8 mt-2">
+        <h4 class="mb-3">Add New Address</h4>
+        <form class="needs-validation" id="addAddressForm" action="/checkoutForm" method="post" >
+          <div class="row">
+
+            <div class="mb-3">
+              <label class="form-label" for="name">Your Name</label>
+              <input type="text" id="signupname" name="name" class="form-control p-2" placeholder="" required />
+              <small class="text-danger px-2" id="signameErr"></small>
+
+            </div>
+            <div class="mb-3">
+              <label for="">Phone Number </label>
+              <input type="tel" class="form-control" name="phone" id="phone" required />
+              
+            </div>
+
+
+            <div class="mb-3">
+              <label for="address">Address</label>
+              <textarea class="form-control" id="address" name="address" placeholder="" required></textarea>
+              
+            </div>
+
+
+
+
+            <div class="row">
+
+              <div class="col-md-4 mb-3">
+                <label for="state">State</label>
+                <select class="custom-select d-block w-100" name="state" id="state" required>
+                  <option value="" disabled>Choose...</option>
+                  <option>Kerala</option>
+                  <option>Tamilnadu</option>
+                  <option>Andhra Pradesh</option>
+                  <option>Karnataka</option>
+                  <option>Telengana</option>
+                </select>
+                
+              </div>
+
+              <div class="col-md-4 mb-3">
+                <label for="city">City/District/Town</label>
+                <input type="text" class="form-control" name="city" id="city" placeholder="" required>
+                
+              </div>
+
+              <div class="col-md-3 mb-3">
+                <label for="zip">Pin</label>
+                <input type="number" class="form-control" name="pin" id="pin" placeholder="" required>
+                
+              </div>
+            </div>
+            <hr class="mb-4">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Continue</button>
+        </form>
+      </div>
+    </div>
+
+    
+  </div>
+</section>
+	

@@ -192,7 +192,15 @@ router.post("/user_login", (req, res, next) => {
 // //checkout
 
 router.get("/checkout",verifyLogin,async(req,res)=>{
-  res.render("user/user_homepage/checkout")
+  res.render("user/user_homepage/addressCheckout")
+})
+
+//add address
+
+router.post("/checkoutForm",async(req,res)=>{
+  console.log("boooooom********");
+  controller.addAddress(req.session.user._id,req.body)
+  res.redirect("/checkout")
 })
 
 module.exports = router;
