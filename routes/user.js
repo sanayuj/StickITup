@@ -1,5 +1,5 @@
 var express = require("express");
-const { response } = require("../app");
+const { response, render } = require("../app");
 const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
@@ -75,19 +75,16 @@ router.get("/cart", verifyLogin, (req, res) => {
 
 //product single page
 
-router.get("/product-singlepage/:id",(req,res)=>{
-  const id=req.params.id
-  controller.productView(req.params.id).then((response)=>{
-    const productdetails=response
-    const user=req.session.user
-    res.render("user/user_homepage/singleproduct",{user,productdetails})
-  })
-  
-})
+router.get("/product-singlepage/:id", (req, res) => {
+  const id = req.params.id;
+  controller.productView(req.params.id).then((response) => {
+    const productdetails = response;
+    const user = req.session.user;
+    res.render("user/user_homepage/singleproduct", { user, productdetails });
+  });
+});
 
 //single product view
-
-
 
 //add to cart
 
@@ -191,16 +188,51 @@ router.post("/user_login", (req, res, next) => {
 
 // //checkout
 
-router.get("/checkout",verifyLogin,async(req,res)=>{
-  res.render("user/user_homepage/addressCheckout")
-})
+router.get("/checkout", verifyLogin, async (req, res) => {
+  const userproduct = await controller.getcartItem(req.session.user._id);
+  const userproducts = userproduct.cartProducts;
+  const userAddress = await controller.showAddress(req.session.user._id);
+  const totalAmount = await controller.totalAmount(req.session.user._id);
+  res.render("user/user_homepage/checkoutSection", {
+    userproduct,
+    totalAmount,
+    user: req.session.user,
+    userproducts,
+    userAddress,
+  });
+});
+
+//address page
+
+router.get("/checkoutaddressPage", verifyLogin, (req, res) => {
+  res.render("user/user_homepage/addressCheckout");
+});
 
 //add address
 
-router.post("/checkoutForm",async(req,res)=>{
-  console.log("boooooom********");
-  controller.addAddress(req.session.user._id,req.body)
-  res.redirect("/checkout")
+router.post("/checkoutForm", async (req, res) => {
+  controller.addAddress(req.session.user._id, req.body);
+  res.redirect("/checkout");
+});
+
+//cod order
+
+router.post("/place-order",async(req,res)=>{
+  console.log(req.body,"ccccccccccccc");
+  const cartProducts=await controller.getcartItem(req.session.user._id)
+  console.log(cartProducts,"popopoppooo");
+  const cartProduct=await cartProducts.productdetails
+  console.log(cartProducts,"jijijijijijji");
+  const totalAmount=await controller.totalAmount(req.session.user._id)
+  console.log(totalAmount,"wwwwwwwwwwwwwwmmmmmmmmm");
+  controller.placeOrder(req.session.user._id,req.body,cartProduct,totalAmount).then((response)=>{
+    res.json({status:true})
+  })
 })
 
+//order sucesspage
+
+router.get("/ordersuccess",(req,res)=>{
+res.render("/user/user_homepage/orderSucess",{user:req.session.user})
+})
 module.exports = router;

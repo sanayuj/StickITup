@@ -1,60 +1,96 @@
-<link rel="stylesheet" href="/stylesheets/orderstyle.css">
-<form action="">
-<main class="mb-3" style="width: 70%;">
-{{#if useraddress}}
-	<section class="checkout-form">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/checkout.css">
+{{>userNavbar}}
+
+<form action="" id="checkout-form">
+	<main class="mb-3" style="width: 70%;">
+		{{#if userAddress}}
+		<section class="checkout-form">
+
+			{{#each userAddress}}
+			<div class="border p-2 mb-2 address">
+				<p>{{this.name}}</p>
+				<p>{{this.phone}}</p>
+				<p>{{this.houseaddress}}</p>
+				<p>{{this.state}}</p>
+				<p>{{this.town}}</p>
+				<p>{{this.pin}}</p>
+			</div>
+			<div class="form-check mb-3">
+				<input class="form-check-input" type="radio" name="address" id="flexRadioDefault1" value="{{this._id}}" required>
+				<label class="form-check-label" for="address">
+					 Use this Address 
+				</label>
+			</div>
+			{{/each}}
+
+
+			<a href="/checkoutaddressPage" style="color: black;" class="btn btn-outline-info border p-2 mb-2 address">+Add another address</a>
+			
+		</section>
+		{{else}}
+		<section class="checkout-details">
+			<a href="/checkoutaddressPage" style="width: 30rem;" class="btn btn-outline-info p-4">+Add address</a>
+		</section>
+		{{/if}}
 		
-		{{#each useraddress}}
-		<div class="border p-2 mb-2 address">
-			<p>{{this.name}}</p>
-			<p>{{this.email}}</p>
-			<p>{{this.phone}}</p>
-			<p>{{this.house}}(ho)</p>
-			<p>{{this.city}}</p>
-			<p>{{this.postal}}</p>
-		</div>
-		<div class="form-check mb-3">
-			<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" required>
-			<label class="form-check-label" for="flexRadioDefault1" checked>
-				<u> Use this Address </u>
-			</label>
-		</div>	
-	{{/each}}
-		
+		<section class="checkout-details">
 
-		<a href="/addaddress" class="btn btn-dark">+Add another account</a>
-{{/if}}
-	</section>
-	<section class="checkout-details">
+			<div class="checkout-details-inner lh-lg mb-3">
 
-		<div class="checkout-details-inner lh-lg mb-3">
-
-			<h3 class="pb-2 ">Order Summary</h3>
-			<div class="d-flex justify-content-between pb-2">
-				<div>Original Price</div>
-				<div>₹{{totalAmount}}</div>
-			</div>
-			<div class="d-flex justify-content-between pb-2">
-				<div>Coupon Savings</div>
-				<div>₹0</div>
-			</div>
-			<div class="d-flex justify-content-between pb-2">
-				<div>Delivery</div>
-				<div>Free</div>
-			</div>
-			<div class="checkout-total d-flex justify-content-between pt-2">
-				<div>
-					<h6>Total</h6>
+				<h3 class="pb-2 ">Order Summary</h3>
+				<div class="d-flex justify-content-between pb-2">
+					<div>Original Price</div>
+					<div>₹{{totalAmount}}</div>
 				</div>
-				<div>
-					<h6>₹{{totalAmount}}</h6>
+				<div class="d-flex justify-content-between pb-2">
+					<div>Coupon Savings</div>
+					<div>₹0</div>
+				</div>
+				<div class="d-flex justify-content-between pb-2">
+					<div>Delivery</div>
+					<div>Free</div>
+				</div>
+				<div class="checkout-total d-flex justify-content-between pt-2">
+					<div>
+						<h6>Total</h6>
+					</div>
+					<div>
+						<h6>₹{{totalAmount}}</h6>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="d-flex justify-content-end mt-2">
-		<button type="submit" class="btn btn-dark p-2 w-100">Check Out</button>
-		</div>
-	</section>
+			<div class="checkout-details-inner lh-lg mb-3">
 
-</main>
+				<h3 class="pb-2 ">Payment method</h3>
+				<div class=" pb-2">
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="payment-method" id="exampleRadios1"
+							value="COD" required>
+						<label class="form-check-label" for="COD">
+							COD
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="payment-method" id="exampleRadios2"
+							value="Online-payment" required>
+						<label class="form-check-label" for="Online-payment">
+							Online payment
+						</label>
+					</div>
+				</div>
+				<div class="d-flex justify-content-end mt-2">
+					<button type="submit" class="btn btn-primary p-2 w-100">Place Order</button>
+				</div>
+			</div>
+		</section>
+
+	</main>
 </form>
+{{!-- {{>footer}} --}}
+
+<script>
+
+
+
+</script>

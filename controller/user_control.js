@@ -4,8 +4,8 @@ const { response } = require("../app");
 const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
 const products=require("../model/productmodel")
-const WishlistModel = require("../model/wishlistmodel");
-const nodemailer = require("../config/nodemailer");
+const orderSchema=require("../model/userproductOrder")
+
 module.exports = {
   //user signup section
   doSignup: (userdata) => {
@@ -353,17 +353,19 @@ module.exports = {
 productView:(proId)=>{
   return new Promise (async(resolve,reject)=>{
     const productdetails=await products.findOne({_id:proId}).lean()
-    console.log(productdetails,"llplplppplplplplplp");
+   // console.log(productdetails,"llplplppplplplplplp");
     resolve(productdetails)
   })
 },
+
+//address adding
 
 addAddress:(userId,userdata)=>{
   return new Promise(async(resolve,reject)=>{
     const updateAddress={
       name:userdata.name,
       phone:userdata.phone,
-      houseaddress:userdata.houseaddress,
+      houseaddress:userdata.address,
       state:userdata.state,
       town:userdata.town,
       pin:userdata.pin
@@ -376,7 +378,51 @@ addAddress:(userId,userdata)=>{
       await userslist.findOneAndUpdate({_id:userId},{$set:{address:updateAddress}})
     }
   })
+},
+
+
+showAddress:(userId)=>{
+  return new Promise(async(resolve,reject)=>{
+    let userdetails= await userslist.findOne({_id:userId}).lean()
+    const userAddress=userdetails.address
+    resolve(userAddress)
+  })
+},
+
+placeOrder:(userId,order,cartProducts,totalamount)=>{
+   return new Promise(async(resolve, reject) => {
+    const userid=new mongoose.Types.ObjectId(userId)
+    const addressid=new mongoose.Types.ObjectId(order.address)
+    const addressDetails= await userslist.findOne({_id:userid},{address:{$elemMatch:{_id:addressid}}}).lean()
+    const totalAmount=totalamount;
+    const products=cartProducts
+    const status=order['payment-method'] ==="COD" ? "OrderPlaced":"Pending"
+    const newOrder= new orderSchema({
+      userid:userId,
+      address:addressDetails.address,
+      paymentMethod:order['payment-method'],
+      orderItem:[],
+      totalAmount:totalAmount,
+      status:status
+    })
+    for(let i=0;i<=products.length;i++){
+      orderItem={
+        product:products[i].cartProducts._id,
+        quantity:products[i].quantity,
+        productprize:products[i].cartProducts.price2,
+        totalAmount:products[i].totalAmount
+      }
+      console.log(orderItem,"qqqqqqqqqppppppppp");
+      newOrder.orderItem.push(orderItem)
+    }
+    await newOrder.save().then(()=>{
+      cart.findOneAndDelete({userId:userid}).then(()=>{console.log(Deleted)}).catch(err=>console.log(err))
+    })
+    resolve()
+  })
+  
 }
+
 
 
 };

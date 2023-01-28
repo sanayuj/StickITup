@@ -1,4 +1,5 @@
 
+//add product to cart
 
 
 function addToCart(proId) {
@@ -16,32 +17,9 @@ function addToCart(proId) {
   });
 }
 
-//cart product delection
-
-// function deleteCartProduct(Id) {
-//   swal({
-//       title: "Are you sure?",
-//       text: "Delete this item from Your Cart",
-//       icon: "warning",
-//       buttons: true,
-//       dangerMode: true,
-//   })
-//       .then((willDelete) => {
-//           if (willDelete) {
-//               $.ajax({
-//                   url: '/delete-cart-item/' + Id,
-//                   method: "post",
-//                   success: (response) => {
-//                       location.reload()
-//                   }
-//               })
-//           }
-//       });
-// }
+//remove item in cart
 
 function removeitem(cartId, proId) {
-  // console.log(cartId,"ooooooooopppo");
-  // console.log(proId,"pppppppppp");
   swal({
     title: "Are you sure?",
     text: "The Product will be deleted from the cart!",
@@ -74,14 +52,8 @@ function removeitem(cartId, proId) {
 //quantitychange
 
 function changeQuantity(cartId,proId,count){
-  //console.log(cartId,"newone");
- // console.log(proId,"ffffffffnewone");
-
   const quantity=parseInt(document.getElementById(proId).value)
-  //console.log(quantity,"popopopopopopopjhjhjhjjhj");
-  // alert("popopop")
   $.ajax({
-
     url:'/change-product-quantity',
     method:'post',
     data:{
@@ -98,13 +70,27 @@ function changeQuantity(cartId,proId,count){
       }else{
         document.getElementById(proId).value = quantity + parseInt(count)
         const amount=parseInt(document.getElementById(proId+'total').innerHTML)
-        console.log(amount,"ooooooooppo");
-        console.log(amount*(quantity+count),"amount kakakiku")
           document.getElementById(proId+'count').innerHTML=amount*(quantity+count)
           document.getElementById("subtotal").innerHTML=parseInt(document.getElementById("subtotal").innerHTML)+(amount*count)
       }
-
     }
-
   })
 }
+
+// order 
+
+$("#checkout-form").submit((e)=>{
+  alert("gj")
+  e.preventDefault()
+  $.ajax({
+    url:'/place-order',
+    method:'post',
+    data:$("#checkout-form").serialize(),
+    success:(response)=>{
+      console.log(response,"4444444444555");
+      if(response.status){
+        location.href="/ordersuccess"
+      }
+    }
+  })
+})

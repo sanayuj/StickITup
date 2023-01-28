@@ -1,0 +1,220 @@
+* {
+    box-sizing: border-box;
+  
+    padding:0;
+}
+
+body header {
+    height: 5%;
+    margin-bottom: 30px;
+}
+body header > h3 {
+    font-size: 25px;
+    color: #4e5150;
+    font-weight: 500;
+}
+body main {
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    width: 70%;
+    margin: 0px auto;
+    padding: 50px 0px 0px;
+    color: #4e5150;
+    height: 85%;
+    display: flex;
+    column-gap: 100px;
+}
+body main .checkout-form {
+    width: 50%;
+}
+body main .checkout-form form h6 {
+    font-size: 18px;
+    font-weight: 500;
+}
+body main .checkout-form form .form-control {
+    margin: 10px 0px;
+    position: relative;
+}
+body main .checkout-form form .form-control label:not([for="checkout-checkbox"]) {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+body main .checkout-form form .form-control input:not([type="checkbox"]) {
+    width: 100%;
+    /* padding: 10px 10px 10px 40px; */
+    border-radius: 10px;
+    outline: none;
+    border: 0.2px solid #4e5150 85;
+    font-size: 12px;
+    font-weight: 700;
+}
+body main .checkout-form form .form-control input:not([type="checkbox"])::placeholder {
+    font-size: 10px;
+    font-weight: 500;
+}
+body main .checkout-form form .form-control label[for="checkout-checkbox"] {
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 10px;
+}
+body main .checkout-form form .form-control > div {
+    position: relative;
+}
+body main .checkout-form form .form-control > div span.fa {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(15px, -50%);
+}
+body main .checkout-form form .form-group {
+    display: flex;
+    column-gap: 25px;
+}
+body main .checkout-form form .checkbox-control {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+body main .checkout-form form .form-control-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+body main .checkout-form form .form-control-btn button {
+    padding: 10px 25px;
+    font-size: 16px;
+    color: #fff;
+    background: #000000;
+    border: 0;
+    border-radius: 7px;
+    /* letter-spacing: 0.5px; */
+    font-weight: normal;
+    cursor: pointer;
+}
+body main .checkout-details {
+    width: 40%;
+}
+body main .checkout-details .checkout-details-inner {
+    background: #f2f2f2;
+    border-radius: 10px;
+    padding: 20px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists {
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+    margin-bottom: 40px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card {
+    width: 100%;
+    display: flex;
+    column-gap: 15px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-image {
+    width: 35%;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-image img {
+    width: 100%;
+    object-fit: fill;
+    border-radius: 10px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details {
+    display: flex;
+    flex-direction: column;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details .card-name {
+    font-size: 12px;
+    font-weight: 500;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details .card-price {
+    font-size: 10px;
+    font-weight: 500;
+    color: #f2994a;
+    margin-top: 5px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details .card-price span {
+    color: #4e5150;
+    text-decoration: line-through;
+    margin-left: 10px;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details .card-wheel {
+    margin-top: 17px;
+    border: 0.2px solid #4e5150 85;
+    width: 90px;
+    padding: 8px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+}
+body main .checkout-details .checkout-details-inner .checkout-lists .card .card-details .card-wheel button {
+    background: #e0e0e0;
+    color: #828282;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+}
+body main .checkout-details .checkout-details-inner .checkout-shipping, body main .checkout-details .checkout-details-inner .checkout-total {
+    display: flex;
+    font-size: 16px;
+    padding: 5px 0px;
+    border-top: 1px solid #bdbdbd;
+    justify-content: space-between;
+}
+body main .checkout-details .checkout-details-inner .checkout-shipping p, body main .checkout-details .checkout-details-inner .checkout-total p {
+    font-size: 10px;
+    font-weight: 500;
+}
+body footer {
+    height: 5%;
+    color: #bdbdbd;
+    display: -ms-grid;
+    display: grid;
+    place-items: center;
+    font-size: 12px;
+}
+body footer a {
+    text-decoration: none;
+    color: inherit;
+}
+@media screen and (max-width: 1024px) {
+ 
+    body main {
+        column-gap: 70px;
+   }
+}
+@media screen and (max-width: 768px) {
+    body {
+        width: 92%;
+   }
+    body main {
+        flex-direction: column-reverse;
+        height: auto;
+   }
+    body main .checkout-form {
+        width: 100%;
+        margin-top: 35px;
+   } 
+    body main .checkout-details {
+        width: 100%;
+   }
+    body footer {
+        height: 10%;
+   }
+}
+.address{
+    border-radius: 18px;
+    /* padding: 8px; */
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center; */
+    
+}

@@ -1,5 +1,5 @@
 .cart-row{padding:15px 0}
-.cart-row:nth-child(even){background:#efefef}
+.cart-row:nth-child(even){background:#ffffff}
 .product-name{font-size:16px;font-weight:600}
 .product-options{font-size:12px;margin-bottom:5px}
 .product-options span{color:#666;font-weight:400;text-transform:uppercase}
