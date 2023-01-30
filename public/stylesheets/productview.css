@@ -1,4 +1,6 @@
-
+body {
+  background-color: #eee;
+}
 .card {
   border: none;
 }

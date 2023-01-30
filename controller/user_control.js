@@ -1,6 +1,5 @@
 const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
-const { response } = require("../app");
 const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
 const products=require("../model/productmodel")
@@ -238,7 +237,6 @@ module.exports = {
             },
           },
         ])
-       console.log(totalAmount.length,"909090009009090");
         let total;
         if(totalAmount.length>0){
           total=totalAmount[0].total
@@ -353,7 +351,6 @@ module.exports = {
 productView:(proId)=>{
   return new Promise (async(resolve,reject)=>{
     const productdetails=await products.findOne({_id:proId}).lean()
-   // console.log(productdetails,"llplplppplplplplplp");
     resolve(productdetails)
   })
 },
@@ -397,23 +394,25 @@ placeOrder:(userId,order,cartProducts,totalamount)=>{
     const totalAmount=totalamount;
     const products=cartProducts
     const status=order['payment-method'] ==="COD" ? "OrderPlaced":"Pending"
+    
     const newOrder= new orderSchema({
       userid:userId,
       address:addressDetails.address,
-      paymentMethod:order['payment-method'],
-      orderItem:[],
-      totalAmount:totalAmount,
+      paymentmethod:order['payment-method'],
+      orderitem:[],
+      totalamount:totalAmount,
       status:status
     })
-    for(let i=0;i<=products.length;i++){
-      orderItem={
+
+    for(let i=0;i<products.length;i++){
+      orderitem={
         product:products[i].cartProducts._id,
         quantity:products[i].quantity,
-        productprize:products[i].cartProducts.price2,
-        totalAmount:products[i].totalAmount
+        productprize:products[i].cartProducts.price1,
+        totalamount:products[i].totalAmount
       }
-      console.log(orderItem,"qqqqqqqqqppppppppp");
-      newOrder.orderItem.push(orderItem)
+      console.log(newOrder.orderItem,"ppppppppppp");
+       newOrder.orderitem.push(orderitem)
     }
     await newOrder.save().then(()=>{
       cart.findOneAndDelete({userId:userid}).then(()=>{console.log(Deleted)}).catch(err=>console.log(err))

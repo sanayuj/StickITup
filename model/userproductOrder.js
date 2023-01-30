@@ -1,6 +1,6 @@
 const mongoose=require("mongoose")
 const orderSchema= new mongoose.Schema({
-userId:{
+userid:{
     type:mongoose.Schema.Types.ObjectId,
     required:true
 },
@@ -24,9 +24,11 @@ orderitem:[{
     },
     productprize:{
         type:Number,
+        required:true
     },
     totalamount:{
-        type:Number
+        type:Number,
+        required:true
     }
 }],
 totalamount:{

@@ -1,5 +1,4 @@
 var express = require("express");
-const { response, render } = require("../app");
 const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
@@ -218,13 +217,9 @@ router.post("/checkoutForm", async (req, res) => {
 //cod order
 
 router.post("/place-order",async(req,res)=>{
-  console.log(req.body,"ccccccccccccc");
   const cartProducts=await controller.getcartItem(req.session.user._id)
-  console.log(cartProducts,"popopoppooo");
   const cartProduct=await cartProducts.productdetails
-  console.log(cartProducts,"jijijijijijji");
   const totalAmount=await controller.totalAmount(req.session.user._id)
-  console.log(totalAmount,"wwwwwwwwwwwwwwmmmmmmmmm");
   controller.placeOrder(req.session.user._id,req.body,cartProduct,totalAmount).then((response)=>{
     res.json({status:true})
   })
@@ -233,6 +228,6 @@ router.post("/place-order",async(req,res)=>{
 //order sucesspage
 
 router.get("/ordersuccess",(req,res)=>{
-res.render("/user/user_homepage/orderSucess",{user:req.session.user})
+res.render("user/user_homepage/orderSucess",{user:req.session.user})
 })
 module.exports = router;
