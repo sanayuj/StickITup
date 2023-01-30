@@ -209,25 +209,33 @@ router.get("/checkoutaddressPage", verifyLogin, (req, res) => {
 
 //add address
 
-router.post("/checkoutForm", async (req, res) => {
+router.post("/checkoutForm", verifyLogin, async (req, res) => {
   controller.addAddress(req.session.user._id, req.body);
   res.redirect("/checkout");
 });
 
 //cod order
 
-router.post("/place-order",async(req,res)=>{
-  const cartProducts=await controller.getcartItem(req.session.user._id)
-  const cartProduct=await cartProducts.productdetails
-  const totalAmount=await controller.totalAmount(req.session.user._id)
-  controller.placeOrder(req.session.user._id,req.body,cartProduct,totalAmount).then((response)=>{
-    res.json({status:true})
-  })
-})
+router.post("/place-order", verifyLogin, async (req, res) => {
+  const cartProducts = await controller.getcartItem(req.session.user._id);
+  const cartProduct = await cartProducts.productdetails;
+  const totalAmount = await controller.totalAmount(req.session.user._id);
+  controller
+    .placeOrder(req.session.user._id, req.body, cartProduct, totalAmount)
+    .then((response) => {
+      res.json({ status: true });
+    });
+});
 
 //order sucesspage
 
-router.get("/ordersuccess",(req,res)=>{
-res.render("user/user_homepage/orderSucess",{user:req.session.user})
-})
+router.get("/ordersuccess", verifyLogin, (req, res) => {
+  res.render("user/user_homepage/orderSucess", { user: req.session.user });
+});
+
+//user profile
+
+router.get("/userProfile", verifyLogin, (req, res) => {
+  res.render("user/user_homepage/userprofile");
+});
 module.exports = router;

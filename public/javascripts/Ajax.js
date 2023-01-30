@@ -1,6 +1,4 @@
-
 //add product to cart
-
 
 function addToCart(proId) {
   $.ajax({
@@ -30,67 +28,70 @@ function removeitem(cartId, proId) {
     .then((willDelete) => {
       if (willDelete) {
         $.ajax({
-          url: '/removecartitem',
+          url: "/removecartitem",
           data: {
             cart: cartId,
-            product: proId
+            product: proId,
           },
-          method: 'post',
+          method: "post",
           success: (response) => {
             if (response.removeProduct) {
-      location.reload()
+              location.reload();
             }
-          }
-        })
+          },
+        });
       } else {
         swal("Cancelled!");
       }
-    }).then(() => {
     })
+    .then(() => {});
 }
 
 //quantitychange
 
-function changeQuantity(cartId,proId,count){
-  const quantity=parseInt(document.getElementById(proId).value)
+function changeQuantity(cartId, proId, count) {
+  const quantity = parseInt(document.getElementById(proId).value);
   $.ajax({
-    url:'/change-product-quantity',
-    method:'post',
-    data:{
-      cart:cartId,
-      product:proId,
-      count:count,
-      quantity:quantity
+    url: "/change-product-quantity",
+    method: "post",
+    data: {
+      cart: cartId,
+      product: proId,
+      count: count,
+      quantity: quantity,
     },
-    success:(response)=>{
-      if(response.removeProduct){
-        swal("Product remove from the cart").then(()=>{
-          location.reload()
-        })
-      }else{
-        document.getElementById(proId).value = quantity + parseInt(count)
-        const amount=parseInt(document.getElementById(proId+'total').innerHTML)
-          document.getElementById(proId+'count').innerHTML=amount*(quantity+count)
-          document.getElementById("subtotal").innerHTML=parseInt(document.getElementById("subtotal").innerHTML)+(amount*count)
+    success: (response) => {
+      if (response.removeProduct) {
+        swal("Product remove from the cart").then(() => {
+          location.reload();
+        });
+      } else {
+        document.getElementById(proId).value = quantity + parseInt(count);
+        const amount = parseInt(
+          document.getElementById(proId + "total").innerHTML
+        );
+        document.getElementById(proId + "count").innerHTML =
+          amount * (quantity + count);
+        document.getElementById("subtotal").innerHTML =
+          parseInt(document.getElementById("subtotal").innerHTML) +
+          amount * count;
       }
-    }
-  })
+    },
+  });
 }
 
-// order 
+// order
 
-$("#checkout-form").submit((e)=>{
-  alert("gj")
-  e.preventDefault()
+$("#checkout-form").submit((e) => {
+  e.preventDefault();
   $.ajax({
-    url:'/place-order',
-    method:'post',
-    data:$("#checkout-form").serialize(),
-    success:(response)=>{
-      console.log(response,"4444444444555");
-      if(response.status){
-        location.href="/ordersuccess"
+    url: "/place-order",
+    method: "post",
+    data: $("#checkout-form").serialize(),
+    success: (response) => {
+      if (response.status) {
+        location.href = "/ordersuccess";
       }
-    }
-  })
-})
+    },
+  });
+});
