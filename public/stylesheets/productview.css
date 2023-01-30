@@ -5,7 +5,7 @@ body {
   border: none;
 }
 .product {
-  background-color: #eee;
+  background-color: rgb(255, 255, 255);
 }
 .brand {
   font-size: 13px;

@@ -277,44 +277,6 @@ module.exports = {
     });
   },
 
-  //add to user wishlist
-  //   const addToWish=
-  //    async(req,res,next)=>{
-  // try{
-  // const userId=req.session.user._id;
-  // const productId=req.params._id
-  // const Wishlist=await WishlistModel.findOne({userId:userId});
-  // if(Wishlist){
-  //   const isProduct=await WishlistModel.findOne({
-  //     $and:[{userId:userId},{
-  //       products:{$elemMatch:{productId:productId}}
-  //     }]
-  //   })
-  //   if(isProduct){
-  //     res.json({status:false})
-  //   }else{
-  //     await WishlistModel.updateOne({userId},{
-  //       $push:{products:{productId:productId}}
-  //     }).then(()=>{res.json({status:true})
-  //   }).catch((error)=>{
-  //     throw error
-  //   })
-  //   }
-  // }else{
-  //   const wishlist=new WishlistModel({
-  //     userId,
-  //     products:{productId:productId}
-  //   })
-  //   await wishlist.save().then(()=>{res.json({status:true})
-  // }).catch((error)=>{
-  //   throw error
-  // })
-  // }
-  // }catch(error){
-  //   throw error
-  // }
-
-  //   }
 
   changeproductquantity: async (details) => {
     const quantity = details.quantity;

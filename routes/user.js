@@ -128,15 +128,10 @@ router.post("/user_signup", function (req, res) {
     } else {
       res.redirect("/user_login");
     }
-
-    // else {
-    //   verify.otpGenerator(response.email).then((response) => {
-    //     req.session.otp = response.otp;
-    //     res.render("user/otp");
-    //   });
-    // }
   });
 });
+
+
 //wishlist
 
 router.post("/wishlist/:productId", verifyLogin, (req, res) => {
@@ -169,21 +164,6 @@ router.post("/user_login", (req, res, next) => {
     }
   });
 });
-
-// router.post('/otp-check',(req,res)=>{
-//   otp=req.body.otp
-//   user=req.session.user
-//   if(otp==req.session.otp){
-//     controller.doSignup(userdata).then((response)=>{
-//       res.redirect('/user_login')
-//     })
-//   }else{
-//     req.session.otpError=true
-//     res.render("user/otp",{otpErr:req.session.otp})
-//     req.session.otpError=false
-//   }
-
-// })
 
 // //checkout
 
