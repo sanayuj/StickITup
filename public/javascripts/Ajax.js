@@ -89,9 +89,62 @@ $("#checkout-form").submit((e) => {
     method: "post",
     data: $("#checkout-form").serialize(),
     success: (response) => {
-      if (response.status) {
+      if (response.success) {
+        // alert("hiii")
         location.href = "/ordersuccess";
+      } else {
+        console.log(response);
+        razorpayPayment(response);
       }
     },
   });
 });
+
+function razorpayPayment(order) {
+  var options = {
+    key: "rzp_test_WxzmjFPnyAdbjd", // Enter the Key ID generated from the Dashboard
+    amount: order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    currency: "INR",
+    name: "Stickitup",
+    description: "Test Transaction",
+    image: "http://localhost:3000/images/logo.png",
+    order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    handler: function (response) {
+      alert(response);
+
+      verifyPayment(response, order);
+    },
+    prefill: {
+      name: "user",
+      email: "user@gmail.com",
+      contact: "1234567898",
+    },
+    notes: {
+      address: "Razorpay Corporate Office",
+    },
+    theme: {
+      color: "#193D56",
+    },
+  };
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
+}
+
+function verifyPayment(payment, order) {
+  console.log(order);
+  console.log(payment);
+  $.ajax({
+    url: "/verify-payment",
+    method: "post",
+    data: {
+      payment,
+      order,
+    },
+
+    success: (response) => {
+      if (response.paymentsuccess) {
+        location.href = "/ordersuccess";
+      }
+    },
+  });
+}

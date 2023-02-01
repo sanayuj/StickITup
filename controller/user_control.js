@@ -5,15 +5,13 @@ const cart = require("../model/cartmodel");
 const products = require("../model/productmodel");
 const orderSchema = require("../model/userproductOrder");
 const { options } = require("../routes/user");
-const Razorpay=require("razorpay")
-const dotenv=require("dotenv")
-dotenv.config()
+const Razorpay = require("razorpay");
+const dotenv = require("dotenv");
+dotenv.config();
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
 });
-
-
 
 module.exports = {
   //user signup section
@@ -396,18 +394,15 @@ module.exports = {
         newOrder.orderitem.push(orderitem);
       }
       await newOrder.save().then((response) => {
-       
-        console.log("99909909090909090", response, "%%%%%%%%%%%%%");
         resolve(response._id);
         console.log(response._id, "]]]]]]%]]]]]");
-        cart
-          .findOneAndDelete({ userId: userid })
-          .then(() => {
-            console.log(Deleted);
-          })
-          .catch((err) => console.log(err));
+        // cart
+        //   .findOneAndDelete({ userId: userid })
+        //   .then(() => {
+        //     console.log(Deleted);
+        //   })
+        //   .catch((err) => console.log(err));
       });
-      
     });
   },
 
@@ -465,18 +460,47 @@ module.exports = {
   generateRazorpay: (orderId, total) => {
     return new Promise((resolve, reject) => {
       let options = {
-        amount: total,
+        amount: total * 100,
         currency: "INR",
         receipt: "" + orderId,
       };
       instance.orders.create(options, function (err, order) {
-        if(err){
+        if (err) {
           console.log(err);
-        }else{
+        } else {
           console.log(order);
         }
         resolve(order);
       });
+    });
+  },
+
+  verifypayment: (details) => {
+    return new Promise((resolve, reject) => {
+      const crypto = require("crypto");
+      const hmac = crypto.createHmac("sha256", "UP1rF0R6YkA2dLbN8LMYGOZS");
+      hmac.update(
+        details["payment[razorpay_order_id]"] +
+          "|" +
+          details["payment[razorpay_payment_id]"]
+      );
+      generated_signature = hmac.digest("hex");
+
+      if (generated_signature == details["payment[razorpay_signature]"]) {
+        resolve();
+      } else {
+        reject();
+      }
+    });
+  },
+
+  changeStatus: (orderId) => {
+    return new Promise(async (resolve, reject) => {
+      await orderSchema.findOneAndUpdate(
+        { _id: orderId },
+        { $set: { status: "orderplaced" } }
+      );
+      resolve();
     });
   },
 };

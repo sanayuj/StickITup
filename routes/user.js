@@ -131,7 +131,6 @@ router.post("/user_signup", function (req, res) {
   });
 });
 
-
 //wishlist
 
 router.post("/wishlist/:productId", verifyLogin, (req, res) => {
@@ -203,15 +202,14 @@ router.post("/place-order", verifyLogin, async (req, res) => {
   controller
     .placeOrder(req.session.user._id, req.body, cartProduct, totalAmount)
     .then((orderId) => {
-      console.log(orderId,"...>>>>>>>>");
-      if(req.body['payment-method']==='COD'){
-        res.json({ status: true });
-      }else{
-        controller.generateRazorpay(orderId,totalAmount).then((response)=>{
-          res.json(response)
-        })
+      if (req.body["payment-method"] === "COD") {
+        res.json({ success: true });
+      } else {
+        controller.generateRazorpay(orderId, totalAmount).then((response) => {
+          const user = req.session.user;
+          res.json(response);
+        });
       }
-     
     });
 });
 
@@ -227,8 +225,25 @@ router.get("/userProfile", verifyLogin, (req, res) => {
   res.render("user/user_homepage/userprofile");
 });
 
-router.get("/orderDetails",verifyLogin,async(req,res)=>{
-  const orderDetails=await controller.viewOrderDetails(req.session.user._id)
-  res.render("user/user_homepage/orderView",{orderDetails,user:req.session.user})
-})
+router.get("/orderDetails", verifyLogin, async (req, res) => {
+  const orderDetails = await controller.viewOrderDetails(req.session.user._id);
+  res.render("user/user_homepage/orderView", {
+    orderDetails,
+    user: req.session.user,
+  });
+});
+
+router.post("/verify-payment", async (req, res) => {
+  const orderid = req.body["order[receipt]"];
+  await controller
+    .verifypayment(req.body)
+    .then(() => {
+      controller.changeStatus(orderid).then(() => {
+        res.json({ paymentsuccess: true });
+      });
+    })
+    .catch((err) => {
+      res.json({ paymentsuccess: false });
+    });
+});
 module.exports = router;
