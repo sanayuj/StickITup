@@ -390,21 +390,18 @@ module.exports = {
           productprize: products[i].cartProducts.price1,
           totalamount: products[i].totalAmount,
         };
-        //console.log(newOrder.orderItem, "ppppppppppp");
+        
         newOrder.orderitem.push(orderitem);
       }
       await newOrder.save().then((response) => {
-        resolve(response._id);
-        console.log(response._id, "]]]]]]%]]]]]");
-        // cart
-        //   .findOneAndDelete({ userId: userid })
-        //   .then(() => {
-        //     console.log(Deleted);
-        //   })
-        //   .catch((err) => console.log(err));
+        resolve(response._id); 
       });
     });
+   
   },
+  deleteCart:(userid)=>{
+    cart.findOneAndDelete({ userId: userid }).then(() => { console.log("Deleted") }).catch(err => console.log(err))
+},
 
   //order product details
 

@@ -215,7 +215,8 @@ router.post("/place-order", verifyLogin, async (req, res) => {
 
 //order sucesspage
 
-router.get("/ordersuccess", verifyLogin, (req, res) => {
+router.get("/ordersuccess", verifyLogin, async(req, res) => {
+  await controller.deleteCart(req.session.user._id)
   res.render("user/user_homepage/orderSucess", { user: req.session.user });
 });
 
