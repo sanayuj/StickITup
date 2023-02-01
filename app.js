@@ -6,6 +6,8 @@ var logger = require("morgan");
 const dbConnect = require("./config/connection");
 var usersRouter = require("./routes/user");
 var adminRouter = require("./routes/admin");
+const dotenv=require("dotenv")
+dotenv.config()
 const session = require("express-session");
 const hbs = require("express-handlebars");
 const multer = require('multer')

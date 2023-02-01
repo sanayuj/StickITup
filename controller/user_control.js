@@ -4,6 +4,16 @@ const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
 const products = require("../model/productmodel");
 const orderSchema = require("../model/userproductOrder");
+const { options } = require("../routes/user");
+const Razorpay=require("razorpay")
+const dotenv=require("dotenv")
+dotenv.config()
+const instance = new Razorpay({
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
+});
+
+
 
 module.exports = {
   //user signup section
@@ -113,7 +123,6 @@ module.exports = {
   },
   getcartItem: (userId) => {
     const userid = new mongoose.Types.ObjectId(userId);
-    //console.log(userid,"eeeeeeee");
     return new Promise(async (resolve, reject) => {
       const usercart = await cart.findOne({ userId: userid });
       if (usercart) {
@@ -277,7 +286,6 @@ module.exports = {
     });
   },
 
-
   changeproductquantity: async (details) => {
     const quantity = details.quantity;
     const cartid = details.cart;
@@ -384,10 +392,14 @@ module.exports = {
           productprize: products[i].cartProducts.price1,
           totalamount: products[i].totalAmount,
         };
-        console.log(newOrder.orderItem, "ppppppppppp");
+        //console.log(newOrder.orderItem, "ppppppppppp");
         newOrder.orderitem.push(orderitem);
       }
-      await newOrder.save().then(() => {
+      await newOrder.save().then((response) => {
+       
+        console.log("99909909090909090", response, "%%%%%%%%%%%%%");
+        resolve(response._id);
+        console.log(response._id, "]]]]]]%]]]]]");
         cart
           .findOneAndDelete({ userId: userid })
           .then(() => {
@@ -395,7 +407,76 @@ module.exports = {
           })
           .catch((err) => console.log(err));
       });
-      resolve();
+      
+    });
+  },
+
+  //order product details
+
+  viewOrderDetails: (userid) => {
+    return new Promise(async (resolve, reject) => {
+      const userId = new mongoose.Types.ObjectId(userid);
+      const order = await orderSchema.findOne({ userid: userId });
+      if (order) {
+        const orderdetails = await orderSchema.aggregate([
+          { $match: { userid: userId } },
+          { $unwind: "$orderitem" },
+          {
+            $project: {
+              paymentmethod: "$paymentmethod",
+              totalamoount: "$totalamount",
+              status: "$status",
+              productId: "$orderitem.product",
+              productquantity: "$orderitem.quantity",
+              productprize: "$orderitem.productprize",
+              producttotalamount: "$orderitem.totalamount",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productId",
+              foreignField: "_id",
+              as: "orderProducts",
+            },
+          },
+          {
+            $project: {
+              paymentmethod: 1,
+              totalamoount: 1,
+              status: 1,
+              productId: 1,
+              productquantity: 1,
+              productprize: 1,
+              producttotalamount: 1,
+              orderProducts: {
+                $arrayElemAt: ["$orderProducts", 0],
+              },
+            },
+          },
+        ]);
+        resolve(orderdetails);
+      }
+    });
+  },
+
+  //razorpay
+
+  generateRazorpay: (orderId, total) => {
+    return new Promise((resolve, reject) => {
+      let options = {
+        amount: total,
+        currency: "INR",
+        receipt: "" + orderId,
+      };
+      instance.orders.create(options, function (err, order) {
+        if(err){
+          console.log(err);
+        }else{
+          console.log(order);
+        }
+        resolve(order);
+      });
     });
   },
 };

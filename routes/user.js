@@ -1,9 +1,9 @@
 var express = require("express");
-const dbConnect = require("../config/connection");
 const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
 var router = express.Router();
 const verify = require("../config/nodemailer");
+const { response } = require("express");
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -202,8 +202,16 @@ router.post("/place-order", verifyLogin, async (req, res) => {
   const totalAmount = await controller.totalAmount(req.session.user._id);
   controller
     .placeOrder(req.session.user._id, req.body, cartProduct, totalAmount)
-    .then((response) => {
-      res.json({ status: true });
+    .then((orderId) => {
+      console.log(orderId,"...>>>>>>>>");
+      if(req.body['payment-method']==='COD'){
+        res.json({ status: true });
+      }else{
+        controller.generateRazorpay(orderId,totalAmount).then((response)=>{
+          res.json(response)
+        })
+      }
+     
     });
 });
 
@@ -218,4 +226,9 @@ router.get("/ordersuccess", verifyLogin, (req, res) => {
 router.get("/userProfile", verifyLogin, (req, res) => {
   res.render("user/user_homepage/userprofile");
 });
+
+router.get("/orderDetails",verifyLogin,async(req,res)=>{
+  const orderDetails=await controller.viewOrderDetails(req.session.user._id)
+  res.render("user/user_homepage/orderView",{orderDetails,user:req.session.user})
+})
 module.exports = router;

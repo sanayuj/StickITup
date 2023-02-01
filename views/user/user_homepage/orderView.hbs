@@ -1,0 +1,33 @@
+{{>userNavbar}}
+
+
+<table style="margin:2rem;" class="table">
+  <thead>
+    <tr>
+      
+      <th scope="col">Product Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Total Price</th>
+      <th scope="col">Image</th>
+      <th scope="col">Payment Method</th>
+      <th scope="col">Order Status</th>
+      
+      
+    </tr>
+  </thead>
+  <tbody>
+    {{#each orderDetails}}
+    <tr>
+      
+      <td>{{orderProducts.name}}</td>
+      <td>{{productprize}}</td>
+      <td>{{productquantity}}</td>
+      <td>{{producttotalamount}}</td>
+      <td><img width="100" src="/images/categoryimage/{{this.orderProducts.imageurl.[0].filename}}" alt=""></td>
+       <td>{{paymentmethod}}</td>
+     <td>{{status}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
