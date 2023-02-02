@@ -18,33 +18,38 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  address:[{
-    name:{
-      type:String,
-      required:true
+  verified: {
+    type: Boolean,
+    default: false,
+  },
+  address: [
+    {
+      name: {
+        type: String,
+        required: true,
+      },
+      phone: {
+        type: Number,
+        required: true,
+      },
+      houseaddress: {
+        type: String,
+        required: true,
+      },
+      state: {
+        type: String,
+        required: true,
+      },
+      town: {
+        type: String,
+        required: true,
+      },
+      pin: {
+        type: String,
+        required: true,
+      },
     },
-    phone:{
-      type:Number,
-      required:true
-    },
-    houseaddress:{
-      type:String,
-      required:true
-    },
-    state:{
-      type:String,
-      required:true
-    },
-    town:{
-      type:String,
-      required:true
-    },
-    pin:{
-      type:String,
-      required:true
-    }
-
-  }]
+  ],
 });
 userSchema.pre("save", async function (next) {
   try {

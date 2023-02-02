@@ -4,6 +4,8 @@ const adminController = require("../controller/admin_control");
 var router = express.Router();
 const verify = require("../config/nodemailer");
 const { response } = require("express");
+const sendmail=require("../config/nodemailer")
+
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -27,6 +29,19 @@ router.get("/user_login", function (req, res, next) {
     req.session.passwordErr = false;
   }
 });
+router.post("/otpverification",(req,res)=>{
+  const otp=parseInt(req.session.otp)
+  const userOtp=(req.body.otp)
+  controller.verifyOtp(userOtp,otp).then((response)=>{
+    if(response.status){
+      res.json({status:true})
+      req.session.otp=null
+    }else{
+      res.json({status:false})
+    }
+  })
+})
+
 
 router.get("/user_signup", function (req, res, next) {
   res.render("user/user_loginForm/signup", { existed: req.session.existed });
@@ -126,7 +141,10 @@ router.post("/user_signup", function (req, res) {
       req.session.existed = true;
       res.redirect("/user_signup");
     } else {
-      res.redirect("/user_login");
+      
+      const useremail=req.body.email;
+      sendmail(useremail,req)
+      res.render("user/user_homepage/otp");
     }
   });
 });

@@ -145,3 +145,26 @@ function verifyPayment(payment, order) {
     },
   });
 }
+
+$('#otp-form').submit((e)=>{
+  let otp=document.getElementById("otp").innerHTML
+ 
+  e.preventDefault()
+
+  $.ajax({
+      url:'/otpverification',
+      method:"post",
+      data:{otp:otp},
+      success:(response)=>{
+         
+          if(response.status){
+              location.href="/login"
+          }else{
+              
+              document.getElementById("otp_wrong").innerHTML="Oopz wrong OTP"
+          }
+      }
+  })
+})
+
+

@@ -8,6 +8,10 @@ const { options } = require("../routes/user");
 const Razorpay = require("razorpay");
 const dotenv = require("dotenv");
 dotenv.config();
+const nodemailer=require("../config/nodemailer");
+const { request } = require("http");
+const { response } = require("Express");
+const { resolve } = require("path");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
@@ -18,7 +22,7 @@ module.exports = {
   doSignup: (userdata) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let alreadySignup = await userslist.findOne({ email: userdata.email });
+        const alreadySignup = await userslist.findOne({ email: userdata.email });
         if (alreadySignup) {
           resolve({ exist: true });
         }
@@ -67,6 +71,16 @@ module.exports = {
     });
   },
 
+  verifyOtp:(userOtp,otp)=>{
+return new Promise((resolve,reject)=>{
+  if(userOtp===otp){
+    resolve({status:true})
+  }else{
+    resolve({status:false})
+  }
+})
+  },
+  
   //cart
   addtoCart: (userId, productId) => {
     return new Promise(async (resolve, reject) => {
