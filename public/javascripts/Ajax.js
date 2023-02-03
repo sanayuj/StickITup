@@ -147,18 +147,19 @@ function verifyPayment(payment, order) {
 }
 
 $('#otp-form').submit((e)=>{
-  let otp=document.getElementById("otp").innerHTML
+  const otp=document.getElementById("otp").value
+  console.log(otp,"duckkkkkkkkkkkkk");
  
   e.preventDefault()
 
   $.ajax({
+   
       url:'/otpverification',
       method:"post",
       data:{otp:otp},
-      success:(response)=>{
-         
+       success:(response)=>{
           if(response.status){
-              location.href="/login"
+              location.href="/user_login"
           }else{
               
               document.getElementById("otp_wrong").innerHTML="Oopz wrong OTP"

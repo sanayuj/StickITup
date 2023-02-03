@@ -31,7 +31,7 @@ router.get("/user_login", function (req, res, next) {
 });
 router.post("/otpverification",(req,res)=>{
   const otp=parseInt(req.session.otp)
-  const userOtp=(req.body.otp)
+  const userOtp=parseInt(req.body.otp)
   controller.verifyOtp(userOtp,otp).then((response)=>{
     if(response.status){
       res.json({status:true})
