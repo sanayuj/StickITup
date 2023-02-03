@@ -17,7 +17,8 @@ const sendMail = async function (useremail,req) {
       from: '"StickItUp" <stickitupecommerce@gmail.com>', // sender address
       to: useremail, // list of receivers
       subject:  'OTP  for to verify your stickitup account', // Subject line
-      text: `Your OTP is: ${OTP}`, // plain text body
+      text: `Your OTP is: ${OTP}
+       Enjoy your Shopping` , // plain text body
      
 
 
