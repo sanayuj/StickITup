@@ -1,46 +1,73 @@
-
 <section>
-    <style>
-      body {
-        text-align: center;
-        padding: 40px 0;
-        background: #ffffff;
-      }
-        h1 {
-          color: #88B04B;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-weight: 900;
-          font-size: 40px;
-          margin-bottom: 10px;
-        }
-        p {
-          color: #404F5E;
-          font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
-          font-size:20px;
-          margin: 0;
-        }
-      i {
-        color: #9ABC66;
-        font-size: 100px;
-        line-height: 200px;
-        margin-left:-15px;
-      }
-      .card {
-        background: white;
-        padding: 60px;
-        {{!-- border-radius: 4px; --}}
-        {{!-- box-shadow: 0 2px 3px #ffffff; --}}
-        display: inline-block;
-        margin: 0 auto;
-      }
-    </style>
-    <body>
-      <div class="card">
-      <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+  <style>
+    body { text-align: center; padding: 40px 0; background: #ffffff; } h1 {
+    color: #88B04B; font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-weight: 900; font-size: 40px; margin-bottom: 10px; } p { color:
+    #404F5E; font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+    font-size:20px; margin: 0; } i { color: #9ABC66; font-size: 100px;
+    line-height: 200px; margin-left:-15px; } .card { background: white; padding:
+    60px;
+    {{! border-radius: 4px; }}
+    {{! box-shadow: 0 2px 3px #ffffff; }}
+    display: inline-block; margin: 0 auto; }
+  </style>
+  <body>
+    <div class="card">
+      <div
+        style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;"
+      >
         <i class="checkmark">✓</i>
       </div>
-        <h1>Success</h1> 
-        <p>Order Placed<br> <a style="text-decoration: none;" href="/">Shop Again</a></p>
+      <h1>Success</h1>
+      <p>Order Placed<br />
+        <a style="text-decoration: none;" href="/">Shop Again</a></p>
+    </div>
+
+    {{! //product view  }}
+    <div>
+
+      <div class="d-flex">
+        <div class="d-flex">
+          
+          <div class="">
+            {{#each userOrder}}
+              <div class="row cart-row mt-5">
+                <div class="col-xs-12 col-md-2">
+
+                  <img
+                    src="/images/categoryimage/{{this.orderdetails.imageurl.0.filename}}"
+                    width="50%"
+                  />
+                </div>
+                <div class="col-md-6">
+                 
+                  <div class="product-name">{{this.orderdetails.name}}</div>
+                  <div class="product-name">₹{{orderdetails.price1}}<span
+                    >{{this.cartProducts.price1}}</span></div>
+                  <div class="product-options"><span
+                    >Quantity:</span>{{productquantity}}</div>
+                  <div class="product-price">
+
+                  </div>
+                </div>
+                <div class="col-md-3 cart-actions">
+                  <div class="product-price-total"><span
+                    >{{this.status}}</span></div>
+                  <div >
+                    <p></p><span>{{paymentmethod}}</span></p>
+
+                  </div>
+                </div>
+
+              </div>
+
+            {{/each}}
+
+          </div>
+
+        </div>
       </div>
-    </body>
+
+    </div>
+  </body>
 </section>

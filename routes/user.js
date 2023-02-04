@@ -4,8 +4,8 @@ const adminController = require("../controller/admin_control");
 var router = express.Router();
 const verify = require("../config/nodemailer");
 const { response } = require("express");
-const sendmail=require("../config/nodemailer")
-
+const sendmail = require("../config/nodemailer");
+const { Collection } = require("mongoose");
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -29,19 +29,19 @@ router.get("/user_login", function (req, res, next) {
     req.session.passwordErr = false;
   }
 });
-router.post("/otpverification",(req,res)=>{
-  const otp=parseInt(req.session.otp)
-  const userOtp=parseInt(req.body.otp)
-  controller.verifyOtp(userOtp,otp).then((response)=>{
-    if(response.status){
-      res.json({status:true})
-      req.session.otp=null
-    }else{
-      res.json({status:false})
+router.post("/otpverification", (req, res) => {
+  const otp = parseInt(req.session.otp);
+  const userOtp = parseInt(req.body.otp);
+  controller.verifyOtp(userOtp, otp).then((response) => {
+    if (response.status) {
+      controller.changeverifiedStatus(req.session.UserId).then(() => {
+        res.json({ status: true });
+      });
+    } else {
+      res.json({ status: false });
     }
-  })
-})
-
+  });
+});
 
 router.get("/user_signup", function (req, res, next) {
   res.render("user/user_loginForm/signup", { existed: req.session.existed });
@@ -137,13 +137,13 @@ router.post("/change-product-quantity", (req, res) => {
 
 router.post("/user_signup", function (req, res) {
   controller.doSignup(req.body).then((response) => {
+    req.session.UserId = response.data._id;
     if (response.exist) {
       req.session.existed = true;
       res.redirect("/user_signup");
     } else {
-      
-      const useremail=req.body.email;
-      sendmail(useremail,req)
+      const useremail = req.body.email;
+      sendmail(useremail, req);
       res.render("user/user_homepage/otp");
     }
   });
@@ -220,6 +220,7 @@ router.post("/place-order", verifyLogin, async (req, res) => {
   controller
     .placeOrder(req.session.user._id, req.body, cartProduct, totalAmount)
     .then((orderId) => {
+      req.session.OrderId=orderId
       if (req.body["payment-method"] === "COD") {
         res.json({ success: true });
       } else {
@@ -233,9 +234,10 @@ router.post("/place-order", verifyLogin, async (req, res) => {
 
 //order sucesspage
 
-router.get("/ordersuccess", verifyLogin, async(req, res) => {
-  await controller.deleteCart(req.session.user._id)
-  res.render("user/user_homepage/orderSucess", { user: req.session.user });
+router.get("/ordersuccess", verifyLogin, async (req, res) => {
+  await controller.deleteCart(req.session.user._id);
+  const userOrder= await controller.viewcurrentOrder(req.session.OrderId)
+  res.render("user/user_homepage/orderSucess", { user: req.session.user ,userOrder});
 });
 
 //user profile
@@ -265,4 +267,8 @@ router.post("/verify-payment", async (req, res) => {
       res.json({ paymentsuccess: false });
     });
 });
+
+
+
+
 module.exports = router;

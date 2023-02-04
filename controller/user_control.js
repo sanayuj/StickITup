@@ -8,7 +8,7 @@ const { options } = require("../routes/user");
 const Razorpay = require("razorpay");
 const dotenv = require("dotenv");
 dotenv.config();
-const nodemailer=require("../config/nodemailer");
+const nodemailer = require("../config/nodemailer");
 const { request } = require("http");
 const { response } = require("Express");
 const { resolve } = require("path");
@@ -22,7 +22,9 @@ module.exports = {
   doSignup: (userdata) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const alreadySignup = await userslist.findOne({ email: userdata.email });
+        const alreadySignup = await userslist.findOne({
+          email: userdata.email,
+        });
         if (alreadySignup) {
           resolve({ exist: true });
         }
@@ -52,14 +54,19 @@ module.exports = {
 
         if (user) {
           bcrypt.compare(userdata.password, user.password, (err, result) => {
-            if (user.blocked) {
-              resolve({ blockedUser: true });
-            } else {
-              if (result) {
-                resolve({ status: true, user });
+            if (user.verified) {
+              if (user.blocked) {
+                resolve({ blockedUser: true });
               } else {
-                resolve({ status: false });
+                if (result) {
+                  resolve({ status: true, user });
+                } else {
+                  resolve({ status: false });
+                }
               }
+            } else {
+              console.log("Not verified !!!!!");
+              resolve({ status: false });
             }
           });
         } else {
@@ -71,16 +78,16 @@ module.exports = {
     });
   },
 
-  verifyOtp:(userOtp,otp)=>{
-return new Promise((resolve,reject)=>{
-  if(userOtp===otp){
-    resolve({status:true})
-  }else{
-    resolve({status:false})
-  }
-})
+  verifyOtp: (userOtp, otp) => {
+    return new Promise((resolve, reject) => {
+      if (userOtp === otp) {
+        resolve({ status: true });
+      } else {
+        resolve({ status: false });
+      }
+    });
   },
-  
+
   //cart
   addtoCart: (userId, productId) => {
     return new Promise(async (resolve, reject) => {
@@ -404,18 +411,33 @@ return new Promise((resolve,reject)=>{
           productprize: products[i].cartProducts.price1,
           totalamount: products[i].totalAmount,
         };
-        
+
         newOrder.orderitem.push(orderitem);
       }
       await newOrder.save().then((response) => {
-        resolve(response._id); 
+        resolve(response._id);
       });
     });
-   
   },
-  deleteCart:(userid)=>{
-    cart.findOneAndDelete({ userId: userid }).then(() => { console.log("Deleted") }).catch(err => console.log(err))
-},
+  deleteCart: (userid) => {
+    cart
+      .findOneAndDelete({ userId: userid })
+      .then(() => {
+        console.log("Deleted");
+      })
+      .catch((err) => console.log(err));
+  },
+
+  //status verified true
+  changeverifiedStatus: (orderId) => {
+    return new Promise(async (resolve, reject) => {
+      await userslist.findOneAndUpdate(
+        { _id: orderId },
+        { $set: { verified: true } }
+      );
+      resolve();
+    });
+  },
 
   //order product details
 
@@ -464,6 +486,59 @@ return new Promise((resolve,reject)=>{
         resolve(orderdetails);
       }
     });
+  },
+
+
+  viewcurrentOrder:(orderID)=>{
+return new Promise(async(resolve,reject)=>{
+ const orderId=new mongoose.Types.ObjectId(orderID)
+ const order= await orderSchema.findOne({_id:orderId})
+ if(order){
+  const orderDetails=await orderSchema.aggregate([
+    {$match:{_id:orderId}},
+    {$unwind:"$orderitem"},
+    {
+      $project:{
+        paymentmethod:"$paymentmethod",
+        totalAmount:"$totalamount",
+        productquantity:"$orderitem.quantity",
+        productprize:"$orderitem.productprize",
+        producttotal:"$orderitem.totalamount",
+        status:"$status",
+        productId:"$orderitem.product"
+      }
+    },
+    {
+      $lookup:{
+        from:"products",
+        localField:"productId",
+        foreignField:"_id",
+        as:"orderdetails"
+      }
+    },
+    {
+      $project:{
+        paymentmethod:1,
+        totalAmount:1,
+        productquantity:1,
+        productprize:1,
+        producttotal:1,
+        status:1,
+        productId:1,
+        orderdetails:{
+          $arrayElemAt:["$orderdetails",0]
+        }
+      }
+    },
+//     {
+// $sort:{}
+//     }
+  ])
+  console.log(orderDetails,"User ordered products");
+  resolve(orderDetails)
+ }
+
+})
   },
 
   //razorpay
