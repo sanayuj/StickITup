@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const userlist = require("../model/usermodel");
 const categorycollection = require("../model/categorymodel");
 const productcollection = require("../model/productmodel");
+const ordercollection=require("../model/userproductOrder")
 //admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
@@ -171,4 +172,15 @@ module.exports = {
       throw error_1;
     }
   },
+
+  //order list 
+
+listOrder:()=>{
+  console.log("Order list function is revoked !!!!");
+  return new Promise(async(resolve,reject)=>{
+    const order=await ordercollection.find().populate("orderitem.product").lean()
+    console.log(order);
+    resolve(order)
+  })
+}
 };

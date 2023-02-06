@@ -108,4 +108,10 @@ router.post(
   }
 );
 
+router.get("/orders",verifyadminLogin,async(req,res)=>{
+  console.log("Order listed in admin!!!!");
+  const order=await adminController.listOrder()
+  res.render("adminPage/orderlist",{order})
+})
+
 module.exports = router;

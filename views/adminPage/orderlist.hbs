@@ -1,0 +1,68 @@
+{{>adminNavbar}}
+<section>
+  <div>
+    {{>adminsidebar}}
+  </div>
+  <section class="p-5" style="margin-left: 225px;  margin-top: 60px;">
+
+
+    <table align="center" cellspacing="0" cellpadding="6" width="95%"
+      style="border:0;color:#000000;line-height:150%;text-align:left;font:300 14px/30px &#39;Helvetica Neue&#39;,Helvetica,Arial,sans-serif;"
+      border=".5px">
+      <thead>
+        <tr style="background:#ffffff">
+          <th scope="col" width="20%" style="text-align:center;border:1px solid rgb(0, 0, 0)">user</th>
+          <th scope="col" width="30%" style="text-align:center;border:1px solid rgb(0, 0, 0)">Product</th> <th scope="col" width="20%" style="text-align:center;border:1px solid rgb(0, 0, 0)">status</th>
+              <th scope="col" width="20%" style="text-align:center;border:1px solid rgb(0, 0, 0)">Payment Method</th>
+          <th scope="col" width="20%" style="text-align:center;border:1px solid rgb(255, 255, 255)"></th>
+        </tr>
+      </thead>
+      {{#if order}}
+      {{#each order}}
+      <tbody class="orderdetails">
+
+        {{#each orderitem}}
+        {{#if @first}}
+        <tr width="100%">
+          <td width="25%"
+            style="text-align:center;vertical-align:middle;border-left:1px solid rgb(0, 0, 0);border-bottom:1px solid rgb(0, 0, 0);border-right:1px solid rgb(0, 0, 0);border-top:0">
+            <span>{{../address.[0].name}}</span>
+          </td>
+          <td width="25%"
+            style="text-align:center;vertical-align:middle;border-left:1px solid rgb(0, 0, 0);border-bottom:1px solid rgb(0, 0, 0);border-right:0;border-top:0;word-wrap:break-word">
+            {{product.name}}
+
+          </td>
+    <td width="25%"
+            style="text-align:center;vertical-align:middle;border-left:1px solid rgb(0, 0, 0);border-bottom:1px solid rgb(0, 0, 0);border-right:0;border-top:0;word-wrap:break-word">
+            {{../status}}
+
+          </td>
+       
+          
+          <td width="15%"
+            style="text-align:center;vertical-align:middle;border-left:1px solid rgb(0, 0, 0);border-bottom:1px solid rgb(0, 0, 0);border-right:1px solid rgb(0, 0, 0);border-top:0">
+            <span>{{../paymentmethod}}</span>
+          </td>
+          <td
+            style="text-align:center;vertical-align:middle;border-left:1px solid rgb(255, 255, 255);border-bottom:1px solid rgb(255, 255, 255);border-right:1px solid rgb(255, 255, 255);border-top:0">
+            <a href="#" class="btn btn-primary">Action</a>
+          </td>
+
+        </tr>
+        {{/if}}
+        {{/each}}
+      </tbody>
+
+      {{/each}}
+      {{/if}}
+    </table>
+  
+
+    </tr>
+    </tbody>
+    </table>
+
+  </section>
+
+</section>

@@ -423,7 +423,6 @@ module.exports = {
     cart
       .findOneAndDelete({ userId: userid })
       .then(() => {
-        console.log("Deleted");
       })
       .catch((err) => console.log(err));
   },
@@ -580,11 +579,13 @@ return new Promise(async(resolve,reject)=>{
     });
   },
 
+  //order status 
+
   changeStatus: (orderId) => {
     return new Promise(async (resolve, reject) => {
       await orderSchema.findOneAndUpdate(
         { _id: orderId },
-        { $set: { status: "orderplaced" } }
+        { $set: { status: "Orderplaced" } }
       );
       resolve();
     });

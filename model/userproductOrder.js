@@ -16,7 +16,7 @@ orderitem:[{
     product:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:"product"
+        ref:"products"
     },
     quantity:{
         type:Number,
