@@ -31,11 +31,23 @@ function changePasswordVaildate(e) {
     newPasswordErr.innerHTML = "* No space";
     return;
   }
+  const passwordRegex =
+    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+
+  if (!passwordRegex.test(newPassword)) {
+    newPasswordErr.innerHTML =
+      "Password must contain between 6 and 16 characters long and contain at least one special character and a number ";
+    return;
+  }
 
   if (!confirmPassword) {
     confirmPasswordErr.innerHTML = "* Password is required";
     return;
   }
+
+  
+
+  
   $.ajax({
     url: "/resetpassword",
     method: "post",
