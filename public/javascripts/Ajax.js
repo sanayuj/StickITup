@@ -146,21 +146,26 @@ function verifyPayment(payment, order) {
   });
 }
 
-$('#otp-form').submit((e)=>{
-  const otp=document.getElementById("otp").value
-  e.preventDefault()
+$("#otp-form").submit((e) => {
+  const otp = document.getElementById("otp").value;
+  e.preventDefault();
   $.ajax({
-      url:'/otpverification',
-      method:"post",
-      data:{otp:otp},
-       success:(response)=>{
-          if(response.status){
-              location.href="/user_login"
-          }else{
-              document.getElementById("otp_wrong").innerHTML="Oopz wrong OTP"
-          }
+    url: "/otpverification",
+    method: "post",
+    data: { otp: otp },
+    success: (response) => {
+      if (response.status) {
+        location.href = "/user_login";
+      } else {
+        document.getElementById("otp_wrong").innerHTML = "Oopz wrong OTP";
       }
-  })
-})
+    },
+  });
+});
 
+//change password profile
 
+// $("#signupForm").submit((e) => {
+//   e.preventDefault();
+
+// });

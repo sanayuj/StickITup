@@ -587,20 +587,50 @@ module.exports = {
     });
   },
 
+  //edit profile
 
-  //edit profile 
+  editUserdetails: (userId, userdata) => {
+    return new Promise((resolve, reject) => {
+      userslist
+        .findOneAndUpdate(
+          { _id: userId },
+          {
+            $set: {
+              name: userdata.name,
+              email: userdata.email,
+              phone: userdata.phone,
+            },
+          }
+        )
+        .then((data) => {
+          resolve(data);
+        });
+    });
+  },
 
-  editUserdetails:(userId,userdata)=>{
-    return new Promise((resolve,reject)=>{
-        
-        userslist.findOneAndUpdate({_id:userId},{$set:{
-            name:userdata.name,
-            email:userdata.email, 
-            phone:userdata.phone
-        }}).then((data)=>{
-            resolve(data)
-        })
-      
-    }) 
-},
+  changepassword: (data, userId) => {
+    return new Promise(async (resolve, reject) => {
+      const userdata = await userslist.findOne({ _id: userId });
+      bcrypt
+        .compare(data.currentPassword, userdata.password)
+        .then(async (status) => {
+          if (status) {
+            if (data.newPassword == data.confirmPassword) {
+              const salt = await bcrypt.genSalt(10);
+              const hashpassword = await bcrypt.hash(data.newPassword, salt);
+              data.newPassword = hashpassword;
+              const update = await userslist.findOneAndUpdate(
+                { _id: userId },
+                { $set: { password: data.newPassword } }
+              );
+              resolve({ status: true });
+            } else {
+              resolve({ status: false });
+            }
+          } else {
+            resolve({ status: false });
+          }
+        });
+    });
+  },
 };

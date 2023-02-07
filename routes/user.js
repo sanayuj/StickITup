@@ -279,10 +279,22 @@ router.post("/edituserdetails", async (req, res) => {
   res.redirect("/userProfile");
 });
 
-//change password in user profile 
+//change password in user profile
 
+router.get("/changepassword", verifyLogin, (req, res) => {
+  res.render("user/user_homepage/changePassword", {
+    passwordErr: req.session.passErr,
+  });
+  req.session.passErr = false;
+});
 
-router.get("/changepassword",verifyLogin,(req,res)=>{
-res.render("user/user_homepage/changePassword")
-})
+router.post("/resetpassword", verifyLogin, async (req, res) => {
+  const data = await controller.changepassword(req.body, req.session.user._id);
+  if (data.status) {
+    res.json({ status: true });
+  } else {
+    req.session.passErr = true;
+    res.json({ status: false });
+  }
+});
 module.exports = router;
