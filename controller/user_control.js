@@ -531,7 +531,6 @@ module.exports = {
           // $sort:{}
           //     }
         ]);
-        console.log(orderDetails, "User ordered products");
         resolve(orderDetails);
       }
     });
@@ -588,17 +587,20 @@ module.exports = {
     });
   },
 
-  editUserdetails:async (userId, userdata) => {
-    console.log(userdata,"pipipipipipipi");
-    console.log("user data updated in function !!!");
-    const data = await new Promise((resolve, reject) => {
-      userslist.findOneAndUpdate({ _id: userId }),
-      {
-        $set: {
-          name: userdata.name,
-        },
-      };
-    });
-    resolve(data);
-  },
+
+  //edit profile 
+
+  editUserdetails:(userId,userdata)=>{
+    return new Promise((resolve,reject)=>{
+        
+        userslist.findOneAndUpdate({_id:userId},{$set:{
+            name:userdata.name,
+            email:userdata.email, 
+            phone:userdata.phone
+        }}).then((data)=>{
+            resolve(data)
+        })
+      
+    }) 
+},
 };

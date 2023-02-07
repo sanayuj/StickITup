@@ -220,7 +220,7 @@ router.post("/place-order", verifyLogin, async (req, res) => {
   controller
     .placeOrder(req.session.user._id, req.body, cartProduct, totalAmount)
     .then((orderId) => {
-      req.session.OrderId=orderId
+      req.session.OrderId = orderId;
       if (req.body["payment-method"] === "COD") {
         res.json({ success: true });
       } else {
@@ -236,15 +236,17 @@ router.post("/place-order", verifyLogin, async (req, res) => {
 
 router.get("/ordersuccess", verifyLogin, async (req, res) => {
   await controller.deleteCart(req.session.user._id);
-  const userOrder= await controller.viewcurrentOrder(req.session.OrderId)
-  res.render("user/user_homepage/orderSucess", { user: req.session.user ,userOrder});
+  const userOrder = await controller.viewcurrentOrder(req.session.OrderId);
+  res.render("user/user_homepage/orderSucess", {
+    user: req.session.user,
+    userOrder,
+  });
 });
 
 //user profile
 
 router.get("/userProfile", verifyLogin, (req, res) => {
-  console.log(req.session.user,"PPPPPPPPRRRRRRRROOOOOOO");
-  res.render("user/user_homepage/userprofile",{user:req.session.user});
+  res.render("user/user_homepage/userprofile", { user: req.session.user });
 });
 
 router.get("/orderDetails", verifyLogin, async (req, res) => {
@@ -269,11 +271,12 @@ router.post("/verify-payment", async (req, res) => {
     });
 });
 
-router.post("/edituserdetails",async(req,res)=>{
-  console.log("user data updated !!!");
-  const editedDetails=await controller.editUserdetails(req.session.user._id,req.body)
-  res.redirect("/userProfile")
-})
-
+router.post("/edituserdetails", async (req, res) => {
+  const editedDetails = await controller.editUserdetails(
+    req.session.user._id,
+    req.body
+  );
+  res.redirect("/userProfile");
+});
 
 module.exports = router;
