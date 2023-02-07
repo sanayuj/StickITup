@@ -279,4 +279,10 @@ router.post("/edituserdetails", async (req, res) => {
   res.redirect("/userProfile");
 });
 
+//change password in user profile 
+
+
+router.get("/changepassword",verifyLogin,(req,res)=>{
+res.render("user/user_homepage/changePassword")
+})
 module.exports = router;
