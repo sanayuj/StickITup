@@ -243,7 +243,8 @@ router.get("/ordersuccess", verifyLogin, async (req, res) => {
 //user profile
 
 router.get("/userProfile", verifyLogin, (req, res) => {
-  res.render("user/user_homepage/userprofile");
+  console.log(req.session.user,"PPPPPPPPRRRRRRRROOOOOOO");
+  res.render("user/user_homepage/userprofile",{user:req.session.user});
 });
 
 router.get("/orderDetails", verifyLogin, async (req, res) => {
@@ -268,7 +269,11 @@ router.post("/verify-payment", async (req, res) => {
     });
 });
 
-
+router.post("/edituserdetails",async(req,res)=>{
+  console.log("user data updated !!!");
+  const editedDetails=await controller.editUserdetails(req.session.user._id,req.body)
+  res.redirect("/userProfile")
+})
 
 
 module.exports = router;

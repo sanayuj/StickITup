@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const userlist = require("../model/usermodel");
 const categorycollection = require("../model/categorymodel");
 const productcollection = require("../model/productmodel");
-const ordercollection=require("../model/userproductOrder")
+const ordercollection = require("../model/userproductOrder");
 //admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
@@ -131,7 +131,6 @@ module.exports = {
   addProduct: async (productDetails, imgFile) => {
     try {
       return await new Promise(async (resolve, reject) => {
-        console.log("Doooo");
         try {
           const newProduct = new productcollection({
             name: productDetails.productName,
@@ -173,14 +172,22 @@ module.exports = {
     }
   },
 
-  //order list 
+  //order list
 
-listOrder:()=>{
-  console.log("Order list function is revoked !!!!");
-  return new Promise(async(resolve,reject)=>{
-    const order=await ordercollection.find().populate("orderitem.product").lean()
-    console.log(order);
-    resolve(order)
-  })
-}
+  listOrder: () => {
+    return new Promise(async (resolve, reject) => {
+      const order = await ordercollection
+        .find()
+        .populate("orderitem.product")
+        .lean();
+      console.log(order);
+      resolve(order);
+    });
+  },
+
+  changeStatus: () => {
+    return new Promise(async (resolve, reject) => {});
+  },
+
+
 };

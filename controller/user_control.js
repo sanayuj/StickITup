@@ -422,8 +422,7 @@ module.exports = {
   deleteCart: (userid) => {
     cart
       .findOneAndDelete({ userId: userid })
-      .then(() => {
-      })
+      .then(() => {})
       .catch((err) => console.log(err));
   },
 
@@ -487,57 +486,55 @@ module.exports = {
     });
   },
 
-
-  viewcurrentOrder:(orderID)=>{
-return new Promise(async(resolve,reject)=>{
- const orderId=new mongoose.Types.ObjectId(orderID)
- const order= await orderSchema.findOne({_id:orderId})
- if(order){
-  const orderDetails=await orderSchema.aggregate([
-    {$match:{_id:orderId}},
-    {$unwind:"$orderitem"},
-    {
-      $project:{
-        paymentmethod:"$paymentmethod",
-        totalAmount:"$totalamount",
-        productquantity:"$orderitem.quantity",
-        productprize:"$orderitem.productprize",
-        producttotal:"$orderitem.totalamount",
-        status:"$status",
-        productId:"$orderitem.product"
+  viewcurrentOrder: (orderID) => {
+    return new Promise(async (resolve, reject) => {
+      const orderId = new mongoose.Types.ObjectId(orderID);
+      const order = await orderSchema.findOne({ _id: orderId });
+      if (order) {
+        const orderDetails = await orderSchema.aggregate([
+          { $match: { _id: orderId } },
+          { $unwind: "$orderitem" },
+          {
+            $project: {
+              paymentmethod: "$paymentmethod",
+              totalAmount: "$totalamount",
+              productquantity: "$orderitem.quantity",
+              productprize: "$orderitem.productprize",
+              producttotal: "$orderitem.totalamount",
+              status: "$status",
+              productId: "$orderitem.product",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productId",
+              foreignField: "_id",
+              as: "orderdetails",
+            },
+          },
+          {
+            $project: {
+              paymentmethod: 1,
+              totalAmount: 1,
+              productquantity: 1,
+              productprize: 1,
+              producttotal: 1,
+              status: 1,
+              productId: 1,
+              orderdetails: {
+                $arrayElemAt: ["$orderdetails", 0],
+              },
+            },
+          },
+          //     {
+          // $sort:{}
+          //     }
+        ]);
+        console.log(orderDetails, "User ordered products");
+        resolve(orderDetails);
       }
-    },
-    {
-      $lookup:{
-        from:"products",
-        localField:"productId",
-        foreignField:"_id",
-        as:"orderdetails"
-      }
-    },
-    {
-      $project:{
-        paymentmethod:1,
-        totalAmount:1,
-        productquantity:1,
-        productprize:1,
-        producttotal:1,
-        status:1,
-        productId:1,
-        orderdetails:{
-          $arrayElemAt:["$orderdetails",0]
-        }
-      }
-    },
-//     {
-// $sort:{}
-//     }
-  ])
-  console.log(orderDetails,"User ordered products");
-  resolve(orderDetails)
- }
-
-})
+    });
   },
 
   //razorpay
@@ -579,7 +576,7 @@ return new Promise(async(resolve,reject)=>{
     });
   },
 
-  //order status 
+  //order status
 
   changeStatus: (orderId) => {
     return new Promise(async (resolve, reject) => {
@@ -589,5 +586,19 @@ return new Promise(async(resolve,reject)=>{
       );
       resolve();
     });
+  },
+
+  editUserdetails:async (userId, userdata) => {
+    console.log(userdata,"pipipipipipipi");
+    console.log("user data updated in function !!!");
+    const data = await new Promise((resolve, reject) => {
+      userslist.findOneAndUpdate({ _id: userId }),
+      {
+        $set: {
+          name: userdata.name,
+        },
+      };
+    });
+    resolve(data);
   },
 };
