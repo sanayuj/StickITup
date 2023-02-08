@@ -151,6 +151,12 @@ router.post("/user_signup", function (req, res) {
 
 //wishlist
 
+
+router.get("/whistlistPage",verifyLogin,(req,res)=>{
+  res.render("user/user_homepage/wishlist")
+})
+
+
 router.post("/wishlist/:productId", verifyLogin, (req, res) => {
   controller.addToWish(req.session.user._id, req.params.productId);
 });
