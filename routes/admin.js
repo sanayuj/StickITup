@@ -120,4 +120,11 @@ router.get ("/orderStatusChange/:id",verifyadminLogin,async(req,res)=>{
   res.render("adminPage/orderStatusChange",{userDetails})
 })
 
+
+router.post("/changeStatus",verifyadminLogin,async(req,res)=>{
+  console.log("Change Status !!!!!");
+adminController.changeOrderstatus(req.body)
+console.log(req.body,"8888888888");
+res.json({status:true})
+})
 module.exports = router;

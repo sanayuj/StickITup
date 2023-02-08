@@ -185,9 +185,14 @@ module.exports = {
     });
   },
 
-  changeStatus: () => {
-    return new Promise(async (resolve, reject) => {});
-  },
+  changeOrderstatus:(data)=>{
+    return new Promise(async(reject,resolve)=>{
+        const orderstatus=data.orderstatus
+        const orderId=data.orderId
+        const order=await ordercollection.findOneAndUpdate({_id:orderId},{$set:{status:orderstatus}})
+       
+    })
+}
 
 
 };

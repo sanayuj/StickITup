@@ -163,9 +163,27 @@ $("#otp-form").submit((e) => {
   });
 });
 
-//change password profile
 
-// $("#signupForm").submit((e) => {
-//   e.preventDefault();
 
-// });
+
+//change status
+
+function changeorderStatus(status,orderId) {
+        
+  $.ajax({
+      url:'/admin/changeStatus',
+      data: {
+          orderstatus:status,
+          orderId:orderId
+      },
+      method: 'post',
+      success: (response) => {
+         location.reload()
+      },
+      error: (jqXHR, textStatus, errorThrown) => {
+          console.error(textStatus, errorThrown);
+          alert("Ajax Error");
+      }
+  })
+
+}
