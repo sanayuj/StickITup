@@ -506,7 +506,7 @@ module.exports = {
               producttotal: "$orderitem.totalamount",
               status: "$status",
               productId: "$orderitem.product",
-              userId:"$userid"
+              userId: "$userid",
             },
           },
           {
@@ -539,14 +539,13 @@ module.exports = {
               },
               userdetails: {
                 $arrayElemAt: ["$userdata", 0],
-              }
+              },
             },
           },
           //     {
           // $sort:{}
           //     }
         ]);
-        console.log(orderDetails,"sssssuuuuuuuuiiii");
         resolve(orderDetails);
       }
     });

@@ -1,5 +1,5 @@
 const adminController = require("../controller/admin_control");
-const userController=require("../controller/user_control")
+const userController = require("../controller/user_control");
 var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
@@ -108,23 +108,20 @@ router.post(
   }
 );
 
-router.get("/orders",verifyadminLogin,async(req,res)=>{
-  const order=await adminController.listOrder()
-  res.render("adminPage/orderlist",{order})
-})
+router.get("/orders", verifyadminLogin, async (req, res) => {
+  const order = await adminController.listOrder();
+  res.render("adminPage/orderlist", { order });
+});
 
 //admin status management page
 
-router.get ("/orderStatusChange/:id",verifyadminLogin,async(req,res)=>{
-  const userDetails=await userController.viewcurrentOrder(req.params.id)
-  res.render("adminPage/orderStatusChange",{userDetails})
-})
+router.get("/orderStatusChange/:id", verifyadminLogin, async (req, res) => {
+  const userDetails = await userController.viewcurrentOrder(req.params.id);
+  res.render("adminPage/orderStatusChange", { userDetails });
+});
 
-
-router.post("/changeStatus",verifyadminLogin,async(req,res)=>{
-  console.log("Change Status !!!!!");
-adminController.changeOrderstatus(req.body)
-console.log(req.body,"8888888888");
-res.json({status:true})
-})
+router.post("/changeStatus", verifyadminLogin, async (req, res) => {
+  adminController.changeOrderstatus(req.body);
+  res.json({ status: true });
+});
 module.exports = router;

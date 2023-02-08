@@ -90,7 +90,6 @@ module.exports = {
   },
 
   addCategory: (categoryDetails, img) => {
-    console.log("category checked ::::::");
     return new Promise(async (resolve, reject) => {
       try {
         const newCategory = new categorycollection({
@@ -185,14 +184,14 @@ module.exports = {
     });
   },
 
-  changeOrderstatus:(data)=>{
-    return new Promise(async(reject,resolve)=>{
-        const orderstatus=data.orderstatus
-        const orderId=data.orderId
-        const order=await ordercollection.findOneAndUpdate({_id:orderId},{$set:{status:orderstatus}})
-       
-    })
-}
-
-
+  changeOrderstatus: (data) => {
+    return new Promise(async (reject, resolve) => {
+      const orderstatus = data.orderstatus;
+      const orderId = data.orderId;
+      const order = await ordercollection.findOneAndUpdate(
+        { _id: orderId },
+        { $set: { status: orderstatus } }
+      );
+    });
+  },
 };

@@ -163,27 +163,22 @@ $("#otp-form").submit((e) => {
   });
 });
 
-
-
-
 //change status
 
-function changeorderStatus(status,orderId) {
-        
+function changeorderStatus(status, orderId) {
   $.ajax({
-      url:'/admin/changeStatus',
-      data: {
-          orderstatus:status,
-          orderId:orderId
-      },
-      method: 'post',
-      success: (response) => {
-         location.reload()
-      },
-      error: (jqXHR, textStatus, errorThrown) => {
-          console.error(textStatus, errorThrown);
-          alert("Ajax Error");
-      }
-  })
-
+    url: "/admin/changeStatus",
+    data: {
+      orderstatus: status,
+      orderId: orderId,
+    },
+    method: "post",
+    success: (response) => {
+      location.reload();
+    },
+    error: (jqXHR, textStatus, errorThrown) => {
+      console.error(textStatus, errorThrown);
+      alert("Ajax Error");
+    },
+  });
 }
