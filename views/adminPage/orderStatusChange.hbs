@@ -47,7 +47,7 @@
 
 
             <div class="card mb-4">
-                {{#each userdetails}}
+                {{#each userDetails}}
                 {{#if @first}}
               <div class="card-body" style="background-color: ;">
                 
@@ -56,7 +56,7 @@
                     <p class="mb-0">Name</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.name}}</p>
+                    <p class="text-muted mb-0">{{userdetails.name}}</p>
                   </div>
                 </div>
                 <hr>
@@ -65,7 +65,7 @@
                     <p class="mb-0">Email</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.email}}</p>
+                    <p class="text-muted mb-0">{{userdetails.email}}</p>
                   </div>
                 </div>
                 <hr>
@@ -76,7 +76,7 @@
                     <p class="mb-0">Contact Number</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.address.[0].phone}}</p>
+                    <p class="text-muted mb-0">{{userdetails.address.[0].phone}}</p>
                   </div>
                 </div>
                 <hr>
@@ -85,16 +85,16 @@
                     <p class="mb-0">House</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.address.[0].houseaddress}}</p>
+                    <p class="text-muted mb-0">{{userdetails.address.[0].houseaddress}}</p>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <p class="mb-0">Town</p>
+                    <p class="mb-0">State</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.address.[0].town}}</p>
+                    <p class="text-muted mb-0">{{userdetails.address.[0].state}}</p>
                   </div>
                 </div>
                 <hr>
@@ -103,7 +103,7 @@
                     <p class="mb-0">Pin</p>
                   </div>
                   <div class="col-sm-9">
-                    <p class="text-muted mb-0">{{userdata.address.[0].pin}}</p>
+                    <p class="text-muted mb-0">{{userdetails.address.[0].pin}}</p>
                   </div>
                 </div>
                 <hr>
