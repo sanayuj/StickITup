@@ -441,13 +441,11 @@ module.exports = {
 
   viewOrderDetails: (userid) => {
     return new Promise(async (resolve, reject) => {
-      
       const userId = new mongoose.Types.ObjectId(userid);
-      console.log("Entered !!!!",userId);
+      console.log("Entered !!!!", userId);
       const order = await orderSchema.findOne({ userid: userId });
-      console.log(order,"3333");
+      console.log(order, "3333");
       if (order) {
-      
         const orderdetails = await orderSchema.aggregate([
           { $match: { userid: userId } },
           { $unwind: "$orderitem" },
@@ -485,7 +483,7 @@ module.exports = {
             },
           },
         ]);
-        console.log(orderdetails,"Sucess!!!");
+        console.log(orderdetails, "Sucess!!!");
         resolve(orderdetails);
       }
     });
@@ -508,6 +506,7 @@ module.exports = {
               producttotal: "$orderitem.totalamount",
               status: "$status",
               productId: "$orderitem.product",
+              userId:"$userid"
             },
           },
           {
@@ -516,6 +515,14 @@ module.exports = {
               localField: "productId",
               foreignField: "_id",
               as: "orderdetails",
+            },
+          },
+          {
+            $lookup: {
+              from: "userlists",
+              localField: "userId",
+              foreignField: "_id",
+              as: "userdata",
             },
           },
           {
@@ -530,12 +537,16 @@ module.exports = {
               orderdetails: {
                 $arrayElemAt: ["$orderdetails", 0],
               },
+              userdetails: {
+                $arrayElemAt: ["$userdata", 0],
+              }
             },
           },
           //     {
           // $sort:{}
           //     }
         ]);
+        console.log(orderDetails,"sssssuuuuuuuuiiii");
         resolve(orderDetails);
       }
     });

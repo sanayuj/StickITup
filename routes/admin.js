@@ -116,10 +116,7 @@ router.get("/orders",verifyadminLogin,async(req,res)=>{
 //admin status management page
 
 router.get ("/orderStatusChange/:id",verifyadminLogin,async(req,res)=>{
-  const id=req.params.id
-  console.log(id,"0000000y00y0yy0y0");
-  const userDetails=await userController.viewOrderDetails(req.params.id)
-  console.log(userDetails,"change password router ");
+  const userDetails=await userController.viewcurrentOrder(req.params.id)
   res.render("adminPage/orderStatusChange",{userDetails})
 })
 

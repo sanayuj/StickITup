@@ -1,0 +1,133 @@
+{{>adminNavbar}}
+<section>
+    <div>
+        {{>adminsidebar}}
+    </div>
+
+    <section class="p-5" style="margin-left: 225px;  margin-top: 60px;">
+           <section id="head">
+                        <div class="text-center mb-3">
+                            <h4> <u> Ordered Product </u></h4>
+                        </div>
+                        {{#each userDetails}}
+                        <div class="container">
+
+                            <div class="row">
+                                {{#each orderdetails.imageurl}}
+                                {{#if @first}}
+                                <div class="col-md-3 d-flex justify-content-center align-items-center">
+                                    <img class="head-img" src="/images/categoryimage/{{filename}}" alt="" /
+                                        style="max-width: 50%; border-radius: 50%;">
+                                </div>
+                                {{/if}}
+                                {{/each}}
+
+                                <div class="col-md-9 head-text">
+                                    <h6>{{orderdetails.name}}</h6>
+                                    <p> Quantity:{{productquantity}}</p>
+                                    <p> MRP:{{productprize}}</p>
+                                    <p class="text-danger"> Total:{{producttotal}}</p>
+
+
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                        
+
+                    </section>
+                      <section style="background-color: #eee;">
+      <div class="container py-5">
+
+
+        <div class="row">
+          
+          <div class="col-lg-8">
+
+
+            <div class="card mb-4">
+                {{#each userdetails}}
+                {{#if @first}}
+              <div class="card-body" style="background-color: ;">
+                
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.name}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.email}}</p>
+                  </div>
+                </div>
+                <hr>
+
+
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Contact Number</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.address.[0].phone}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">House</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.address.[0].houseaddress}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Town</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.address.[0].town}}</p>
+                  </div>
+                </div>
+                <hr>
+                   <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Pin</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{userdata.address.[0].pin}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                Edit Delivery Status
+              </button>
+                </div>
+               
+             
+                </div>
+                
+           </div>
+           {{/if}}
+           {{/each}}
+           
+            </div>
+           
+          </div>
+    </section>
+                   
+    </section>
+
+
+    </section>
+</section>
