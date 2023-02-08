@@ -441,9 +441,13 @@ module.exports = {
 
   viewOrderDetails: (userid) => {
     return new Promise(async (resolve, reject) => {
+      
       const userId = new mongoose.Types.ObjectId(userid);
+      console.log("Entered !!!!",userId);
       const order = await orderSchema.findOne({ userid: userId });
+      console.log(order,"3333");
       if (order) {
+      
         const orderdetails = await orderSchema.aggregate([
           { $match: { userid: userId } },
           { $unwind: "$orderitem" },
@@ -481,6 +485,7 @@ module.exports = {
             },
           },
         ]);
+        console.log(orderdetails,"Sucess!!!");
         resolve(orderdetails);
       }
     });

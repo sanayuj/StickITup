@@ -1,4 +1,5 @@
 const adminController = require("../controller/admin_control");
+const userController=require("../controller/user_control")
 var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
@@ -72,7 +73,6 @@ router.post("/admin_login", function (req, res, next) {
   adminController.doadminloggin(req.body).then((response) => {
     if (response.adminNotExist) {
       req.session.adminIDnotExist = true;
-
       res.redirect("/admin/");
     } else {
       if (response.status) {
@@ -109,9 +109,18 @@ router.post(
 );
 
 router.get("/orders",verifyadminLogin,async(req,res)=>{
-  console.log("Order listed in admin!!!!");
   const order=await adminController.listOrder()
   res.render("adminPage/orderlist",{order})
+})
+
+//admin status management page
+
+router.get ("/orderStatusChange/:id",verifyadminLogin,async(req,res)=>{
+  const id=req.params.id
+  console.log(id,"0000000y00y0yy0y0");
+  const userDetails=await userController.viewOrderDetails(req.params.id)
+  console.log(userDetails,"change password router ");
+  res.render("adminPage/orderStatusChange",{userDetails})
 })
 
 module.exports = router;
