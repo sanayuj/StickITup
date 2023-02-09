@@ -2,6 +2,7 @@ const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
+const wishlist=require("../model/wishlistmodel")
 const products = require("../model/productmodel");
 const orderSchema = require("../model/userproductOrder");
 const { options } = require("../routes/user");
@@ -89,6 +90,7 @@ module.exports = {
   },
 
   //cart
+
   addtoCart: (userId, productId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -140,6 +142,23 @@ module.exports = {
       }
     });
   },
+
+// //wishlist
+
+// addtoWishlist:(userId,productId)=>{
+// return new Promise(async(resolve,reject)=>{
+//   try{
+//     const userwish=await wishlist.findOne({userId:userId})
+//     if(userwish){
+// const alreadywishlist=await wishlist.findOne({
+//   $and:[{userId},{"products,productId":productId}]
+// })
+//     }
+//   }
+// })
+
+// },
+
   getcartItem: (userId) => {
     const userid = new mongoose.Types.ObjectId(userId);
     return new Promise(async (resolve, reject) => {
@@ -419,6 +438,8 @@ module.exports = {
       });
     });
   },
+
+
   deleteCart: (userid) => {
     cart
       .findOneAndDelete({ userId: userid })
@@ -442,9 +463,7 @@ module.exports = {
   viewOrderDetails: (userid) => {
     return new Promise(async (resolve, reject) => {
       const userId = new mongoose.Types.ObjectId(userid);
-      console.log("Entered !!!!", userId);
       const order = await orderSchema.findOne({ userid: userId });
-      console.log(order, "3333");
       if (order) {
         const orderdetails = await orderSchema.aggregate([
           { $match: { userid: userId } },
@@ -485,6 +504,8 @@ module.exports = {
         ]);
         console.log(orderdetails, "Sucess!!!");
         resolve(orderdetails);
+      }else{
+        resolve();
       }
     });
   },

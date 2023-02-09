@@ -21,14 +21,14 @@ display: inline-block; margin: 0 auto; }
     </div>
 
     {{! //product view  }}
+    
     <div>
-
       <div class="d-flex">
         <div class="d-flex">
           
           <div class="">
             {{#each userOrder}}
-              <div class="row cart-row mt-5">
+                  <div class="row cart-row mt-5 " style="background-color: aliceblue; border-radius: 1rem; margin: 2rem; text-decoration:none; color:black">
                 <div class="col-xs-12 col-md-2">
 
                   <img
@@ -52,19 +52,13 @@ display: inline-block; margin: 0 auto; }
                     >{{this.status}}</span></div>
                   <div >
                     <p></p><span>{{paymentmethod}}</span></p>
-
                   </div>
                 </div>
-
               </div>
-
             {{/each}}
-
           </div>
-
         </div>
       </div>
-
     </div>
   </body>
 </section> 
