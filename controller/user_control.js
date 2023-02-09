@@ -188,12 +188,13 @@ return new Promise(async(resolve,reject)=>{
 
 getwishlistItem:(userId)=>{
   return new Promise(async(resolve,reject)=>{
+    console.log("Entered to wishlist product function!!!!");
     const userid=new mongoose.Types.ObjectId(userId)
     const userWishlist=await wishlist.findOne({userId:userid})
     if(userWishlist){
       const productdetails=await wishlist.aggregate([
         {$match:{userId:userid}},
-        {$unwind:{userId:userid}},
+        {$unwind:"$products"},
         {
           $project:{
             productId:'$products.productId'

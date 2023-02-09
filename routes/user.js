@@ -299,6 +299,19 @@ router.post("/addtoWishlist",async(req,res)=>{
   const userID=req.session.user._id
   await controller.addtoWishlist(userID,productId)
   res.json({status:true})
+});
 
+router.get("/wishlist",verifyLogin,async(req,res)=>{
+  console.log("Enter wishlist product display router");
+const products=await controller.getwishlistItem(req.session.user._id)
+console.log(products,"This are the product");
+let wishlistExist;
+if(products.wishlistExist==true){
+  wishlistExist=true
+}else{
+  wishlistExist=false
+}
+console.log(wishlistExist,"9090909090909090");
+res.render('user/user_homepage/wishlist',{products,wishlistExist,user:req.session.user})
 })
 module.exports = router;
