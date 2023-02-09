@@ -3,9 +3,10 @@ const controller = require("../controller/user_control");
 const adminController = require("../controller/admin_control");
 var router = express.Router();
 const verify = require("../config/nodemailer");
-const { response } = require("express");
+const { response, json } = require("express");
 const sendmail = require("../config/nodemailer");
 const { Collection } = require("mongoose");
+
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -149,17 +150,6 @@ router.post("/user_signup", function (req, res) {
   });
 });
 
-//wishlist
-
-
-router.get("/whistlistPage",verifyLogin,(req,res)=>{
-  res.render("user/user_homepage/wishlist")
-})
-
-
-router.post("/wishlist/:productId", verifyLogin, (req, res) => {
-  controller.addToWish(req.session.user._id, req.params.productId);
-});
 
 //user login
 
@@ -303,4 +293,12 @@ router.post("/resetpassword", verifyLogin, async (req, res) => {
     res.json({ status: false });
   }
 });
+
+router.post("/addtoWishlist",async(req,res)=>{
+  const productId=req.body.productId
+  const userID=req.session.user._id
+  await controller.addtoWishlist(userID,productId)
+  res.json({status:true})
+
+})
 module.exports = router;

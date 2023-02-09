@@ -182,3 +182,26 @@ function changeorderStatus(status, orderId) {
     },
   });
 }
+
+//wishlist
+
+function addtoWishlist(productId) {
+  $.ajax({
+    url: "/addtoWishlist",
+    data: {
+      productId: productId,
+    },
+    method: "post",
+    success: (response) => {
+      if (response.status) {
+        swal(
+          "Product added to Wishlist!",
+          "success!",
+          "success"
+        ).then(() => {
+          location.reload();
+        })
+      }
+    },
+  });
+}
