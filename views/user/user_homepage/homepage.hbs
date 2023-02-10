@@ -27,11 +27,12 @@
                 </a>
                 <span class="product-discount-label"></span>
                 <ul class="product-links">
-                    
-                    <li><a href="#"><i class="fa fa-heart"></i></a></li>
-                    
+                    {{!-- {{#if WishlistExists}}
+
+                    {{else}}
+                    <li> <button onclick="addtoWishlist('{{productdetails._id}}')"><a ><i class="fa fa-heart"></i></a></button></li>
+                    {{/if}} --}}
                 </ul>
-                
                 <button onclick="addToCart('{{this._id}}')" class="add-to-cart">Add to cart </button>
             </div>
             <div class="product-content">

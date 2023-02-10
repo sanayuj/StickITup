@@ -10,6 +10,8 @@ function addToCart(proId) {
 
         document.getElementById("cart-count").innerHTML = count + 1;
         swal("product added to cart!", "success!", "success");
+      } else {
+        location.href = "/user_login";
       }
     },
   });
@@ -194,14 +196,41 @@ function addtoWishlist(productId) {
     method: "post",
     success: (response) => {
       if (response.status) {
-        swal(
-          "Product added to Wishlist!",
-          "success!",
-          "success"
-        ).then(() => {
+        swal("Product added to Wishlist!", "success!", "success").then(() => {
           location.reload();
-        })
+        });
+      } else {
+        location.href = "/user_login";
       }
     },
   });
+}
+
+function removefromWishlist(productId, wishlistId) {
+  swal({
+    title: "Are you sure?",
+    text: "Product will delect from your Wishlist",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          url: "/removewishlistProduct",
+          method: "post",
+          data: {
+            productId: productId,
+            wishlistId: wishlistId,
+          },
+          success: (response) => {
+            swal("Removed !").then(() => {
+              location.reload();
+            });
+          },
+        });
+      } else {
+      }
+    })
+    .then(() => {});
 }

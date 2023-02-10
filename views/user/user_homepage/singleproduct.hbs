@@ -49,7 +49,11 @@
                             <div class="d-flex ">
                             <div class="cart mt-4 align-items-center"> 
                                 <button onclick="addToCart('{{productdetails._id}}')" class="btn btn-primary text-uppercase  px-4">Add to cart</button>
+                                {{#if WishlistExists}}
+                                 <a href="/wishlist"><button  class="btn btn-primary text-uppercase  px-4">Go to Wishlist</button> </a>
+                                 {{else}}
                                  <button onclick="addtoWishlist('{{productdetails._id}}')" class="btn btn-primary text-uppercase  px-4">Add to Wishlist</button> 
+                                {{/if}}
                             </div>
                             
                             </div>

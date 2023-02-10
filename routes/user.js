@@ -7,12 +7,12 @@ const { response, json } = require("express");
 const sendmail = require("../config/nodemailer");
 const { Collection } = require("mongoose");
 
-
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
     next();
   } else {
     res.redirect("/user_login");
+    res.json({ loggedIn: false });
   }
 };
 
@@ -50,6 +50,7 @@ router.get("/user_signup", function (req, res, next) {
 
 router.get("/", async function (req, res, next) {
   const user = req.session.user;
+  // const  WishlistExists=await controller.productExistInWishlist(req.params.id,user._id)
   let cartcount = null;
   if (req.session.user) {
     cartcount = await controller.getcartCount(user._id);
@@ -92,14 +93,21 @@ router.get("/cart", verifyLogin, (req, res) => {
 
 router.get("/product-singlepage/:id", (req, res) => {
   const id = req.params.id;
-  controller.productView(req.params.id).then((response) => {
+  controller.productView(id).then(async (response) => {
     const productdetails = response;
+    const WishlistExists = await controller.productExistInWishlist(
+      req.params.id,
+      req.session.user._id
+    );
+    console.log(WishlistExists, "Exists or Not!!!!!!!");
     const user = req.session.user;
-    res.render("user/user_homepage/singleproduct", { user, productdetails });
+    res.render("user/user_homepage/singleproduct", {
+      user,
+      productdetails,
+      WishlistExists,
+    });
   });
 });
-
-//single product view
 
 //add to cart
 
@@ -149,7 +157,6 @@ router.post("/user_signup", function (req, res) {
     }
   });
 });
-
 
 //user login
 
@@ -294,24 +301,32 @@ router.post("/resetpassword", verifyLogin, async (req, res) => {
   }
 });
 
-router.post("/addtoWishlist",async(req,res)=>{
-  const productId=req.body.productId
-  const userID=req.session.user._id
-  await controller.addtoWishlist(userID,productId)
-  res.json({status:true})
+router.post("/addtoWishlist", async (req, res) => {
+  const productId = req.body.productId;
+  const userID = req.session.user._id;
+  await controller.addtoWishlist(userID, productId);
+  res.json({ status: true });
 });
 
-router.get("/wishlist",verifyLogin,async(req,res)=>{
-  console.log("Enter wishlist product display router");
-const products=await controller.getwishlistItem(req.session.user._id)
-console.log(products,"This are the product");
-let wishlistExist;
-if(products.wishlistExist==true){
-  wishlistExist=true
-}else{
-  wishlistExist=false
-}
-console.log(wishlistExist,"9090909090909090");
-res.render('user/user_homepage/wishlist',{products,wishlistExist,user:req.session.user})
-})
+router.get("/wishlist", verifyLogin, async (req, res) => {
+  const products = await controller.getwishlistItem(req.session.user._id);
+  let wishlistExist;
+  if (products.wishlistExist == true) {
+    wishlistExist = true;
+  } else {
+    wishlistExist = false;
+  }
+  res.render("user/user_homepage/wishlist", {
+    products,
+    wishlistExist,
+    user: req.session.user,
+  });
+});
+
+router.post("/removewishlistProduct", async (req, res) => {
+  const details = req.body;
+  await controller.removefromWishlist(details);
+  res.json({ status: true });
+});
+
 module.exports = router;

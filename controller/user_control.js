@@ -2,7 +2,7 @@ const userslist = require("../model/usermodel");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const cart = require("../model/cartmodel");
-const wishlist=require("../model/wishlistmodel")
+const wishlist = require("../model/wishlistmodel");
 const products = require("../model/productmodel");
 const orderSchema = require("../model/userproductOrder");
 const { options } = require("../routes/user");
@@ -145,91 +145,112 @@ module.exports = {
     });
   },
 
-// //wishlist
+  // //wishlist
 
-addtoWishlist:async(userid,productid)=>{
-  console.log("add to wishlist !!");
-  try{
-    const productId=mongoose.Types.ObjectId(productid)
-    const userwish= await wishlist.findOne({userId:userid})
-    if(userwish){
-const alreadywishlist=await wishlist.findOneAndUpdate({
-userId:userid},{$push:{products:{productId:productid}}})
-    }else{
-      const newWishlist=new wishlist({
-        userId:userid,
-        products:[{productId:productid}]
-      })
-      await newWishlist.save()
-    }
-  }catch(error){
-    throw error
-  }
-},
-
-productExistInWishlist:(productId,userId)=>{
-return new Promise(async(resolve,reject)=>{
-  const userWishlist=await wishlist.findOne({userId:userId})
-  if(userWishlist){
-    const productAlreadyExist=await wishlist.findOne({userId:userId},{products:{$elemMatch:{productId:productId}}})
-    const productLength=userWishlist.products.length
-    console.log(productLength);
-    if(productLength !=0){
-      resolve(true)
-    }else{
-      resolve(false)
-    }
-  }else{
-    resolve(false)
-  }
-  
-})
-},
-
-getwishlistItem:(userId)=>{
-  return new Promise(async(resolve,reject)=>{
-    console.log("Entered to wishlist product function!!!!");
-    const userid=new mongoose.Types.ObjectId(userId)
-    const userWishlist=await wishlist.findOne({userId:userid})
-    if(userWishlist){
-      const productdetails=await wishlist.aggregate([
-        {$match:{userId:userid}},
-        {$unwind:"$products"},
-        {
-          $project:{
-            productId:'$products.productId'
-          }
-        },{
-          $lookup:{
-            from:"products",
-            localField:"productId",
-            foreignField:"_id",
-            as:"wishlistProducts"
-          }
-        },{
-          $project:{
-            productId:1,
-            wishlistProducts:{$arrayElemAt:['$wishlistProducts',0]}
-          }
-        },
-        {
-          $project:{
-            productId:1,
-            wishlistProducts:1
-          }
-        }
-      ])
-
-      if(productdetails.length !=0){
-        resolve({productdetails,wishlistExist:true})
-      }else{
-        resolve({wishlistExist:false})
+  addtoWishlist: async (userid, productid) => {
+    console.log("add to wishlist !!");
+    try {
+      const productId = mongoose.Types.ObjectId(productid);
+      const userwish = await wishlist.findOne({ userId: userid });
+      if (userwish) {
+        const alreadywishlist = await wishlist.findOneAndUpdate(
+          {
+            userId: userid,
+          },
+          { $push: { products: { productId: productid } } }
+        );
+      } else {
+        const newWishlist = new wishlist({
+          userId: userid,
+          products: [{ productId: productid }],
+        });
+        await newWishlist.save();
       }
-    }else{
-      resolve({wishlistExist:false})
+    } catch (error) {
+      throw error;
     }
-  })
-},
+  },
+
+  productExistInWishlist: (productId, userId) => {
+    return new Promise(async (resolve, reject) => {
+      const userWishlist = await wishlist.findOne({ userId: userId });
+      if (userWishlist) {
+        const productAlreadyExist = await wishlist.findOne(
+          { userId: userId },
+          { products: { $elemMatch: { productId: productId } } }
+        );
+        const productLength = userWishlist.products.length;
+        console.log(productLength);
+        if (productLength != 0) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      } else {
+        resolve(false);
+      }
+    });
+  },
+
+  getwishlistItem: (userId) => {
+    return new Promise(async (resolve, reject) => {
+      const userid = new mongoose.Types.ObjectId(userId);
+      const userWishlist = await wishlist.findOne({ userId: userid });
+      if (userWishlist) {
+        const productdetails = await wishlist.aggregate([
+          { $match: { userId: userid } },
+          { $unwind: "$products" },
+          {
+            $project: {
+              productId: "$products.productId",
+            },
+          },
+          {
+            $lookup: {
+              from: "products",
+              localField: "productId",
+              foreignField: "_id",
+              as: "wishlistProducts",
+            },
+          },
+          {
+            $project: {
+              productId: 1,
+              wishlistProducts: { $arrayElemAt: ["$wishlistProducts", 0] },
+            },
+          },
+          {
+            $project: {
+              productId: 1,
+              wishlistProducts: 1,
+            },
+          },
+        ]);
+
+        if (productdetails.length != 0) {
+          resolve({ productdetails, wishlistExist: true });
+        } else {
+          resolve({ wishlistExist: false });
+        }
+      } else {
+        resolve({ wishlistExist: false });
+      }
+    });
+  },
+
+  removefromWishlist: (details) => {
+    const wishListId = new mongoose.Types.ObjectId(details.wishlistId);
+    console.log(wishListId);
+    const productId = new mongoose.Types.ObjectId(details.productId);
+    console.log(productId);
+    return new Promise(async (resolve, reject) => {
+      await wishlist.findOneAndUpdate(
+        { _id: wishListId, products: { $elemMatch: { productId: productId } } },
+        { $pull: { products: { productId: productId } } }
+      );
+      resolve();
+    });
+  },
 
   getcartItem: (userId) => {
     const userid = new mongoose.Types.ObjectId(userId);
@@ -511,7 +532,6 @@ getwishlistItem:(userId)=>{
     });
   },
 
-
   deleteCart: (userid) => {
     cart
       .findOneAndDelete({ userId: userid })
@@ -576,7 +596,7 @@ getwishlistItem:(userId)=>{
         ]);
         console.log(orderdetails, "Sucess!!!");
         resolve(orderdetails);
-      }else{
+      } else {
         resolve();
       }
     });
