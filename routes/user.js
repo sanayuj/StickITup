@@ -235,7 +235,7 @@ router.post("/place-order", verifyLogin, async (req, res) => {
     });
 });
 
-//order sucesspage
+//order successpage
 
 router.get("/ordersuccess", verifyLogin, async (req, res) => {
   await controller.deleteCart(req.session.user._id);
@@ -260,6 +260,8 @@ router.get("/orderDetails", verifyLogin, async (req, res) => {
   });
 });
 
+//
+
 router.post("/verify-payment", async (req, res) => {
   const orderid = req.body["order[receipt]"];
   await controller
@@ -273,6 +275,8 @@ router.post("/verify-payment", async (req, res) => {
       res.json({ paymentsuccess: false });
     });
 });
+
+//edit user details
 
 router.post("/edituserdetails", async (req, res) => {
   const editedDetails = await controller.editUserdetails(
@@ -291,6 +295,8 @@ router.get("/changepassword", verifyLogin, (req, res) => {
   req.session.passErr = false;
 });
 
+//reset user password
+
 router.post("/resetpassword", verifyLogin, async (req, res) => {
   const data = await controller.changepassword(req.body, req.session.user._id);
   if (data.status) {
@@ -301,12 +307,16 @@ router.post("/resetpassword", verifyLogin, async (req, res) => {
   }
 });
 
+//add product to wishlist
+
 router.post("/addtoWishlist", async (req, res) => {
   const productId = req.body.productId;
   const userID = req.session.user._id;
   await controller.addtoWishlist(userID, productId);
   res.json({ status: true });
 });
+
+//display the wishlist products
 
 router.get("/wishlist", verifyLogin, async (req, res) => {
   const products = await controller.getwishlistItem(req.session.user._id);
@@ -322,6 +332,9 @@ router.get("/wishlist", verifyLogin, async (req, res) => {
     user: req.session.user,
   });
 });
+
+
+//remove product from wishlist
 
 router.post("/removewishlistProduct", async (req, res) => {
   const details = req.body;
