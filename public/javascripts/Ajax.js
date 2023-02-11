@@ -1,5 +1,7 @@
 //add product to cart
 
+
+
 function addToCart(proId) {
   $.ajax({
     url: "/addtocart/" + proId,
@@ -234,3 +236,21 @@ function removefromWishlist(productId, wishlistId) {
     })
     .then(() => {});
 }
+
+
+$("#add_coupon_form").submit((e)=>{
+  alert("route to ajax")
+  e.preventDefault();
+  $.ajax({
+    url:"/admin/addCoupon",
+    method:"post",
+    data:$('#add_coupon_form').serialize(),
+    success:(response)=>{
+      if(response){
+        swal("Coupon Added !").then(()=>{
+          location.reload()
+        })
+      }
+    }
+  })
+})

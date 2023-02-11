@@ -120,8 +120,26 @@ router.get("/orderStatusChange/:id", verifyadminLogin, async (req, res) => {
   res.render("adminPage/orderStatusChange", { userDetails });
 });
 
+//post method 
+
 router.post("/changeStatus", verifyadminLogin, async (req, res) => {
   adminController.changeOrderstatus(req.body);
   res.json({ status: true });
 });
+
+//coupon
+
+router.get("/addCoupon", verifyadminLogin,async(req,res)=>{
+  res.render("adminPage/coupon")
+})
+
+
+router.post("/addCoupon",verifyadminLogin, async(req,res)=>{
+ console.log(req.body,"Router print coupon!!");
+ await adminController.addcoupon(req.body)
+ res.json({status:true})
+})
+
+
+
 module.exports = router;

@@ -4,6 +4,7 @@ const userlist = require("../model/usermodel");
 const categorycollection = require("../model/categorymodel");
 const productcollection = require("../model/productmodel");
 const ordercollection = require("../model/userproductOrder");
+const coupons = require("../model/coupon");
 //admin loggin section
 module.exports = {
   doadminloggin: (admindata) => {
@@ -194,4 +195,20 @@ module.exports = {
       );
     });
   },
+
+  addcoupon:(CouponData)=>{
+    return new Promise (async(reject,resolve)=>{
+      console.log("Entered to FuncN");
+      const newCoupon=new coupons({
+        couponCode:CouponData.code,
+        expriryDate:CouponData.expirationDate,
+        maxDiscount:CouponData.discount,
+        minAmount:CouponData.minAmount,
+        maxAmount:CouponData.maxDiscount
+      })
+      console.log(newCoupon,"add coupon print in funcN!!!!");
+      await newCoupon.save()
+    })
+
+  }
 };

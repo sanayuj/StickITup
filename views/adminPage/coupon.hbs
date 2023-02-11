@@ -1,0 +1,86 @@
+{{!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> --}}
+
+{{>adminNavbar}}
+<section>
+    <div>
+        {{>adminsidebar}}
+    </div>
+    <section class="p-5" style="margin-left: 225px;  margin-top: 60px;">
+
+ <div class=" main   content-admin ">
+        <h1 class="">Manage Coupons</h1>
+        <div class="row container mb-5">
+            <div class="col-md-7 col-12 p-3 m-auto" style="background-color: #ddddddc9;">
+                <form id="add_coupon_form" class="bg-light p-5">
+                    <h2 class="text-center mb-3">Add Coupon</h2>
+
+                    <div class="form-group mb-3">
+                        <label for="code">Coupon Code:</label>
+                        <input type="text" id="code" name="code" class="form-control"
+                            onblur="javascript:value=value.replace(/\s/g,'');" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="discount">Discount (%) :</label>
+                        <input type="number" id="discount" name="discount" class="form-control"
+                            onblur="javascript:value=value.replace(/\s/g,'');" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="expiration-date">Expiration Date:</label>
+                        <input type="date" id="expiration-date" name="expirationDate" class="form-control"
+                            onblur="javascript:value=value.replace(/\s/g,'');" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="max-amount">Max Discount Amount:</label>
+                        <input type="number" id="max-amount" name="maxDiscount" class="form-control"
+                            onblur="javascript:value=value.replace(/\s/g,'');" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="min-amount">Min Order Amount:</label>
+                        <input type="number" id="min-amount" name="minAmount" class="form-control"
+                            onblur="javascript:value=value.replace(/\s/g,'');" required>
+                    </div>
+
+                    <div class="form-group text-center mt-4">
+                        <button type="submit" class="btn btn-primary b-radius">Add Coupon</button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   </section>
