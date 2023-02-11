@@ -130,15 +130,16 @@ router.post("/changeStatus", verifyadminLogin, async (req, res) => {
 //coupon
 
 router.get("/addCoupon", verifyadminLogin,async(req,res)=>{
-  res.render("adminPage/coupon")
+  const coupons=await adminController.listCoupon()
+  res.render("adminPage/coupon",{coupons})
 })
 
 
 router.post("/addCoupon",verifyadminLogin, async(req,res)=>{
- console.log(req.body,"Router print coupon!!");
  await adminController.addcoupon(req.body)
  res.json({status:true})
 })
+
 
 
 

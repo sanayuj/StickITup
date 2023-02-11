@@ -57,7 +57,33 @@
 
 
 
-
+{{#if coupons}}
+<h2 class="m-3">Coupons</h2>
+<table class="table table-light">
+  <thead>
+    <tr>
+      <th scope="col">Coupon code</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Expiry-Date</th>
+      <th scope="col">Max-Discount Amonut</th>
+      <th scope="col">Min-Orderamonut</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each coupons}}
+    <tr>
+      <th scope="row">{{this.couponCode}}</th>
+      <td>{{this.maxDiscount}}%</td>
+      <td>{{this.expriryDate}}</td>
+      <td>{{this.maxAmount}}</td>
+       <td>{{this.minAmount}}</td>
+    </tr>
+    {{/each}}
+   
+   
+  </tbody>
+</table>
+{{/if}}
         
     </section>
 

@@ -239,7 +239,6 @@ function removefromWishlist(productId, wishlistId) {
 
 
 $("#add_coupon_form").submit((e)=>{
-  alert("route to ajax")
   e.preventDefault();
   $.ajax({
     url:"/admin/addCoupon",

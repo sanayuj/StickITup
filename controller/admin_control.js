@@ -186,7 +186,7 @@ module.exports = {
   },
 
   changeOrderstatus: (data) => {
-    return new Promise(async (reject, resolve) => {
+    return new Promise(async (resolve, reject) => {
       const orderstatus = data.orderstatus;
       const orderId = data.orderId;
       const order = await ordercollection.findOneAndUpdate(
@@ -196,9 +196,10 @@ module.exports = {
     });
   },
 
+  //coupon
+
   addcoupon:(CouponData)=>{
-    return new Promise (async(reject,resolve)=>{
-      console.log("Entered to FuncN");
+    return new Promise (async(resolve,reject)=>{
       const newCoupon=new coupons({
         couponCode:CouponData.code,
         expriryDate:CouponData.expirationDate,
@@ -206,9 +207,15 @@ module.exports = {
         minAmount:CouponData.minAmount,
         maxAmount:CouponData.maxDiscount
       })
-      console.log(newCoupon,"add coupon print in funcN!!!!");
       await newCoupon.save()
+      resolve()
     })
+  },
 
+  listCoupon:()=>{
+    return new Promise(async(resolve,reject)=>{
+      const couponDetails=await coupons.find({}).lean()
+      resolve(couponDetails)
+    })
   }
 };
