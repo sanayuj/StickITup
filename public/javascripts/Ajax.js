@@ -1,8 +1,5 @@
 //add product to cart
 
-
-
-
 function addToCart(proId) {
   $.ajax({
     url: "/addtocart/" + proId,
@@ -238,49 +235,45 @@ function removefromWishlist(productId, wishlistId) {
     .then(() => {});
 }
 
-
-$("#add_coupon_form").submit((e)=>{
+$("#add_coupon_form").submit((e) => {
   e.preventDefault();
   $.ajax({
-    url:"/admin/addCoupon",
-    method:"post",
-    data:$('#add_coupon_form').serialize(),
-    success:(response)=>{
-      if(response){
-        swal("Coupon Added !").then(()=>{
-          location.reload()
-        })
+    url: "/admin/addCoupon",
+    method: "post",
+    data: $("#add_coupon_form").serialize(),
+    success: (response) => {
+      if (response) {
+        swal("Coupon Added !").then(() => {
+          location.reload();
+        });
       }
-    }
-  })
-})
+    },
+  });
+});
 
 function applyCoupon() {
-		
-  const couponcode = document.getElementById("couponcode").value
+  const couponcode = document.getElementById("couponcode").value;
 
   $.ajax({
     url: "/applycoupon",
     method: "post",
     data: {
-      code: couponcode
+      code: couponcode,
     },
     success: (response) => {
-      if(response.status && !response.min_total){
-      
-      
-        document.getElementById("expired").innerText="The minimum spend for this coupon is not satisfied"
+      if (response.status && !response.min_total) {
+        document.getElementById("expired").innerText =
+          "The minimum spend for this coupon is not satisfied";
+      } else if (response.status) {
+        console.log(response);
+
+        swal("Coupon applied!").then(() => {
+          location.reload();
+        });
+      } else if (!response.status) {
+        document.getElementById("expired").innerText =
+          "This Coupon has Expired";
       }
-      else if (response.status) {
-      console.log(response)
-      
-      swal("Coupon applied!").then(()=>{
-        location.reload()
-        
-      })
-      }else if(!response.status){
-        document.getElementById("expired").innerText="This Coupon has Expired"
-      }
-    }
-    })
+    },
+  });
 }

@@ -5,6 +5,7 @@ const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
 
+
 const verifyadminLogin = (req, res, next) => {
   if (req.session.adminloggedin) {
     next();
@@ -140,6 +141,8 @@ router.post("/addCoupon",verifyadminLogin, async(req,res)=>{
  res.json({status:true})
 })
 
+
+// router.get("/home",adminController.getAdminDashboard)
 
 
 

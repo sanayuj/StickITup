@@ -1,4 +1,8 @@
 const mongoose=require("mongoose")
+const indianTime=new Date();
+const options={timeZone:'Asia/Kolkate'}
+
+
 const orderSchema= new mongoose.Schema({
 userid:{
     type:mongoose.Schema.Types.ObjectId,
@@ -37,6 +41,13 @@ totalamount:{
 status:{
     type:String,
     required:true
+},
+OrdercreatedAt:{
+    type:String,
+    // default:indianTime.toLocaleString('IND',options)
+},
+monthinNo:{
+type:String
 }
 })
 

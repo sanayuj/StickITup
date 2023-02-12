@@ -6,7 +6,7 @@ const verify = require("../config/nodemailer");
 const { response, json } = require("express");
 const sendmail = require("../config/nodemailer");
 const { Collection } = require("mongoose");
-const coupons=require("../model/coupon")
+const coupons = require("../model/coupon");
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -102,7 +102,7 @@ router.get("/product-singlepage/:id", (req, res) => {
       user._id
     );
     console.log(WishlistExists, "Exists or Not!!!!!!!");
-    
+
     res.render("user/user_homepage/singleproduct", {
       user,
       productdetails,
@@ -335,59 +335,71 @@ router.get("/wishlist", verifyLogin, async (req, res) => {
   });
 });
 
-
 //remove product from wishlist
 
-router.post("/removewishlistProduct",verifyLogin, async (req, res) => {
+router.post("/removewishlistProduct", verifyLogin, async (req, res) => {
   const details = req.body;
   await controller.removefromWishlist(details);
   res.json({ status: true });
 });
 
-
 //display the coupons in user profile
 
-router.get("/userCoupons",async(req,res)=>{
-  const coupons=await adminController.listCoupon()
-  console.log(coupons,"coupons in user side !!");
-  res.render("user/user_homepage/userCoupon",{coupons})
-})
+router.get("/userCoupons", async (req, res) => {
+  const coupons = await adminController.listCoupon();
+  console.log(coupons, "coupons in user side !!");
+  res.render("user/user_homepage/userCoupon", { coupons });
+});
 
-router.post("/applycoupon",verifyLogin,async(req,res)=>{
+// apply coupon
+
+router.post("/applycoupon", verifyLogin, async (req, res) => {
   console.log("Ajax to router entered!!! ");
-  console.log(req.body.code),"opopopopop";
-    const couponcode=req.body.code
-   
-    const date= new Date();
-    console.log(date,"Date is printed here !!!!");
-    const Coupon=await coupons.findOne({couponCode:couponcode})
-    console.log(Coupon,"find coupon worked");
-    const totalAmount = await controller.totalAmount(req.session.user._id)   
-    console.log(totalAmount,"totalamount got");
-    if(Coupon){
-      console.log("Entered to coupon if condition!!");
-        const minimumAmount=Coupon.minOrderAmount
-        const exdate=new Date(Coupon.expiryDate)
-        if(exdate>=date){
-           if(totalAmount>Coupon.minOrderAmount){
-            let discount=parseInt((totalAmount*Coupon.disCount)/100)
-            let totaldisconut=0;
-            if (Coupon.maxDiscountAmount> discount) {
-                totaldisconut = discount
-            } else {
-                totaldisconut = Coupon.maxDiscountAmount
-            }          
-            await cart.findOneAndUpdate({userId:req.session.user._id},{$set:{cuponsavings:totaldisconut}})
-            res.json({ status: true, Coupon, min_total: true, totaldisconut ,minimumAmount})        
-           }else{
-            res.json({ status: true, min_total: false, Coupon })
-           }
-        }else{
-            res.json({ status: false })
+  console.log(req.body.code), "opopopopop";
+  const couponcode = req.body.code;
+
+  const date = new Date();
+  console.log(date, "Date is printed here !!!!");
+  const Coupon = await coupons.findOne({ couponCode: couponcode });
+  console.log(Coupon, "find coupon worked");
+  const totalAmount = await controller.totalAmount(req.session.user._id);
+  console.log(totalAmount, "totalamount got");
+  if (Coupon) {
+    console.log("Entered to coupon if condition!!");
+    const minimumAmount = Coupon.minOrderAmount;
+    const exdate = new Date(Coupon.expiryDate);
+    if (exdate >= date) {
+      if (totalAmount > Coupon.minOrderAmount) {
+        let discount = parseInt((totalAmount * Coupon.disCount) / 100);
+        let totaldisconut = 0;
+        if (Coupon.maxDiscountAmount > discount) {
+          totaldisconut = discount;
+        } else {
+          totaldisconut = Coupon.maxDiscountAmount;
         }
-    }else {
-        res.json({ status: false })
+        await cart.findOneAndUpdate(
+          { userId: req.session.user._id },
+          { $set: { cuponsavings: totaldisconut } }
+        );
+        res.json({
+          status: true,
+          Coupon,
+          min_total: true,
+          totaldisconut,
+          minimumAmount,
+        });
+      } else {
+        res.json({ status: true, min_total: false, Coupon });
+      }
+    } else {
+      res.json({ status: false });
     }
-})
+  } else {
+    res.json({ status: false });
+  }
+});
+
+
+
 
 module.exports = router;

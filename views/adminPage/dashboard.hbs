@@ -1,0 +1,147 @@
+<script>"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.umd.js"</script>
+
+
+{{>adminNavbar}}
+
+<section>
+    <div>
+        {{>adminsidebar}}
+    </div>
+
+        <div class=" main px-5 pt-5 content-admin" style="margin-left: 180px;  ">
+          <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<body>
+
+    <section class=" admin-section body_dashboard d-flex gap-5">
+    
+        <div class="vw-100 main px-5 pt-5  content-admin justify-content-center">
+            <h1>Dashboard</h1>
+            <div class="row  mt-2 g-4 mb-5">
+                
+                <div class="col-md-3 ">
+                    <div class="card p-3 box-shadow text-decoration-none  count_div bg-success">
+                        <div class="d-md-flex justify-content-between align-items-center p-2 overflow">
+                            <div class="flex-column lh-1 ">
+                                <p class="text-white">Active Users</p>
+                                <span class="text-white fs-3"> {{userCount}}</span>
+                            </div>
+                            <div class="flex-column lh-1 ">
+                                <span class="material-icons-sharp text-white">
+                                    group
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="card p-3 box-shadow text-decoration-none count_div" style="background-color: #4e4376;">
+                        <div class="d-md-flex justify-content-between align-items-center p-2 overflow">
+                            <div class="flex-column lh-1  ">
+                                <p class="text-white">Total Products</p>
+                                <span class="text-white fs-3">{{productCount}}</span>
+                            </div>
+                            <div class="flex-column lh-1  ">
+                                <span class="material-icons-sharp text-white">
+                                    checkroom
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="card p-3 box-shadow text-decoration-none  count_div" style="background-color: #46aef7;">
+                        <div class="d-md-flex justify-content-between align-items-center p-2 overflow">
+                            <div class="flex-column lh-1  ">
+                                <p class="text-white">Orders</p>
+                                <span  class="text-white fs-3"> {{orderCount}}</span>
+                            </div>
+                            <div class="flex-column lh-1  ">
+                                <span class="material-icons-sharp text-white">
+                                    inventory
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 ">
+                    <div class="card p-3 box-shadow text-decoration-none count_div" style="background-color: #ff9a38;">
+                        <div class="d-md-flex justify-content-between align-items-center p-2 overflow">
+                            <div class="flex-column lh-1 ">
+                                <p class="text-white">Total Revenue</p>
+                                {{#each total}}
+                                {{#if @first}}
+                                <span  class="text-white fs-3"> ₹ {{total}}</span>
+                                {{/if}}
+                                {{/each}}
+                            </div>
+                            <div class="flex-column lh-1 ">
+                                <span class="material-icons-sharp text-white">
+                                    savings
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="mb-5 container">
+       <div class="d-flex justify-content-center"><h1>Revenue Chart</h1></div> 
+  <canvas id="myChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart').getContext('2d')
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June','July','August','September','October','November','December'],
+      datasets: [{
+        label: 'Earnings' ,
+        data: [{{monthdetails}}],
+              backgroundColor: [
+        '#4b71c4',
+        '#d473a8',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)',
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+      ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+        
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }, plugins: {
+      title: {
+        display: true,
+        text: 'Monthly Earnings',
+        font: {
+          size: 18,
+          weight: 'bold'
+        }
+      }
+    }
+    
+  });
+</script>
+
+
+</body>
+</section>
