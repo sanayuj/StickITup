@@ -4,6 +4,7 @@ var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
+const { route } = require("./user");
 
 
 const verifyadminLogin = (req, res, next) => {
@@ -139,6 +140,13 @@ router.get("/addCoupon", verifyadminLogin,async(req,res)=>{
 router.post("/addCoupon",verifyadminLogin, async(req,res)=>{
  await adminController.addcoupon(req.body)
  res.json({status:true})
+})
+
+router.post("/delectcategory",verifyadminLogin, async(req,res)=>{
+  const categoryId=req.body.categoryId
+  console.log(categoryId);
+  await adminController.deletecategory(categoryId)
+  res.json({status:true})
 })
 
 

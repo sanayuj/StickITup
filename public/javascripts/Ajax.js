@@ -1,5 +1,7 @@
 //add product to cart
 
+
+
 function addToCart(proId) {
   $.ajax({
     url: "/addtocart/" + proId,
@@ -276,4 +278,35 @@ function applyCoupon() {
       }
     },
   });
+}
+
+function delectCategory(categoryId) {
+  swal({
+    title: "Are you sure?",
+    text: "This category will delected!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+    .then((willDelete) => {
+      if (willDelete) {
+        $.ajax({
+          url: "/admin/delectcategory",
+          method: "post",
+          data: {
+            categoryId: categoryId,
+          },
+          success: (response) => {
+            console.log("success response!!");
+            if (response.status) {
+              swal("Category delected!").then(() => {
+                location.reload();
+              });
+            }
+          },
+        });
+      } else {
+      }
+    })
+    .then(() => {});
 }

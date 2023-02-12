@@ -218,6 +218,16 @@ module.exports = {
       resolve(couponDetails)
     })
   },
+ deletecategory:(data)=>{
+  return new Promise(async(resolve,reject)=>{
+    const categoryId=data
+    console.log(categoryId,"category id is here !!");
+    const delect=await categorycollection.deleteOne({_id:categoryId})
+    
+  })
+ }
+
+ 
 };
 
 
