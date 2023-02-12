@@ -2,6 +2,7 @@
 
 
 
+
 function addToCart(proId) {
   $.ajax({
     url: "/addtocart/" + proId,
@@ -253,3 +254,33 @@ $("#add_coupon_form").submit((e)=>{
     }
   })
 })
+
+function applyCoupon() {
+		
+  const couponcode = document.getElementById("couponcode").value
+
+  $.ajax({
+    url: "/applycoupon",
+    method: "post",
+    data: {
+      code: couponcode
+    },
+    success: (response) => {
+      if(response.status && !response.min_total){
+      
+      
+        document.getElementById("expired").innerText="The minimum spend for this coupon is not satisfied"
+      }
+      else if (response.status) {
+      console.log(response)
+      
+      swal("Coupon applied!").then(()=>{
+        location.reload()
+        
+      })
+      }else if(!response.status){
+        document.getElementById("expired").innerText="This Coupon has Expired"
+      }
+    }
+    })
+}

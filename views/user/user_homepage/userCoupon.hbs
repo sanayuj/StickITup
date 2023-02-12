@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="/stylesheets/couponStyle.css">
+{{>userNavbar}}
+
+    {{!-- {{>userprofileSidebar}} --}}
+    {{#if coupons}}
+  <div class="container m-5">
+  <div class="row">
+    {{#each coupons}}
+        <div class="col-sm-6 col-md-3">
+          <div class="dl">
+            <div class="brand">
+                <h2>Coupon</h2>
+            </div>
+            <div class="discount alizarin">{{this.maxDiscount}}%
+                <div class="type">off</div>
+            </div>
+            <div class="descr">
+                <strong>You want to buy atleast for {{this.minAmount}}₹.</strong> 
+                <small>It Expiries in {{this.expriryDate}}</small> 
+            </div>
+            <div class="ends">
+                <small>* Conditions and restrictions apply.</small>
+            </div>
+            <div class="coupon midnight-blue">
+                
+                <div style="color: antiquewhite;">Code:{{this.couponCode}}</div>
+            </div>
+          </div>
+        </div>
+       {{/each}} 
+            
+ 
+     
+  </div>
+  </div>
+  {{else}}
+<h1>No Coupons</h1>
+{{/if}}
+
+</section>
+

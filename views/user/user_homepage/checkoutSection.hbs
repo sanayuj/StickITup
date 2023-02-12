@@ -35,7 +35,20 @@
 		{{/if}}
 		
 		<section class="checkout-details">
-
+			{{!-- coupon apply --}}
+			<div class="checkout-details-inner lh-lg mb-3">
+				<h3 class="pb-2 ">Apply Coupon</h3>
+				
+				<small class="text-danger" id="expired"></small>
+				<div class="d-flex">
+					<div class="flex-grow-1"><input type="text" placeholder="Enter the coupon code" class="p-2" style="border-radius: 1rem; border:none"
+							id="couponcode"></div>
+					<div class="ms-2"><a class="btn btn-primary p-2" style="border-radius: 1rem;"
+							onclick="applyCoupon()">Apply</a></div>
+				</div>
+				
+			</div>
+			{{!-- coupon apply --}}
 			<div class="checkout-details-inner lh-lg mb-3">
 
 				<h3 class="pb-2 ">Order Summary</h3>
