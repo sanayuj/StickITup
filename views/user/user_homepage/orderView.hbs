@@ -27,6 +27,8 @@
       <td><img width="100" src="/images/categoryimage/{{this.orderProducts.imageurl.[0].filename}}" alt=""></td>
        <td>{{paymentmethod}}</td>
      <td>{{status}}</td>
+     <td><div><a href="/cancelOrder/:{{_id}}"><button class="btn btn-primary" type="button"
+                onclick="cancelOrder('{{orderDetails.[0]._id}}')">Cancel Order</button></a></div></td>
     </tr>
     {{/each}}
   </tbody>

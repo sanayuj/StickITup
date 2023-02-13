@@ -761,4 +761,17 @@ module.exports = {
         });
     });
   },
+
+
+
+//  cancelOrder :(orderId) => {
+//   console.log("hi");
+//   console.log(orderId,"kekkekekek");
+//   const orderid = new mongoose.Types.ObjectId(orderId)
+//   console.log(orderid,"obj");
+//   return new Promise(async (resolve, reject) => {
+//       const order = await orderSchema.findOneAndUpdate({ _id: orderid }, { $set: { status: "Order cancelled" } })
+//       resolve()
+//   })
+// }
 };

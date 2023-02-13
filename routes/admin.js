@@ -138,10 +138,12 @@ router.get("/addCoupon", verifyadminLogin, async (req, res) => {
   res.render("adminPage/coupon", { coupons });
 });
 
+
 router.post("/addCoupon", verifyadminLogin, async (req, res) => {
   await adminController.addcoupon(req.body);
   res.json({ status: true });
 });
+
 
 router.post("/delectcategory", verifyadminLogin, async (req, res) => {
   const categoryId = req.body.categoryId;
@@ -167,7 +169,6 @@ router.post(
   verifyadminLogin,
   categoryimgupload.single("image"),
   async (req, res) => {
-    console.log(req.body, "////");
     const category = req.body;
     const file = req.file;
     await adminController.updateCategory(category, file).then(() => {
@@ -194,5 +195,7 @@ router.get("/home", verifyadminLogin, async (req, res) => {
     monthdetails,
   });
 });
+
+
 
 module.exports = router;

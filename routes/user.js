@@ -263,8 +263,11 @@ router.get("/userProfile", verifyLogin, (req, res) => {
 
 router.get("/orderDetails", verifyLogin, async (req, res) => {
   const orderDetails = await controller.viewOrderDetails(req.session.user._id);
+
+  await controller.cancelOrder()
+  console.log(orderDetails,"orderdetails >>>>>");
   res.render("user/user_homepage/orderView", {
-    orderDetails,
+    orderDetails, 
     user: req.session.user,
   });
 });
@@ -399,7 +402,7 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
         res.json({ status: true, min_total: false, Coupon });
       }
     } else {
-      console.log("Condition false!!");
+     
       res.json({ status: false });
     }
   } else {
@@ -407,4 +410,10 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
   }
 });
 
+
+// router.get("/cancelOrder/:id",async(req,res)=>{
+//   const id=req.params
+//   console.log(id,"cancelled!!!");
+//   await controller.cancelOrder(id)
+// })
 module.exports = router;
