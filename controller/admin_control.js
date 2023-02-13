@@ -93,6 +93,7 @@ module.exports = {
   addCategory: (categoryDetails, img) => {
     return new Promise(async (resolve, reject) => {
       try {
+        
         const newCategory = new categorycollection({
           title: categoryDetails.categoryName,
           image: img.filename,
@@ -198,90 +199,91 @@ module.exports = {
 
   //coupon
 
-  addcoupon:(CouponData)=>{
+  addcoupon: (CouponData) => {
     console.log("add Coupon is working!!!");
-    return new Promise (async(resolve,reject)=>{
-      const newCoupon=new coupons({
-        couponCode:CouponData.code,
-        expriryDate:CouponData.expirationDate,
-        maxDiscount:CouponData.discount,
-        minAmount:CouponData.minAmount,
-        maxAmount:CouponData.maxDiscount
-      })
-      await newCoupon.save()
-      resolve()
-    })
+    return new Promise(async (resolve, reject) => {
+      const newCoupon = new coupons({
+        couponCode: CouponData.code,
+        expriryDate: CouponData.expirationDate,
+        maxDiscount: CouponData.discount,
+        minAmount: CouponData.minAmount,
+        maxAmount: CouponData.maxDiscount,
+      });
+      await newCoupon.save();
+      resolve();
+    });
   },
 
-  listCoupon:()=>{
+  listCoupon: () => {
+    return new Promise(async (resolve, reject) => {
+      const couponDetails = await coupons.find({}).lean();
+      resolve(couponDetails);
+    });
+  },
+  deletecategory: (data) => {
+    return new Promise(async (resolve, reject) => {
+      const categoryId = data;
+      console.log(categoryId, "category id is here !!");
+      const delect = await categorycollection.deleteOne({ _id: categoryId });
+    });
+  },
+
+  //category edit
+
+  editcategory: (categoryId) => {
+    return new Promise((resolve, reject) => {
+      const category = categorycollection.findOne({ _id: categoryId }).lean();
+      resolve(category);
+    });
+  },
+
+  disablePro: async (data) => {
+    const productId = data;
+    await productcollection.findOneAndUpdate(
+      { _id: productId },
+      { $set: { status: false } }
+    );
+  },
+
+  orderDetailsInMonth: () => {
+    return new Promise(async (resolve) => {
+      let orders = await ordercollection.aggregate([
+        {
+          $group: {
+            _id: "$monthinNo",
+            total: { $sum: "$totalamount" },
+          },
+        },
+        {
+          $sort: { _id: 1 },
+        },
+      ]);
+      let details = [];
+      orders.forEach((element) => {
+        details.push(element.total);
+      });
+      resolve({ details });
+    });
+  },
+
+   updateCategory:(data,file)=>{
     return new Promise(async(resolve,reject)=>{
-      const couponDetails=await coupons.find({}).lean()
-      resolve(couponDetails)
-    })
-  },
- deletecategory:(data)=>{
-  return new Promise(async(resolve,reject)=>{
-    const categoryId=data
-    console.log(categoryId,"category id is here !!");
-    const delect=await categorycollection.deleteOne({_id:categoryId})
+      console.log(data,"00000009999900000");
+     const categoryId=data.categoryId
+    console.log(categoryId,"update category !!!!!");
+     if(file){
+      console.log("if");
+        await categorycollection.findOneAndUpdate({_id:categoryId},{$set:{
+            title: data.categoryname,
+            image: file.filename
+        }})
+    }else{
+      console.log("else");
+        await categorycollection.findOneAndUpdate({_id:categoryId},{$set:{
+            title: data.categoryname,
+          
+        }})
+    }resolve()
   })
- },
-
- //category edit
-
- editcategory:(categoryId)=>{
-  console.log(categoryId,"getten category id is here$$$$$");
-  return new Promise ((resolve,reject)=>{
-    const category=categorycollection.findOne({_id:categoryId}).lean()
-    console.log(category,"category id is here!!!!!!!");
-    resolve(category)
-  })
- },
-
- disablePro:async(data)=>{
-  const productId=data
-  await productcollection.findOneAndUpdate({_id:productId},{$set:{status:false}})
- },
-
- 
-
- 
- 
-  orderDetailsInMonth:()=>{
-  return new Promise(async(resolve)=>{
-    let orders=await ordercollection.aggregate([
-
-      {
-        $group:{
-          _id:"$monthinNo",
-          total:{$sum:'$totalamount'}
-        }
-      },
-      {
-        $sort:{_id:1}
-      }
-    ]) 
-    let details=[];
-    orders.forEach(element=>{
-      details.push(element.total)
-    })
-    resolve({details})
-        })
-       
 }
-
 };
-
-
-
-
-
-
-
-
-// module.exports={
-
-//   getAdminDashboard,
-//   oderDetailsInMonth
-
-// }

@@ -299,6 +299,7 @@ function delectCategory(categoryId) {
             categoryId: categoryId,
           },
           success: (response) => {
+            alert("pipipipi")
             console.log("success response!!");
             if (response.status) {
               swal("Category delected!").then(() => {

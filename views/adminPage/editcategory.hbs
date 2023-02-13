@@ -10,10 +10,15 @@
     <div class="col-md-4 col-12 p-5 mt-5" style="background-color: #ddddddc9;">
       <h3>Edit Category</h3>
 
-      <form action="/admin/addcategory" method="post" enctype="multipart/form-data">
+      <form action="/admin/updatecategory" method="post" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label">Category Name</label>
           <input type="text" class="form-control" name="categoryname" aria-describedby="emailHelp" value="{{category.title}}" required />
+
+        </div>
+          <div class="mb-3 d-none" >
+          <label for="exampleInputEmail1" class="form-label">Category Id </label>
+          <input type="text" class="form-control" name="categoryId" aria-describedby="emailHelp" value="{{category._id}}" required />
 
         </div>
         <div>
@@ -21,7 +26,7 @@
         </div>
         <div class="mb-3">
           <label for="exampleInputPassword1" class="form-label"></label>
-          <input class="form-control" type="file" name="image" value="{{category.imageurl}}" required />
+          <input class="form-control" type="file" name="image" value="{{category.imageurl}}"  />
         </div>
         <div class="d-flex justify-content-center">
           <button type="submit" class="btn fontcolor login-btn">Submit</button>

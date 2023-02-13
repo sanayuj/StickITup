@@ -5,10 +5,9 @@ const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
 const { route } = require("./user");
-const user=require("../model/usermodel")
-const product=require("../model/productmodel")
-const Ordercollection=require("../model/userproductOrder")
-
+const user = require("../model/usermodel");
+const product = require("../model/productmodel");
+const Ordercollection = require("../model/userproductOrder");
 
 const verifyadminLogin = (req, res, next) => {
   if (req.session.adminloggedin) {
@@ -125,7 +124,7 @@ router.get("/orderStatusChange/:id", verifyadminLogin, async (req, res) => {
   res.render("adminPage/orderStatusChange", { userDetails });
 });
 
-//post method 
+//post method
 
 router.post("/changeStatus", verifyadminLogin, async (req, res) => {
   adminController.changeOrderstatus(req.body);
@@ -134,56 +133,66 @@ router.post("/changeStatus", verifyadminLogin, async (req, res) => {
 
 //coupon
 
-router.get("/addCoupon", verifyadminLogin,async(req,res)=>{
-  const coupons=await adminController.listCoupon()
-  res.render("adminPage/coupon",{coupons})
-})
+router.get("/addCoupon", verifyadminLogin, async (req, res) => {
+  const coupons = await adminController.listCoupon();
+  res.render("adminPage/coupon", { coupons });
+});
 
+router.post("/addCoupon", verifyadminLogin, async (req, res) => {
+  await adminController.addcoupon(req.body);
+  res.json({ status: true });
+});
 
-router.post("/addCoupon",verifyadminLogin, async(req,res)=>{
- await adminController.addcoupon(req.body)
- res.json({status:true})
-})
-
-router.post("/delectcategory",verifyadminLogin, async(req,res)=>{
-  const categoryId=req.body.categoryId
+router.post("/delectcategory", verifyadminLogin, async (req, res) => {
+  const categoryId = req.body.categoryId;
   console.log(categoryId);
-  await adminController.deletecategory(categoryId)
-  res.json({status:true})
-})
+  await adminController.deletecategory(categoryId);
+  res.json({ status: true });
+});
 
-router.get("/editcategory/:id",verifyadminLogin,async(req,res)=>{
-  const id=req.params.id
-  const category=await adminController.editcategory(req.params.id)
-  res.render("adminPage/editcategory",{category})
-})
+router.get("/editcategory/:id", verifyadminLogin, async (req, res) => {
+  const id = req.params.id;
+  const category = await adminController.editcategory(req.params.id);
+  res.render("adminPage/editcategory", { category });
+});
 
-router.post("/disableproduct",verifyadminLogin,async(req,res)=>{
-  const productId=req.body.productId
-  await adminController.disablePro(productId)
-  res.json({status:true})
-})
+router.post("/disableproduct", verifyadminLogin, async (req, res) => {
+  const productId = req.body.productId;
+  await adminController.disablePro(productId);
+  res.json({ status: true });
+});
 
+router.post(
+  "/updatecategory",
+  verifyadminLogin,
+  categoryimgupload.single("image"),
+  async (req, res) => {
+    console.log(req.body, "////");
+    const category = req.body;
+    const file = req.file;
+    await adminController.updateCategory(category, file).then(() => {
+      res.redirect("/admin/addCategory");
+    });
+  }
+);
 
-// router.get("/home",verifyadminLogin,(req,res)=>{
-//   res.render("adminPage/dashboard")
-// })
-
-// router.get("/home",adminController.getAdminDashboard)
-
-
-router.get("/home",verifyadminLogin,async(req,res)=>{
-  const userCount=await user.countDocuments({})
-  console.log(userCount,"user. ");
-  const productCount=await product.countDocuments({})
-  const orderCount=await Ordercollection.countDocuments({})
-  const total=await Ordercollection.aggregate([
-      { $group: { _id: null, total: { $sum: "$totalamount" } } }
-  ])
-  const monthdetails=await adminController.orderDetailsInMonth()
-  console.log(monthdetails,"heheh");
-  res.render('adminPage/dashboard', { admin: req.session.adminloggedin ,userCount,productCount,orderCount,total,monthdetails})
-})
-
+router.get("/home", verifyadminLogin, async (req, res) => {
+  const userCount = await user.countDocuments({});
+  console.log(userCount, "user. ");
+  const productCount = await product.countDocuments({});
+  const orderCount = await Ordercollection.countDocuments({});
+  const total = await Ordercollection.aggregate([
+    { $group: { _id: null, total: { $sum: "$totalamount" } } },
+  ]);
+  const monthdetails = await adminController.orderDetailsInMonth();
+  res.render("adminPage/dashboard", {
+    admin: req.session.adminloggedin,
+    userCount,
+    productCount,
+    orderCount,
+    total,
+    monthdetails,
+  });
+});
 
 module.exports = router;
