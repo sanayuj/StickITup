@@ -5,6 +5,9 @@ const { response, render } = require("../app");
 var router = express.Router();
 var categoryimgupload = require("../utilities/imgUpload");
 const { route } = require("./user");
+const user=require("../model/usermodel")
+const product=require("../model/productmodel")
+const Ordercollection=require("../model/userproductOrder")
 
 
 const verifyadminLogin = (req, res, next) => {
@@ -162,12 +165,25 @@ router.post("/disableproduct",verifyadminLogin,async(req,res)=>{
 })
 
 
-router.get("/home",verifyadminLogin,(req,res)=>{
-  res.render("adminPage/dashboard")
-})
+// router.get("/home",verifyadminLogin,(req,res)=>{
+//   res.render("adminPage/dashboard")
+// })
 
 // router.get("/home",adminController.getAdminDashboard)
 
+
+router.get("/home",verifyadminLogin,async(req,res)=>{
+  const userCount=await user.countDocuments({})
+  console.log(userCount,"user. ");
+  const productCount=await product.countDocuments({})
+  const orderCount=await Ordercollection.countDocuments({})
+  const total=await Ordercollection.aggregate([
+      { $group: { _id: null, total: { $sum: "$totalamount" } } }
+  ])
+  const monthdetails=await adminController.orderDetailsInMonth()
+  console.log(monthdetails,"heheh");
+  res.render('adminPage/dashboard', { admin: req.session.adminloggedin ,userCount,productCount,orderCount,total,monthdetails})
+})
 
 
 module.exports = router;

@@ -224,13 +224,16 @@ module.exports = {
     const categoryId=data
     console.log(categoryId,"category id is here !!");
     const delect=await categorycollection.deleteOne({_id:categoryId})
-    
   })
  },
 
+ //category edit
+
  editcategory:(categoryId)=>{
+  console.log(categoryId,"getten category id is here$$$$$");
   return new Promise ((resolve,reject)=>{
     const category=categorycollection.findOne({_id:categoryId}).lean()
+    console.log(category,"category id is here!!!!!!!");
     resolve(category)
   })
  },
@@ -238,46 +241,42 @@ module.exports = {
  disablePro:async(data)=>{
   const productId=data
   await productcollection.findOneAndUpdate({_id:productId},{$set:{status:false}})
- }
+ },
+
  
+
+ 
+ 
+  orderDetailsInMonth:()=>{
+  return new Promise(async(resolve)=>{
+    let orders=await ordercollection.aggregate([
+
+      {
+        $group:{
+          _id:"$monthinNo",
+          total:{$sum:'$totalamount'}
+        }
+      },
+      {
+        $sort:{_id:1}
+      }
+    ]) 
+    let details=[];
+    orders.forEach(element=>{
+      details.push(element.total)
+    })
+    resolve({details})
+        })
+       
+}
+
 };
 
 
 
-// const oderDetailsInMonth=()=>{
-//   return new Promise(async(resolve)=>{
-//     let orders=await ordercollection.aggregate([
-
-//       {
-//         $group:{
-//           _id:"$monthinNo",
-//           total:{$sum:'$totalamount'}
-//         }
-//       },
-//       {
-//         $sort:{_id:1}
-//       }
-//     ]) 
-//     let details=[];
-//     orders.forEach(element=>{
-//       details.push(element.total)
-//     })
-//     resolve(details)
-//         })
-       
-// }
 
 
-// const getAdminDashboard=async(req,res)=> {
-//   const userCount=await userlist.countDocuments({})
-//   const productCount=await productcollection.countDocuments({})
-//   const orderCount=await ordercollection.countDocuments({})
-//   const total=await ordercollection.aggregate([
-//       { $group: { _id: null, total: { $sum: "$totalamount" } } }
-//   ])
-//   const monthdetails=await oderDetailsInMonth()
-//   res.render('admin/admin_dashboard', { admin: req.session.adminloggedin ,userCount,productCount,orderCount,total,monthdetails})
-// }
+
 
 
 // module.exports={
