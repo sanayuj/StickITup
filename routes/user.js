@@ -7,6 +7,8 @@ const { response, json } = require("express");
 const sendmail = require("../config/nodemailer");
 const { Collection } = require("mongoose");
 const coupons = require("../model/coupon");
+const cart=require("../model/cartmodel")
+const order=require("../model/userproductOrder")
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedin) {
@@ -194,12 +196,18 @@ router.get("/checkout", verifyLogin, async (req, res) => {
   const userproducts = userproduct.cartProducts;
   const userAddress = await controller.showAddress(req.session.user._id);
   const totalAmount = await controller.totalAmount(req.session.user._id);
+  const cartdata=await cart.findOne({userId:req.session.user._id})
+  const couponSaving= cartdata.couponSaving
+  const totaldiscountAmount=parseInt(totalAmount-couponSaving)
+  console.log(couponSaving,"!!!!!!!!!!!!"); 
   res.render("user/user_homepage/checkoutSection", {
     userproduct,
     totalAmount,
     user: req.session.user,
     userproducts,
     userAddress,
+    couponSaving,
+    totaldiscountAmount
   });
 });
 
@@ -359,27 +367,30 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
   const couponcode = req.body.code;
 
   const date = new Date();
-  console.log(date, "Date is printed here !!!!");
   const Coupon = await coupons.findOne({ couponCode: couponcode });
-  console.log(Coupon, "find coupon worked");
   const totalAmount = await controller.totalAmount(req.session.user._id);
-  console.log(totalAmount, "totalamount got");
   if (Coupon) {
-    console.log("Entered to coupon if condition!!");
-    const minimumAmount = Coupon.minOrderAmount;
-    const exdate = new Date(Coupon.expiryDate);
+    console.log(Coupon);
+    const minimumAmount = Coupon.minAmount;
+    const exdate = new Date(Coupon.expriryDate);
+    console.log(exdate,"jijjijiji");
     if (exdate >= date) {
-      if (totalAmount > Coupon.minOrderAmount) {
-        let discount = parseInt((totalAmount * Coupon.disCount) / 100);
+      console.log("Entered to date if condition!");
+      if (totalAmount > minimumAmount) {
+        
+        let discount = parseInt((totalAmount * Coupon.maxDiscount) / 100);
+
         let totaldisconut = 0;
-        if (Coupon.maxDiscountAmount > discount) {
+        if (Coupon.maxAmount > discount) {
           totaldisconut = discount;
+          
         } else {
           totaldisconut = Coupon.maxDiscountAmount;
+          
         }
         await cart.findOneAndUpdate(
           { userId: req.session.user._id },
-          { $set: { cuponsavings: totaldisconut } }
+          { $set: { couponSaving: totaldisconut } }
         );
         res.json({
           status: true,
@@ -392,6 +403,7 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
         res.json({ status: true, min_total: false, Coupon });
       }
     } else {
+      console.log("Condition false!!");
       res.json({ status: false });
     }
   } else {

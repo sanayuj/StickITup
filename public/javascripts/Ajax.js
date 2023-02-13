@@ -2,6 +2,8 @@
 
 
 
+
+
 function addToCart(proId) {
   $.ajax({
     url: "/addtocart/" + proId,
@@ -309,4 +311,18 @@ function delectCategory(categoryId) {
       }
     })
     .then(() => {});
+}
+
+function disableproduct(productId){
+  alert(productId,"this>>")
+  $.ajax({
+    url:"/admin/disableproduct",
+    method:"post",
+    data:{
+      proId:productId
+    },
+    success:(response)=>{
+      swal("product disabled")
+    }
+  })
 }

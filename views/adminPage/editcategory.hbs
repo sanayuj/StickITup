@@ -1,0 +1,34 @@
+{{>adminNavbar}}
+<section>
+  <div>
+    {{>adminsidebar}}
+  </div>
+
+{{#if category}}
+  <section class="d-flex justify-content-center align-items-center" style="margin-left: 225px;  margin-top: 60px;">
+
+    <div class="col-md-4 col-12 p-5 mt-5" style="background-color: #ddddddc9;">
+      <h3>Edit Category</h3>
+
+      <form action="/admin/addcategory" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">Category Name</label>
+          <input type="text" class="form-control" name="categoryname" aria-describedby="emailHelp" value="{{category.title}}" required />
+
+        </div>
+        <div>
+          <img src="/images/categoryimage/{{category.image}}" alt="" style="height: 150px; width: 150px;">
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label"></label>
+          <input class="form-control" type="file" name="image" value="{{category.imageurl}}" required />
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn fontcolor login-btn">Submit</button>
+        </div>
+      </form>
+    </div>
+    {{/if}}
+
+  </section>
+</section>

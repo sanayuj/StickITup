@@ -37,5 +37,9 @@ const productSchema = new mongoose.Schema({
     type: Number,
     require: true,
   },
+  status:{
+    type:Boolean,
+    require:true
+  }
 });
 module.exports = new mongoose.model("products", productSchema);

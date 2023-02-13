@@ -149,6 +149,20 @@ router.post("/delectcategory",verifyadminLogin, async(req,res)=>{
   res.json({status:true})
 })
 
+router.get("/editcategory/:id",verifyadminLogin,async(req,res)=>{
+  const id=req.params.id
+  const category=await adminController.editcategory(req.params.id)
+  res.render("adminPage/editcategory",{category})
+})
+
+router.post("/disableproduct",verifyadminLogin,async(req,res)=>{
+  const productId=req.body.productId
+  await adminController.disablePro(productId)
+  res.json({status:true})
+})
+
+
+
 
 // router.get("/home",adminController.getAdminDashboard)
 

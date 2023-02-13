@@ -199,6 +199,7 @@ module.exports = {
   //coupon
 
   addcoupon:(CouponData)=>{
+    console.log("add Coupon is working!!!");
     return new Promise (async(resolve,reject)=>{
       const newCoupon=new coupons({
         couponCode:CouponData.code,
@@ -225,8 +226,19 @@ module.exports = {
     const delect=await categorycollection.deleteOne({_id:categoryId})
     
   })
- }
+ },
 
+ editcategory:(categoryId)=>{
+  return new Promise ((resolve,reject)=>{
+    const category=categorycollection.findOne({_id:categoryId}).lean()
+    resolve(category)
+  })
+ },
+
+ disablePro:async(data)=>{
+  const productId=data
+  await productcollection.findOneAndUpdate({_id:productId},{$set:{status:false}})
+ }
  
 };
 

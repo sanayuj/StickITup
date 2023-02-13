@@ -23,6 +23,10 @@ const cartSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  couponSaving:{
+    type:Number,
+    default:0
+  }
 });
 
 module.exports = new mongoose.model("cart", cartSchema);
