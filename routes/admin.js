@@ -162,7 +162,9 @@ router.post("/disableproduct",verifyadminLogin,async(req,res)=>{
 })
 
 
-
+router.get("/home",verifyadminLogin,(req,res)=>{
+  res.render("adminPage/dashboard")
+})
 
 // router.get("/home",adminController.getAdminDashboard)
 
