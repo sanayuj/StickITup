@@ -10,11 +10,6 @@ const Razorpay = require("razorpay");
 const dotenv = require("dotenv");
 dotenv.config();
 const nodemailer = require("../config/nodemailer");
-const { request } = require("http");
-const { response } = require("Express");
-const { resolve } = require("path");
-const { resolveCaa } = require("dns");
-const { table } = require("console");
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
