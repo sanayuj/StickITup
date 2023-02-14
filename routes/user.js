@@ -62,14 +62,19 @@ router.get("/", async function (req, res, next) {
   await adminController.listProduct().then((data) => {
     const product = data;
     const productdata = product.map((product) => {
+
       return {
         _id: product._id,
         name: product.name,
         price: product.price2,
         price1: product.price1,
+        status:product.status,
         image: product.imageurl[0].filename,
       };
+     
+
     });
+    console.log(productdata);
     res.render("user/user_homepage/homepage", { user, productdata, cartcount });
     req.session.passwordErr = false;
     req.session.usernotExist = false;
@@ -94,7 +99,7 @@ router.get("/cart", verifyLogin, (req, res) => {
 
 //product single page
 
-router.get("/product-singlepage/:id", (req, res) => {
+router.get("/product-singlepage/:id",verifyLogin, (req, res) => {
   const id = req.params.id;
   const user = req.session.user;
   controller.productView(id).then(async (response) => {
@@ -114,9 +119,14 @@ router.get("/product-singlepage/:id", (req, res) => {
 //add to cart
 
 router.get("/addToCart/:productID", (req, res) => {
+  console.log(req.params.productID,"kk");
   controller
     .addtoCart(req.session.user._id, req.params.productID)
+    
     .then((data) => {
+      if(data.status){
+        
+      }
       res.json({ status: true });
     });
 });

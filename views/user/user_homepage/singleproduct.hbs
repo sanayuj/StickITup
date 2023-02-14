@@ -25,6 +25,7 @@
                     </div>
                     <div class="col-md-6  p-0">
                         <div class="product p-4 h-100">
+                            {{#if productdetails.status}}
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex align-items-center"> <a
                                         href="/"><span class="ml-1"><i class="fa fa-arrow-left" style="color:black;" aria-hidden="true"></i></span> </div> </a>
@@ -57,6 +58,39 @@
                             </div>
                             
                             </div>
+                            {{else}}
+
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center"> <a
+                                        href="/"><span class="ml-1"><i class="fa fa-arrow-left" style="color:black;" aria-hidden="true"></i></span> </div> </a>
+                            </div>
+                            <div class="mt-4 mb-3"> 
+                               <h5 class="text-uppercase"> <b>{{productdetails.name}}</b></h5>
+                                <div class="price d-flex flex-row align-items-center"> <span
+                                        class="act-price">₹{{productdetails.price2}}</span>
+                                    <div class="ms-2"> <small class="dis-price">₹{{productdetails.price1}}</small></div>
+                                </div>
+                            </div>
+                            <p class="about">{{productdetails.product_description}}</p>
+                            <div class="sizes mt-5">
+                                <h6 class="text-uppercase">Size</h6> <label class="radio"> <input type="radio"
+                                        name="size" value="S" checked> <span>S</span> </label> <label class="radio">
+                                    <input type="radio" name="size" value="M"> <span>M</span> </label> <label
+                                    class="radio"> <input type="radio" name="size" value="L"> <span>L</span> </label>
+                                <label class="radio"> <input type="radio" name="size" value="XL"> <span>XL</span>
+                                </label> <label class="radio"> <input type="radio" name="size" value="XXL">
+                                    <span>XXL</span> </label>
+                            </div>
+                            <div class="d-flex ">
+                            <div class="cart mt-4 align-items-center"> 
+                                <button onclick="wrongmessage()" class="btn btn-primary text-uppercase  px-4">Add to cart</button>
+                                 
+                                 <button onclick="wrongmessage()" class="btn btn-primary text-uppercase  px-4">Add to Wishlist</button> 
+                                
+                            </div>
+                            
+                            </div>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
@@ -66,9 +100,18 @@
 </div>
 
 {{>footer}}
+
+
 <script src="/javascripts/productviewpage.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+
+
 <script>
     $("#main-image").elevateZoom();
+
+ function wrongmessage(){
+        swal("Product is unavailable!")
+    }
 </script>

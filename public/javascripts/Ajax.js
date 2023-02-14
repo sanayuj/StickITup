@@ -11,7 +11,6 @@ function addToCart(proId) {
     success: (response) => {
       if (response.status) {
         let count = parseInt(document.getElementById("cart-count").innerHTML);
-
         document.getElementById("cart-count").innerHTML = count + 1;
         swal("product added to cart!", "success!", "success");
       } else {

@@ -13,25 +13,29 @@
 </div>
 
 {{!-- product card --}}
-<h3 class="" style="margin: 2rem;">New Arrivals</h3>
+<h3  style="margin: 2rem;">New Arrivals</h3>
+
 
 		<div class="row">
       {{#each productdata}}
       
     <div class="col-md-3 col-sm-6">
-      
+      {{#if this.productdata.status}}
+      llll
         <div class="product-grid">
             <div class="product-image">
+             
                 <a href="/product-singlepage/{{this._id}}" class="image">
+                
                     <img src="/images/categoryimage/{{image}}">
                 </a>
-                <span class="product-discount-label"></span>
+                {{!-- <span class="product-discount-label"> {{#if this.status}}
+             
+              {{else}}
+               <p class="text-danger">This product is unavailable now</p>
+              {{/if}}</span> --}}
                 <ul class="product-links">
-                    {{!-- {{#if WishlistExists}}
-
-                    {{else}}
-                    <li> <button onclick="addtoWishlist('{{productdetails._id}}')"><a ><i class="fa fa-heart"></i></a></button></li>
-                    {{/if}} --}}
+                   
                 </ul>
                 <button onclick="addToCart('{{this._id}}')" class="add-to-cart">Add to cart </button>
             </div>
@@ -40,6 +44,30 @@
                 <div class="price">${{this.price}} <span> {{this.price1}}</span></div>
             </div>
         </div>
+        {{else}}
+error
+ <div class="product-grid">
+            <div class="product-image">
+             
+                <a href="/product-singlepage/{{this._id}}" class="image">
+                
+                    <img src="/images/categoryimage/{{image}}">
+                </a>
+               
+               <p class="text-danger">This product is unavailable now</p>
+              </span>
+                <ul class="product-links">
+                   
+                </ul>
+                <button onclick="wrongmessage()" class="add-to-cart">Add to cart </button>
+            </div>
+            <div class="product-content">
+                <h3 class="title"><a style="text-decoration: none;" href="#">{{this.name}}</a></h3>
+                <div class="price">${{this.price}} <span> {{this.price1}}</span></div>
+            </div>
+        </div>
+{{/if}}
+
        
     </div>
     
@@ -48,3 +76,11 @@
 </div>
 
 {{>footer}}
+
+
+
+<script>
+  function wrongmessage(){
+        swal("Product is unavailable!")
+    }
+</script>
