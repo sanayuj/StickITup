@@ -1,0 +1,134 @@
+{{>adminNavbar}}
+<section>
+    <div>
+        {{>adminsidebar}}
+    </div>
+
+    <section style="margin-left: 220px;  margin-top: 50px; ">
+        <div class="container py-3 h-100">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div>
+                    <div class="card card-registration my-4" style="background-color: #ffff;">
+                        <div class=" d-flex justify-content-center g-0">
+                            <div class="col-xl-6">
+                                <div class="card-body p-md-5 text-black">
+                                    <h3 class="mb-4 text-uppercase"><u> Edit Product </u></h3>
+                                    <form action="/admin/updateproduct" method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product name</label>
+                                                    <input type="text" id="form3Example1m" name="productname"
+                                                        class="form-control form-control-lg"
+                                                        value="{{products.productname}}" required />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mb-4 d-none">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product id</label>
+                                                    <input type="text" id="form3Example1m" name="productid"
+                                                        class="form-control form-control-lg" value="{{products._id}}"
+                                                        required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-outline mb-4">
+                                            <label class="form-label" for="form3Example8">Product category</label>
+                                            <div class="row">
+                                                <div class="col-md-12">
+
+                                                    <select class="select p-2" name="productcategory"
+                                                        style="width: 100%;">
+                                                        <option value="{{products.productcategory}}">
+                                                            {{products.productcategory}} </option>
+
+                                                        {{#each categories}}
+                                                        <option value="{{this.categoryname}}">{{this.categoryname}}
+                                                        </option>
+                                                        {{/each}}
+                                                        </option>
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product MRP</label>
+                                                    <input type="number" id="form3Example1m" name="productMRP"
+                                                        class="form-control form-control-lg"
+                                                        value="{{products.productMRP}}" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product SRP</label>
+                                                    <input type="number" id="form3Example1m" name="productSRP"
+                                                        class="form-control form-control-lg"
+                                                        value="{{products.productSRP}}" required />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            {{!-- <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product Stock</label>
+                                                    <input type="number" id="form3Example1m" name="productstock"
+                                                        class="form-control form-control-lg" required />
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Images of
+                                                        product</label>
+                                                    <div class="d-flex justify-content-between flex-column  mb-3">
+                                                        {{#each products.imageurl}}
+                                                        <div class="border my-2">
+                                                            <img src="/images/categoryimage/{{filename}}" alt=""
+                                                                style="height: 120px;width: 120px;">
+                                                        </div>
+                                                        <input class="form-control" type="file" name="image{{@index}}" multiple
+                                                            id="image">
+                                                        {{/each}}
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 mb-4">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form3Example1m">Product
+                                                        Description</label>
+                                                    <input type="text" id="form3Example1m" style="height: 110px;"
+                                                        name="productdescription"
+                                                        value="{{products.productdescription}}"
+                                                        class="form-control form-control-lg" />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="d-flex justify-content-center pt-3">
+                                            <button type="submit"
+                                                class="btn btn-lg ms-2 fontcolor rounded-pill login-btn"
+                                                style="background-color: #193d56;">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

@@ -196,6 +196,16 @@ router.get("/home", verifyadminLogin, async (req, res) => {
   });
 });
 
+router.get("/editproduct/:id",verifyadminLogin,async(req,res)=>{
+  const proId=req.params.id
+  console.log(proId,"proId!!!!");
+  const products=await product.findOne({_id:proId}).learn()
+  console.log(products,"!!!!!!!")
+  const category=await adminController.listCategory()
+  console.log(category,"$$$$$");
+  res.render("adminPage/productEdit",{products,category})
+  
+})
 
 
 module.exports = router;
