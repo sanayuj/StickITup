@@ -315,7 +315,6 @@ function delectCategory(categoryId) {
 }
 
 function disableproduct(productId){
-  alert(productId,"OO")
   $.ajax({
     url:"/admin/disableproduct",
     method:"post",
@@ -323,7 +322,29 @@ function disableproduct(productId){
       proId:productId
     },
     success:(response)=>{
-      swal("product disabled")
+      swal("product disabled").then(()=>{
+        location.reload()
+      })
+     
     }
   })
+}
+
+function enableProduct(productId) {
+  $.ajax({
+    url: "/admin/enableProduct",
+    method: "post",
+    data: {
+      proId: productId
+    },
+    success: (response) => {
+
+      swal("Product enabled").then(() => {
+        location.reload()
+      })
+
+
+    }
+  })
+
 }

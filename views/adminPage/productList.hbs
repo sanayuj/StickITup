@@ -20,7 +20,12 @@
   </thead>
   <tbody>
     {{#each products}} 
+    {{#if status}}
+  
     <tr>
+      {{else}}
+      <tr style="background-color: rgb(184, 182, 174);"">
+        {{/if}}
       <th scope="row">{{this._id}}</th>
       <td>{{this.name}}</td>
       <td>{{this.category}}</td> 
@@ -36,7 +41,12 @@
       <td>{{this.product_description}}</td> 
        <td>
         <div> <a href="/editproduct/{{this._id}}" class="btn"><i class="fa fa-edit text-primary"></i></a></div>
+        {{#if status}}
               <div><a href="#" onclick="disableproduct('{{this._id}}')" class="btn"><i class="fa fa-trash text-danger"></i></a></div>
+              {{else}}
+              
+              <div><a href="#" onclick="enableProduct('{{this._id}}')" class="btn"><i class="fa fa-toggle-off text-success"></i></a></div>
+              {{/if}}
       </td>
       
     </tr>

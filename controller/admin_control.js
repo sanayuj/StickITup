@@ -93,7 +93,6 @@ module.exports = {
   addCategory: (categoryDetails, img) => {
     return new Promise(async (resolve, reject) => {
       try {
-        
         const newCategory = new categorycollection({
           title: categoryDetails.categoryName,
           image: img.filename,
@@ -245,6 +244,14 @@ module.exports = {
     );
   },
 
+  enableProduct: async (data) => {
+    const productId = data;
+    await productcollection.findOneAndUpdate(
+      { _id: productId },
+      { $set: { status: true } }
+    );
+  },
+
   orderDetailsInMonth: () => {
     return new Promise(async (resolve) => {
       let orders = await ordercollection.aggregate([
@@ -266,26 +273,34 @@ module.exports = {
     });
   },
 
-   updateCategory:(data,file)=>{
-    return new Promise(async(resolve,reject)=>{
-      console.log(data,"00000009999900000");
-     const categoryId=data.categoryId
-    console.log(categoryId,"update category !!!!!");
-     if(file){
-      console.log("if");
-        await categorycollection.findOneAndUpdate({_id:categoryId},{$set:{
-            title: data.categoryname,
-            image: file.filename
-        }})
-    }else{
-      console.log("else");
-        await categorycollection.findOneAndUpdate({_id:categoryId},{$set:{
-            title: data.categoryname,
-          
-        }})
-    }resolve()
-  })
-}
-
-
+  updateCategory: (data, file) => {
+    return new Promise(async (resolve, reject) => {
+      console.log(data, "00000009999900000");
+      const categoryId = data.categoryId;
+      console.log(categoryId, "update category !!!!!");
+      if (file) {
+        console.log("if");
+        await categorycollection.findOneAndUpdate(
+          { _id: categoryId },
+          {
+            $set: {
+              title: data.categoryname,
+              image: file.filename,
+            },
+          }
+        );
+      } else {
+        console.log("else");
+        await categorycollection.findOneAndUpdate(
+          { _id: categoryId },
+          {
+            $set: {
+              title: data.categoryname,
+            },
+          }
+        );
+      }
+      resolve();
+    });
+  },
 };

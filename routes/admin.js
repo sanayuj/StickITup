@@ -160,10 +160,15 @@ router.get("/editcategory/:id", verifyadminLogin, async (req, res) => {
 
 router.post("/disableproduct", verifyadminLogin, async (req, res) => {
   const productId = req.body.proId;
-  console.log(productId,"in route");
   await adminController.disablePro(productId);
   res.json({ status: true });
 });
+
+router.post("/enableProduct",verifyadminLogin,async(req,res)=>{
+  const productId=req.body.proId;
+  await adminController.enableProduct(productId);
+  res.json({status:true})
+})
 
 router.post(
   "/updatecategory",
