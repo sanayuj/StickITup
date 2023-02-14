@@ -757,16 +757,16 @@ module.exports = {
     });
   },
 
-//cancel order function
+  //cancel order function
 
- cancelOrder :(orderId) => {
-  console.log(orderId,"___-");
-  const orderid = new mongoose.Types.ObjectId(orderId)
-  console.log(orderid,"obj");
-  return new Promise(async (resolve, reject) => {
-    console.log("Entered t o");
-      const order = await orderSchema.findOneAndUpdate({ _id: orderid }, { $set: { status: "Order cancelled" } })
-      resolve()
-  })
-}
+  cancelOrder: (orderId) => {
+    const orderid = new mongoose.Types.ObjectId(orderId);
+    return new Promise(async (resolve, reject) => {
+      const order = await orderSchema.findOneAndUpdate(
+        { _id: orderid },
+        { $set: { status: "Order cancelled" } }
+      );
+      resolve();
+    });
+  },
 };

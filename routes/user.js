@@ -103,8 +103,6 @@ router.get("/product-singlepage/:id", (req, res) => {
       id,
       user._id
     );
-    console.log(WishlistExists, "Exists or Not!!!!!!!");
-
     res.render("user/user_homepage/singleproduct", {
       user,
       productdetails,
@@ -265,21 +263,22 @@ router.get("/userProfile", verifyLogin, (req, res) => {
 
 router.get("/orderDetails", verifyLogin, async (req, res) => {
   const orderDetails = await controller.viewOrderDetails(req.session.user._id);
-const id=orderDetails._id
- 
+  const id = orderDetails._id;
+
   res.render("user/user_homepage/orderView", {
-    orderDetails, 
+    orderDetails,
     user: req.session.user,
   });
 });
 
 //cancel order
 
-router.get("/cancelOrder/:id",async(req,res)=>{
-  console.log(req.params.id,"0000000");
-  await controller.cancelOrder(req.params.id)
-  res.redirect("/orderDetails")
-})
+router.get("/cancelOrder/:id", async (req, res) => {
+  console.log(req.params.id, "0000000");
+  await controller.cancelOrder(req.params.id);
+  res.redirect("/orderDetails");
+});
+
 //
 
 router.post("/verify-payment", async (req, res) => {
@@ -365,15 +364,12 @@ router.post("/removewishlistProduct", verifyLogin, async (req, res) => {
 
 router.get("/userCoupons", async (req, res) => {
   const coupons = await adminController.listCoupon();
-  console.log(coupons, "coupons in user side !!");
   res.render("user/user_homepage/userCoupon", { coupons });
 });
 
 // apply coupon
 
 router.post("/applycoupon", verifyLogin, async (req, res) => {
-  console.log("Ajax to router entered!!! ");
-  console.log(req.body.code), "opopopopop";
   const couponcode = req.body.code;
 
   const date = new Date();
@@ -383,9 +379,7 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
     console.log(Coupon);
     const minimumAmount = Coupon.minAmount;
     const exdate = new Date(Coupon.expriryDate);
-    console.log(exdate, "jijjijiji");
     if (exdate >= date) {
-      console.log("Entered to date if condition!");
       if (totalAmount > minimumAmount) {
         let discount = parseInt((totalAmount * Coupon.maxDiscount) / 100);
 
@@ -410,7 +404,6 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
         res.json({ status: true, min_total: false, Coupon });
       }
     } else {
-     
       res.json({ status: false });
     }
   } else {

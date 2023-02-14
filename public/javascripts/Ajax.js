@@ -315,7 +315,7 @@ function delectCategory(categoryId) {
 }
 
 function disableproduct(productId){
-  alert(productId,"this>>")
+  alert(productId,"OO")
   $.ajax({
     url:"/admin/disableproduct",
     method:"post",

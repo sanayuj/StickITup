@@ -159,7 +159,8 @@ router.get("/editcategory/:id", verifyadminLogin, async (req, res) => {
 });
 
 router.post("/disableproduct", verifyadminLogin, async (req, res) => {
-  const productId = req.body.productId;
+  const productId = req.body.proId;
+  console.log(productId,"in route");
   await adminController.disablePro(productId);
   res.json({ status: true });
 });
@@ -179,7 +180,6 @@ router.post(
 
 router.get("/home", verifyadminLogin, async (req, res) => {
   const userCount = await user.countDocuments({});
-  console.log(userCount, "user. ");
   const productCount = await product.countDocuments({});
   const orderCount = await Ordercollection.countDocuments({});
   const total = await Ordercollection.aggregate([
