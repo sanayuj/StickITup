@@ -261,17 +261,25 @@ router.get("/userProfile", verifyLogin, (req, res) => {
   res.render("user/user_homepage/userprofile", { user: req.session.user });
 });
 
+//order details
+
 router.get("/orderDetails", verifyLogin, async (req, res) => {
   const orderDetails = await controller.viewOrderDetails(req.session.user._id);
-
-  await controller.cancelOrder()
-  console.log(orderDetails,"orderdetails >>>>>");
+const id=orderDetails._id
+ 
   res.render("user/user_homepage/orderView", {
     orderDetails, 
     user: req.session.user,
   });
 });
 
+//cancel order
+
+router.get("/cancelOrder/:id",async(req,res)=>{
+  console.log(req.params.id,"0000000");
+  await controller.cancelOrder(req.params.id)
+  res.redirect("/orderDetails")
+})
 //
 
 router.post("/verify-payment", async (req, res) => {
@@ -410,10 +418,4 @@ router.post("/applycoupon", verifyLogin, async (req, res) => {
   }
 });
 
-
-// router.get("/cancelOrder/:id",async(req,res)=>{
-//   const id=req.params
-//   console.log(id,"cancelled!!!");
-//   await controller.cancelOrder(id)
-// })
 module.exports = router;
