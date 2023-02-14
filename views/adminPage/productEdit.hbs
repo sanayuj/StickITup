@@ -20,9 +20,10 @@
                                                     <label class="form-label" for="form3Example1m">Product name</label>
                                                     <input type="text" id="form3Example1m" name="productname"
                                                         class="form-control form-control-lg"
-                                                        value="{{products.productname}}" required />
+                                                        value="{{products.name}}" required />
                                                 </div>
                                             </div>
+                                            {{!-- //for product id --}}
                                             <div class="col-md-12 mb-4 d-none">
                                                 <div class="form-outline">
                                                     <label class="form-label" for="form3Example1m">Product id</label>
@@ -31,6 +32,7 @@
                                                         required />
                                                 </div>
                                             </div>
+                                             {{!-- //for product id --}}
                                         </div>
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form3Example8">Product category</label>
@@ -39,11 +41,11 @@
 
                                                     <select class="select p-2" name="productcategory"
                                                         style="width: 100%;">
-                                                        <option value="{{products.productcategory}}">
-                                                            {{products.productcategory}} </option>
+                                                        <option value="{{products.category}}">
+                                                            {{products.category}} </option>
 
-                                                        {{#each categories}}
-                                                        <option value="{{this.categoryname}}">{{this.categoryname}}
+                                                        {{#each category}}
+                                                        <option value="{{this.title}}">{{this.title}}
                                                         </option>
                                                         {{/each}}
                                                         </option>
@@ -59,7 +61,7 @@
                                                     <label class="form-label" for="form3Example1m">Product MRP</label>
                                                     <input type="number" id="form3Example1m" name="productMRP"
                                                         class="form-control form-control-lg"
-                                                        value="{{products.productMRP}}" required />
+                                                        value="{{products.price1}}" required />
                                                 </div>
                                             </div>
                                         </div>
@@ -69,19 +71,11 @@
                                                     <label class="form-label" for="form3Example1m">Product SRP</label>
                                                     <input type="number" id="form3Example1m" name="productSRP"
                                                         class="form-control form-control-lg"
-                                                        value="{{products.productSRP}}" required />
+                                                        value="{{products.price2}}" required />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            {{!-- <div class="col-md-12 mb-4">
-                                                <div class="form-outline">
-                                                    <label class="form-label" for="form3Example1m">Product Stock</label>
-                                                    <input type="number" id="form3Example1m" name="productstock"
-                                                        class="form-control form-control-lg" required />
-                                                </div>
-                                            </div>
-                                        </div> --}}
                                         <div class="row">
                                             <div class="col-md-12 mb-4">
                                                 <div class="form-outline">
@@ -110,7 +104,7 @@
                                                         Description</label>
                                                     <input type="text" id="form3Example1m" style="height: 110px;"
                                                         name="productdescription"
-                                                        value="{{products.productdescription}}"
+                                                        value="{{products.product_description}}"
                                                         class="form-control form-control-lg" />
 
                                                 </div>
@@ -119,8 +113,8 @@
                                         </div>
                                         <div class="d-flex justify-content-center pt-3">
                                             <button type="submit"
-                                                class="btn btn-lg ms-2 fontcolor rounded-pill login-btn"
-                                                style="background-color: #193d56;">Submit</button>
+                                                class="btn btn-lg btn-primary ms-2 fontcolor rounded-pill login-btn"
+                                                >Submit</button>
                                         </div>
                                     </form>
                                 </div>

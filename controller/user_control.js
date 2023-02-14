@@ -16,7 +16,9 @@ const instance = new Razorpay({
 });
 
 module.exports = {
+
   //user signup section
+
   doSignup: (userdata) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -44,7 +46,9 @@ module.exports = {
       }
     });
   },
+
   //user loggin section
+  
   doLogin: (userdata) => {
     return new Promise(async (resolve, reject) => {
       try {

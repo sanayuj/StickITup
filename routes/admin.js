@@ -67,6 +67,7 @@ router.get("/addCategory", verifyadminLogin, (req, res) => {
 
 router.get("/listproduct", verifyadminLogin, (req, res) => {
   adminController.listProduct().then((products) => {
+    console.log(products,"OOOOOOO");
     res.render("adminPage/productList", { products });
   });
 });
@@ -204,13 +205,11 @@ router.get("/home", verifyadminLogin, async (req, res) => {
 router.get("/editproduct/:id",verifyadminLogin,async(req,res)=>{
   const proId=req.params.id
   console.log(proId,"proId!!!!");
-  const products=await product.findOne({_id:proId}).learn()
+  const products=await product.findOne({_id:proId}).lean()
   console.log(products,"!!!!!!!")
   const category=await adminController.listCategory()
   console.log(category,"$$$$$");
   res.render("adminPage/productEdit",{products,category})
-  
 })
-
 
 module.exports = router;

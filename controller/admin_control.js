@@ -5,7 +5,9 @@ const categorycollection = require("../model/categorymodel");
 const productcollection = require("../model/productmodel");
 const ordercollection = require("../model/userproductOrder");
 const coupons = require("../model/coupon");
+
 //admin loggin section
+
 module.exports = {
   doadminloggin: (admindata) => {
     console.log(admindata);
@@ -36,7 +38,9 @@ module.exports = {
       }
     });
   },
+
   //to get user data
+
   getuserData: () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -55,7 +59,9 @@ module.exports = {
       }
     });
   },
+
   //block user section
+
   blockUser: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -72,7 +78,9 @@ module.exports = {
       }
     });
   },
+
   //user unblock section
+
   unblocUserk: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -110,6 +118,8 @@ module.exports = {
       }
     });
   },
+
+
   listCategory: () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -153,6 +163,8 @@ module.exports = {
       throw error_1;
     }
   },
+
+
   listProduct: async () => {
     try {
       return await new Promise(async (resolve, reject) => {
@@ -275,7 +287,6 @@ module.exports = {
 
   updateCategory: (data, file) => {
     return new Promise(async (resolve, reject) => {
-      console.log(data, "00000009999900000");
       const categoryId = data.categoryId;
       console.log(categoryId, "update category !!!!!");
       if (file) {

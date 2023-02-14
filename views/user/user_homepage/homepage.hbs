@@ -20,8 +20,7 @@
       {{#each productdata}}
       
     <div class="col-md-3 col-sm-6">
-      {{#if this.productdata.status}}
-      llll
+      {{#if this.status}}
         <div class="product-grid">
             <div class="product-image">
              
@@ -29,11 +28,7 @@
                 
                     <img src="/images/categoryimage/{{image}}">
                 </a>
-                {{!-- <span class="product-discount-label"> {{#if this.status}}
-             
-              {{else}}
-               <p class="text-danger">This product is unavailable now</p>
-              {{/if}}</span> --}}
+               
                 <ul class="product-links">
                    
                 </ul>
@@ -45,7 +40,6 @@
             </div>
         </div>
         {{else}}
-error
  <div class="product-grid">
             <div class="product-image">
              
@@ -54,7 +48,7 @@ error
                     <img src="/images/categoryimage/{{image}}">
                 </a>
                
-               <p class="text-danger">This product is unavailable now</p>
+               <span><p class="text-danger product-discount-label">This product is unavailable now</p></span>
               </span>
                 <ul class="product-links">
                    
