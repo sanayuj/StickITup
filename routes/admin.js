@@ -3,7 +3,7 @@ const userController = require("../controller/user_control");
 var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
-var categoryimgupload = require("../utilities/imgUpload");
+const {upload,updateProduct}=require("../utilities/imgUpload")
 const { route } = require("./user");
 const user = require("../model/usermodel");
 const product = require("../model/productmodel");
@@ -67,7 +67,7 @@ router.get("/addCategory", verifyadminLogin, (req, res) => {
 
 router.get("/listproduct", verifyadminLogin, (req, res) => {
   adminController.listProduct().then((products) => {
-    console.log(products,"OOOOOOO");
+    console.log(products, "OOOOOOO");
     res.render("adminPage/productList", { products });
   });
 });
@@ -94,7 +94,7 @@ router.post("/admin_login", function (req, res, next) {
   router.post(
     "/addcategory",
     verifyadminLogin,
-    categoryimgupload.single("image"),
+    upload.single("image"),
     (req, res) => {
       adminController.addCategory(req.body, req.file).then((data) => {
         res.redirect("/admin/addCategory");
@@ -105,7 +105,7 @@ router.post("/admin_login", function (req, res, next) {
 router.post(
   "/addProduct",
   verifyadminLogin,
-  categoryimgupload.array("productImage", 4),
+  upload.array("productImage", 4),
   (req, res) => {
     adminController.addProduct(req.body, req.files).then((data) => {
       res.redirect("/admin/admin_productadd");
@@ -139,12 +139,10 @@ router.get("/addCoupon", verifyadminLogin, async (req, res) => {
   res.render("adminPage/coupon", { coupons });
 });
 
-
 router.post("/addCoupon", verifyadminLogin, async (req, res) => {
   await adminController.addcoupon(req.body);
   res.json({ status: true });
 });
-
 
 router.post("/delectcategory", verifyadminLogin, async (req, res) => {
   const categoryId = req.body.categoryId;
@@ -165,16 +163,16 @@ router.post("/disableproduct", verifyadminLogin, async (req, res) => {
   res.json({ status: true });
 });
 
-router.post("/enableProduct",verifyadminLogin,async(req,res)=>{
-  const productId=req.body.proId;
+router.post("/enableProduct", verifyadminLogin, async (req, res) => {
+  const productId = req.body.proId;
   await adminController.enableProduct(productId);
-  res.json({status:true})
-})
+  res.json({ status: true });
+});
 
 router.post(
   "/updatecategory",
   verifyadminLogin,
-  categoryimgupload.single("image"),
+  upload.single("image"),
   async (req, res) => {
     const category = req.body;
     const file = req.file;
@@ -202,14 +200,28 @@ router.get("/home", verifyadminLogin, async (req, res) => {
   });
 });
 
-router.get("/editproduct/:id",verifyadminLogin,async(req,res)=>{
-  const proId=req.params.id
-  console.log(proId,"proId!!!!");
-  const products=await product.findOne({_id:proId}).lean()
-  console.log(products,"!!!!!!!")
-  const category=await adminController.listCategory()
-  console.log(category,"$$$$$");
-  res.render("adminPage/productEdit",{products,category})
-})
+router.get("/editproduct/:id", verifyadminLogin, async (req, res) => {
+  const proId = req.params.id;
+  console.log(proId, "proId!!!!");
+  const products = await product.findOne({ _id: proId }).lean();
+  console.log(products, "!!!!!!!");
+  const category = await adminController.listCategory();
+  console.log(category, "$$$$$");
+  res.render("adminPage/productEdit", { products, category });
+});
+
+router.post(
+  "/updateproduct",
+  verifyadminLogin,
+  updateProduct.updateProduct.fields([
+    { name: "image0", maxCount: 1 },
+    { name: "image1", maxCount: 1 },
+    { name: "image2", maxCount: 1 },
+    { name: "image3", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    await adminController.updateProduct();
+  }
+);
 
 module.exports = router;

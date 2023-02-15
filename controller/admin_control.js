@@ -119,7 +119,6 @@ module.exports = {
     });
   },
 
-
   listCategory: () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -163,7 +162,6 @@ module.exports = {
       throw error_1;
     }
   },
-
 
   listProduct: async () => {
     try {
@@ -312,6 +310,60 @@ module.exports = {
         );
       }
       resolve();
+    });
+  },
+
+  updateProduct: () => {
+    return new Promise(async (resolve, reject) => {
+      const productId = req.body.productId;
+      const products = await productcollection.findOne({ _id: productId });
+      const image = [];
+      if (req.files) {
+        if (!req.files.image0) {
+          image.push(products.imageurl[0]);
+        } else {
+          image.push(req.files.image0[0]);
+        }
+        if (!req.files.image1) {
+          image.push(products.imageurl[1]);
+        } else {
+          image.push(req.files.image1[0]);
+        }
+        if (!req.files.image2) {
+          image.push(products.imageurl[2]);
+        } else {
+          image.push(req.files.image2[0]);
+        }
+        if (!req.files.image3) {
+          image.push(products.imageurl[3]);
+        } else {
+          image.push(req.files.image3[0]);
+        }
+
+        await productcollection.findOneAndUpdate(
+          { _id: productId },
+          {
+            $set: {
+              imageurl: image,
+            },
+          }
+        )
+      }
+
+
+      if(req.body.image){
+
+      }else{
+        await productcollection.findOneAndUpdate({_id:productId},{$set:{
+          name:req.body.productname,
+          category:req.body.productcategory,
+          price1:req.body.productMRP,
+          price2:req.body.productSRP,
+          product_description:req.body.productdescription,
+        }}).then(()=>{
+          res.redirect("/admin/listproduct")
+        })
+      }
     });
   },
 };
