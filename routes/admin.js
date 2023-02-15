@@ -3,7 +3,7 @@ const userController = require("../controller/user_control");
 var express = require("express");
 const { response, render } = require("../app");
 var router = express.Router();
-const {upload,updateProduct}=require("../utilities/imgUpload")
+const { upload, updateProduct } = require("../utilities/imgUpload");
 const { route } = require("./user");
 const user = require("../model/usermodel");
 const product = require("../model/productmodel");
@@ -202,25 +202,28 @@ router.get("/home", verifyadminLogin, async (req, res) => {
 
 router.get("/editproduct/:id", verifyadminLogin, async (req, res) => {
   const proId = req.params.id;
-  console.log(proId, "proId!!!!");
+
   const products = await product.findOne({ _id: proId }).lean();
-  console.log(products, "!!!!!!!");
+
   const category = await adminController.listCategory();
-  console.log(category, "$$$$$");
+
   res.render("adminPage/productEdit", { products, category });
 });
 
 router.post(
   "/updateproduct",
-  verifyadminLogin,
-  updateProduct.updateProduct.fields([
+  updateProduct.fields([
     { name: "image0", maxCount: 1 },
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
     { name: "image3", maxCount: 1 },
   ]),
   async (req, res) => {
-    await adminController.updateProduct();
+    const body=req.body
+    const files=req.files
+    // console.log(req.files,"files image in route update product!!");
+    await adminController.updateProduct(body,files);
+    res.redirect("/admin/listproduct")
   }
 );
 

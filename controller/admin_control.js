@@ -5,6 +5,7 @@ const categorycollection = require("../model/categorymodel");
 const productcollection = require("../model/productmodel");
 const ordercollection = require("../model/userproductOrder");
 const coupons = require("../model/coupon");
+const { default: swal } = require("sweetalert");
 
 //admin loggin section
 
@@ -313,31 +314,31 @@ module.exports = {
     });
   },
 
-  updateProduct: () => {
+  updateProduct: (body,files) => {
+    const productId=body.productid
     return new Promise(async (resolve, reject) => {
-      const productId = req.body.productId;
       const products = await productcollection.findOne({ _id: productId });
       const image = [];
-      if (req.files) {
-        if (!req.files.image0) {
+      if (files) {
+        if (!files.image0) {
           image.push(products.imageurl[0]);
         } else {
-          image.push(req.files.image0[0]);
+          image.push(files.image0[0]);
         }
-        if (!req.files.image1) {
+        if (!files.image1) {
           image.push(products.imageurl[1]);
         } else {
-          image.push(req.files.image1[0]);
+          image.push(files.image1[0]);
         }
-        if (!req.files.image2) {
+        if (!files.image2) {
           image.push(products.imageurl[2]);
         } else {
-          image.push(req.files.image2[0]);
+          image.push(files.image2[0]);
         }
-        if (!req.files.image3) {
+        if (!files.image3) {
           image.push(products.imageurl[3]);
         } else {
-          image.push(req.files.image3[0]);
+          image.push(files.image3[0]);
         }
 
         await productcollection.findOneAndUpdate(
@@ -348,21 +349,22 @@ module.exports = {
             },
           }
         )
+        resolve();
       }
 
 
-      if(req.body.image){
+      if(body.image){
 
       }else{
         await productcollection.findOneAndUpdate({_id:productId},{$set:{
-          name:req.body.productname,
-          category:req.body.productcategory,
-          price1:req.body.productMRP,
-          price2:req.body.productSRP,
-          product_description:req.body.productdescription,
-        }}).then(()=>{
-          res.redirect("/admin/listproduct")
-        })
+          name:body.productname,
+          category:body.productcategory,
+          price1:body.productMRP,
+          price2:body.productSRP,
+          product_description:body.productdescription,
+        }})
+       
+        resolve();
       }
     });
   },

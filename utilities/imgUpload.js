@@ -29,7 +29,11 @@ const storage = multer.diskStorage({
     }
   })
 
-  const updateProduct=multer({
+  const updateProduct=multer(
+
+    
+    {
+        
     storage:storage,
     fileFilter:(req,file,cb)=>{
         if(
